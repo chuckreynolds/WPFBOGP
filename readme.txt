@@ -1,4 +1,4 @@
-=== Remove Tools Menu ===
+=== WP Facebook Open Graph protocol ===
 Contributors: ryno267
 Donate link: http://rynoweb.com/wordpress-plugins/
 Tags: open graph, facebook, ogp, facebook meta, open graph meta, 
