@@ -13,14 +13,14 @@ Super betta way to do Facebook Open Graph stuff for your site and/or blog
 
 This plugin adds Facebook Meta information on your site and properly designates if it's an article or a website for your pages.
 
-Image Handling:
+IMAGE HANDLING:
 Plugin will first look for a featured image. If that isn't there, then it will pull the first image in the content. If that isn't there either, then it will default to the image you put into the plugin settings in the admin panel. If that isn't then then... well you fail and you won't have an image.
 
-Testing:
+TESTING:
 Once you've enabled the plugin head over to Facebook's testing tool and input one of your blog url's or your main site url to see what info Facebook is finding: https://developers.facebook.com/tools/lint/
 
 ROADMAP:
-Secrets! Lots of ideas, just need more time to implement ;) Stay tuned!
+Secrets! Not getting crazy on features but there is MUCH to be desired in current OGP plugins, just need more time to implement ;) Stay tuned!
 
 == Installation ==
 
