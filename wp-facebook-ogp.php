@@ -38,13 +38,13 @@ function wpfbogp_url( $path = '' ) {
 	return plugins_url( $path, __FILE__ );
 }
 
-// for debugging
+/* for debugging
 function dumpVars($item)
 {
 	echo "<pre>";
 	print_r($item);
 	echo "</pre>";
-}
+} */
 
 // add OGP namespace per ogp.me
 function wpfbogp_namespace( $output ) {
