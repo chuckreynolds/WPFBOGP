@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://rynoweb.com
 Description: Plugin to add proper Facebook OGP meta values to your header for single posts and pages and fallback for index and other pages
-Version: 0.1
+Version: 0.1.1
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -96,6 +96,9 @@ function wpfbogp_build_head() {
 	}
 	echo "\t<!-- // end wpfbogp -->\n\n";
 	} // end isset admin ids
+	else{
+		echo "\n\t<!-- Facebook Open Graph protocol plugin NEEDS your admin ID to work, please visit the plugin settings page! -->\n\n";
+	}
 } // end function
 
 

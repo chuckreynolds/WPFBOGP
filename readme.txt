@@ -42,6 +42,10 @@ Short answer is no. Your Facebook user ID however is a requirement. Later I'll a
 
 == Changelog ==
 
+= 0.1.1 =
+* added meta field if no admin id set as to give instruction to liven up plugin
+* more readme explanation/help
+
 = 0.1 =
 * Initial beta release
 
