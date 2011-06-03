@@ -26,6 +26,7 @@ Secrets! Not getting crazy on features but there is MUCH to be desired in curren
 
 1. Upload the `wp-facebook-ogp` folder to the `/wp-content/plugins/` directory
 1. Activate the WP Facebook OGP plugin through the 'Plugins' menu in WordPress
+1. You MUST add a Facebook ID to the Plugin Settings page for the plugin to produce OGP meta data
 
 
 == Frequently Asked Questions ==
