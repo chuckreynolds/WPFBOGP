@@ -25,6 +25,8 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+define('WPFBOGP_VERSION', '0.0.6');
+
 // version check
 function wpfbogp_url( $path = '' ) {
 	global $wp_version;
@@ -67,7 +69,7 @@ function wpfbogp_build_head() {
 	if ((!isset($options['wpfbogp_admin_ids']) || empty($options['wpfbogp_admin_ids'])) && (!isset($options['wpfbogp_app_id']) || empty($options['wpfbogp_app_id']))) {
 		echo "\n\t<!-- Facebook Open Graph protocol plugin NEEDS an admin or app ID to work, please visit the plugin settings page! -->\n\n";
 	}else{
-		echo "\n\t<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP) -->\n";
+		echo "\n\t<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins -->\n";
 		
 		// do fb verification fields
 		if (isset($options['wpfbogp_admin_ids']) && $options['wpfbogp_admin_ids'] != '') {
