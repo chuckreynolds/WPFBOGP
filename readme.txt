@@ -42,11 +42,19 @@ Short answer is no. Your Facebook user ID however is a requirement. Later I'll a
 
 == Changelog ==
 
-= 0.1.1 =
+= 0.0.6 =
+* lots of changes!
+* titles, descriptions and urls all now working with home and all other page/posts
+* og:type handled better and working on home and page/posts
+* added optional page_id field if ppl want to associate insights with their page instead. but still need a user or app id req
+* more admin help / reference information linked up. promotional tweet about this plugin added. big help/instruction overhaul coming soon.
+* lots of little changes I forget and some clean up sweeping
+
+= 0.0.1 =
 * added meta field if no admin id set as to give instruction to liven up plugin
 * more readme explanation/help
 
-= 0.1 =
+= 0.0.1 =
 * Initial beta release
 
 
