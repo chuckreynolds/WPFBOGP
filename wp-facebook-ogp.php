@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://rynoweb.com
 Description: Plugin to add proper Facebook OGP meta values to your header for single posts and pages and fallback for index and other pages
-Version: 0.0.6
+Version: 0.0.7
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '0.0.6');
+define('WPFBOGP_VERSION', '0.0.7');
 
 // version check
 function wpfbogp_url( $path = '' ) {
@@ -133,7 +133,7 @@ function wpfbogp_build_head() {
 } // end function
 
 
-add_action('wp_head','wpfbogp_build_head',5);
+add_action('wp_head','wpfbogp_build_head',50);
 add_action('admin_init','wpfbogp_init');
 add_action('admin_menu','wpfbogp_add_page');
 
@@ -150,20 +150,44 @@ function wpfbogp_add_page() {
 // build admin page
 function wpfbogp_buildpage() {
 ?>
-    <div style="width:200px; right:0; float:right; position:fixed; margin:80px 10px 20px 0; background:#ebebeb; border:1px solid #e9e9e9; padding:5px; color:#888; font-size:12px;">
-		<h3 style="margin:0 0 10px 0; border-bottom:1px dashed #888;">About the Author:</h3>
-		<p>You can <a href="http://twitter.com/chuckreynolds" target="_blank">follow Chuck on Twitter</a> and/or ask questions there and <a href="http://facebook.com/rynoweb" target="_blank">like rYnoweb on Facebook</a>.</p>
-		<p><a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/go/wpfbogp" target="_blank">Tweet about this Plugin</a></p>
-		<h3 style="margin:0;">More Information</h3>
-		<p><a href="http://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
-			<a href="http://ogp.me" target="_blanK">The Open Graph Protocol</a><br />
-			<a href="http://developers.facebook.com/docs/opengraph/#admin" target="_blank">Facebook Admin Verification</a><br />
-			<a href="http://developers.facebook.com/docs/insights/" target="_blank">Insights: Domain vs App vs Page</a><br />
-			<a href="http://developers.facebook.com/docs/opengraph/#plugins" target="_blanK">How To Add a Like Button</a>
-		</p>
-	</div>
-	<div class="wrap">
-		<h2>Facebook Open Graph protocol plugin</h2>
+
+<div class="wrap">
+	<h2>Facebook Open Graph protocol plugin</h2>
+	<div id="poststuff" class="metabox-holder has-right-sidebar">
+		<div id="side-info-column" class="inner-sidebar">
+			<div class="meta-box-sortables">
+				<div id="about" class="postbox">
+					<h3 class="hndle" id="about-sidebar">About the Author:</h3>
+					<div class="inside">
+						<p>You can <a href="http://twitter.com/chuckreynolds" target="_blank">follow Chuck on Twitter</a> and/or ask questions there and <a href="http://facebook.com/rynoweb" target="_blank">like rYnoweb on Facebook</a>.</p>
+						<p><a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins" target="_blank">Tweet about this Plugin</a></p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="meta-box-sortables">
+				<div id="about" class="postbox">
+					<h3 class="hndle" id="about-sidebar">More Information:</h3>
+					<div class="inside">
+						<p><a href="http://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
+							<a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
+							<a href="http://developers.facebook.com/docs/opengraph/#admin" target="_blank">Facebook Admin Verification</a><br />
+							<a href="http://developers.facebook.com/docs/insights/" target="_blank">Insights: Domain vs App vs Page</a><br />
+							<a href="http://developers.facebook.com/docs/opengraph/#plugins" target="_blank">How To Add a Like Button</a></p>
+					</div>
+				</div>
+			</div>
+		</div> <!-- // #side-info-column .inner-sidebar -->
+	
+		
+		
+		
+		<div id="post-body" class="has-sidebar">
+			<div id="post-body-content" class="has-sidebar-content">
+				<div id="normal-sortables" class="meta-box-sortables">
+					<div id="about" class="postbox">
+						<div class="inside">
+
 		<form method="post" action="options.php">
 			<?php settings_fields('wpfbogp_options'); ?>
 			<?php $options = get_option('wpfbogp'); ?>
@@ -171,31 +195,38 @@ function wpfbogp_buildpage() {
 		<table class="form-table" style="width:75%;">
 			<tr valign="top">
 				<th scope="row">Facebook User Account ID:</th>
-				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" /><br />
+				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br />
 					For personal sites use your Facebook User ID here. <em>(You can enter multiple by separating each with a comma)</em>, if you want to receive Insights about the Like Buttons. The meta values will not display in your site until you've completed this box.<br />
 					You can find it by going to the URL like this: http://graph.facebook.com/yourusername</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row">Facebook Application ID:</th>
-				<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" /><br />
+				<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text" /><br />
 					For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://www.facebook.com/developers/apps.php" target="_blank">Create FB App</a>.</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row">Facebook Page ID:<br />
 					<em>(Optional)</em></th>
-				<td><input type="text" name="wpfbogp[wpfbogp_page_id]" value="<?php echo $options['wpfbogp_page_id']; ?>" /><br />
+				<td><input type="text" name="wpfbogp[wpfbogp_page_id]" value="<?php echo $options['wpfbogp_page_id']; ?>" class="regular-text" /><br />
 					For associating this site with a Facebook page for Insights. This is completely optional.</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row">Default Image URL to use:</th>
-				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" /><br />
+				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
 					Full URL including http:// to the default image to use if your posts/pages don't have a featured image or an image in the content. Facebook says: <em>An image URL which should represent your object within the graph. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1</em>. They will make it square if you don't.</td>
 			</tr>
 		</table>
 		
-		<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" /></p>
+		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 		</form>
+		<br class="clear" />
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+	</div>
+</div>
 <?php	
 }
 

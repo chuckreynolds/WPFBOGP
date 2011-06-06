@@ -42,6 +42,9 @@ Short answer is no. Your Facebook user ID however is a requirement. Later I'll a
 
 == Changelog ==
 
+= 0.0.7 =
+* updated admin UI - now follows WP 3.2 style admin UI. Very Nice!
+
 = 0.0.6 =
 * lots of changes!
 * titles, descriptions and urls all now working with home and all other page/posts
