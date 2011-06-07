@@ -42,6 +42,9 @@ Short answer is no. Your Facebook user ID however is a requirement. Later I'll a
 
 == Changelog ==
 
+= 0.0.8 =
+* if no default image set no longer display a blank og:image tag, now it will show a comment in source reminding you to add a default image in the plugin settings
+
 = 0.0.7 =
 * updated admin UI - now follows WP 3.2 style admin UI. Very Nice!
 

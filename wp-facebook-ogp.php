@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://rynoweb.com
 Description: Plugin to add proper Facebook OGP meta values to your header for single posts and pages and fallback for index and other pages
-Version: 0.0.7
+Version: 0.0.8
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '0.0.7');
+define('WPFBOGP_VERSION', '0.0.8');
 
 // version check
 function wpfbogp_url( $path = '' ) {
@@ -124,7 +124,11 @@ function wpfbogp_build_head() {
 		}elseif (( wpfbogp_first_image() !== false ) && (is_singular())) {
 			echo "\t<meta property='og:image' content='".wpfbogp_first_image()."' />\n";
 		}else{
-			echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
+			if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
+				echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
+			}else{
+				echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+			}
 		}
 		
 		echo "\t<!-- // end wpfbogp -->\n\n";
@@ -238,4 +242,5 @@ function wpfbogp_validate($input) {
 	$input['wpfbogp_fallback_img'] = wp_filter_nohtml_kses($input['wpfbogp_fallback_img']);
 	return $input;
 }
+
 ?>
