@@ -156,7 +156,7 @@ function wpfbogp_buildpage() {
 ?>
 
 <div class="wrap">
-	<h2>Facebook Open Graph protocol plugin</h2>
+	<h2>Facebook Open Graph protocol plugin <em>v<?php echo WPFBOGP_VERSION; ?></em></h2>
 	<div id="poststuff" class="metabox-holder has-right-sidebar">
 		<div id="side-info-column" class="inner-sidebar">
 			<div class="meta-box-sortables">
