@@ -42,6 +42,9 @@ Short answer is no. Your Facebook user ID however is a requirement. Later I'll a
 
 == Changelog ==
 
+= 0.0.9 =
+* added admin notifications if plugin is activated but doesn't have the required fields (app id or user id) saved
+
 = 0.0.8 =
 * if no default image set no longer display a blank og:image tag, now it will show a comment in source reminding you to add a default image in the plugin settings
 

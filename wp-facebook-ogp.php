@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://rynoweb.com
 Description: Plugin to add proper Facebook OGP meta values to your header for single posts and pages and fallback for index and other pages
-Version: 0.0.8
+Version: 0.0.9
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,9 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '0.0.8');
+define('WPFBOGP_VERSION', '0.0.9');
+wpfbogp_admin_warnings();
+
 
 // version check
 function wpfbogp_url( $path = '' ) {
@@ -241,6 +243,18 @@ function wpfbogp_validate($input) {
 	$input['wpfbogp_page_id'] = wp_filter_nohtml_kses($input['wpfbogp_page_id']);
 	$input['wpfbogp_fallback_img'] = wp_filter_nohtml_kses($input['wpfbogp_fallback_img']);
 	return $input;
+}
+
+// run admin notices on activation or if settings not set
+function wpfbogp_admin_warnings() {
+	global $wpfbogp_admins;
+		$wpfbogp_data = get_option('wpfbogp');
+	if ((empty($wpfbogp_data['wpfbogp_admin_ids']) || $wpfbogp_data['wpfbogp_admin_ids'] == '') && (empty($wpfbogp_data['wpfbogp_app_id']) || $wpfbogp_data['wpfbogp_app_id'] == '')) {
+		function wpfbogp_warning() {
+			echo "<div id='wpfbogp-warning' class='updated fade'><p><strong>".__('WP FB OGP is almost ready.')."</strong> ".sprintf(__('You must <a href="%1$s">enter your a Facebook User ID or App ID</a> for it to work.'), "options-general.php?page=wpfbogp")."</p></div>";
+		}
+	add_action('admin_notices', 'wpfbogp_warning');
+	}
 }
 
 ?>
