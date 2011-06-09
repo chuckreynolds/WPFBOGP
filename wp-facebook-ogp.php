@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://rynoweb.com
 Description: Plugin to add proper Facebook OGP meta values to your header for single posts and pages and fallback for index and other pages
-Version: 0.0.9
+Version: 0.0.10
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '0.0.9');
+define('WPFBOGP_VERSION', '0.0.10');
 wpfbogp_admin_warnings();
 
 
@@ -166,14 +166,22 @@ function wpfbogp_buildpage() {
 					<h3 class="hndle" id="about-sidebar">About the Author:</h3>
 					<div class="inside">
 						<p>You can <a href="http://twitter.com/chuckreynolds" target="_blank">follow Chuck on Twitter</a> and/or ask questions there and <a href="http://facebook.com/rynoweb" target="_blank">like rYnoweb on Facebook</a>.</p>
-						<p><a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins" target="_blank">Tweet about this Plugin</a></p>
+						<p><strong>Enjoy the plugin?</strong><br />
+						<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank">Tweet about it</a> and consider donating.</p>
+						<p><strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I'll send you a shout out for your generosity. Thank you!<br />
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="GWGGBTBJTJMPW">
+						<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+						<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+						</form></p>
 					</div>
 				</div>
 			</div>
 			
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar">More Information:</h3>
+					<h3 class="hndle" id="about-sidebar">Relevant Information:</h3>
 					<div class="inside">
 						<p><a href="http://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
 							<a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
@@ -184,10 +192,8 @@ function wpfbogp_buildpage() {
 				</div>
 			</div>
 		</div> <!-- // #side-info-column .inner-sidebar -->
-	
-		
-		
-		
+
+
 		<div id="post-body" class="has-sidebar">
 			<div id="post-body-content" class="has-sidebar-content">
 				<div id="normal-sortables" class="meta-box-sortables">
@@ -198,7 +204,7 @@ function wpfbogp_buildpage() {
 			<?php settings_fields('wpfbogp_options'); ?>
 			<?php $options = get_option('wpfbogp'); ?>
 
-		<table class="form-table" style="width:75%;">
+		<table class="form-table">
 			<tr valign="top">
 				<th scope="row">Facebook User Account ID:</th>
 				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br />
@@ -255,6 +261,13 @@ function wpfbogp_admin_warnings() {
 		}
 	add_action('admin_notices', 'wpfbogp_warning');
 	}
+}
+
+// twentyten and twentyeleven add crap to the excerpt so lets check for that and remove
+add_action('after_setup_theme','wpfbogp_fix_excerpts_exist');
+function wpfbogp_fix_excerpts_exist() {
+	remove_filter('get_the_excerpt','twentyten_custom_excerpt_more');
+	remove_filter('get_the_excerpt','twentyeleven_custom_excerpt_more');
 }
 
 ?>

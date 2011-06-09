@@ -1,7 +1,7 @@
 === WP Facebook Open Graph protocol ===
 Contributors: ryno267
 Donate link: http://rynoweb.com/wordpress-plugins/
-Tags: open graph, facebook, ogp, facebook meta, open graph meta, 
+Tags: open graph, facebook, ogp, facebook meta, open graph meta, featured image, 
 Requires at least: 3.0
 Tested up to: 3.2
 Stable tag: trunk
@@ -33,7 +33,7 @@ Secrets! Not getting crazy on features but there is MUCH to be desired in curren
 
 = Do I need to create a Facebook Application to use this plugin? =
 
-Short answer is no. Your Facebook user ID however is a requirement. Later I'll add the option to have a Facebook App ID to make use of insights.
+Short answer is no. Your Facebook user ID or or an Application ID is a requirement. You don't need to register an app, just use your User ID (plugin admin helps you find that). You can have both App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: http://developers.facebook.com/docs/opengraph/#admin
 
 
 == Screenshots ==
@@ -41,6 +41,11 @@ Short answer is no. Your Facebook user ID however is a requirement. Later I'll a
 
 
 == Changelog ==
+
+= 0.0.10 =
+* fixed the continue reading injection added to the end of excerpts in twentyten and twentyeleven themes/childs that look bad in meta desc
+* fixed admin width issue for table, now displays correct
+* verbiage updates - prep for full help menu setup
 
 = 0.0.9 =
 * added admin notifications if plugin is activated but doesn't have the required fields (app id or user id) saved
