@@ -1,9 +1,9 @@
 <?php 
 /*
 Plugin Name: WP Facebook Open Graph protocol
-Plugin URI: http://rynoweb.com
-Description: Plugin to add proper Facebook OGP meta values to your header for single posts and pages and fallback for index and other pages
-Version: 0.0.10
+Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
+Description: A better plugin to add the proper technical Facebook meta data to a WP site so when your pages, posts and/or custom post types are shared on Facebook it looks awesome. More advanced features in planning and to come soon.
+Version: 1.0
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '0.0.10');
+define('WPFBOGP_VERSION', '1.0');
 wpfbogp_admin_warnings();
 
 
@@ -163,12 +163,12 @@ function wpfbogp_buildpage() {
 		<div id="side-info-column" class="inner-sidebar">
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar">About the Author:</h3>
+					<h3 class="hndle" id="about-sidebar"><?php _e('About the Author:') ?></h3>
 					<div class="inside">
 						<p>You can <a href="http://twitter.com/chuckreynolds" target="_blank">follow Chuck on Twitter</a> and/or ask questions there and <a href="http://facebook.com/rynoweb" target="_blank">like rYnoweb on Facebook</a>.</p>
-						<p><strong>Enjoy the plugin?</strong><br />
-						<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank">Tweet about it</a> and consider donating.</p>
-						<p><strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I'll send you a shout out for your generosity. Thank you!<br />
+						<p><?php _e('<strong>Enjoy the plugin?</strong>') ?><br />
+						<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
+						<p><?php _e('<strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!') ?><br />
 						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 						<input type="hidden" name="cmd" value="_s-xclick">
 						<input type="hidden" name="hosted_button_id" value="GWGGBTBJTJMPW">
@@ -181,7 +181,7 @@ function wpfbogp_buildpage() {
 			
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar">Relevant Information:</h3>
+					<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
 					<div class="inside">
 						<p><a href="http://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
 							<a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
@@ -206,26 +206,28 @@ function wpfbogp_buildpage() {
 
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row">Facebook User Account ID:</th>
+				<th scope="row"><?php _e('Facebook User Account ID:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br />
-					For personal sites use your Facebook User ID here. <em>(You can enter multiple by separating each with a comma)</em>, if you want to receive Insights about the Like Buttons. The meta values will not display in your site until you've completed this box.<br />
-					You can find it by going to the URL like this: http://graph.facebook.com/yourusername</td>
+					<?php _e('For personal sites use your Facebook User ID here. <em>(You can enter multiple by separating each with a comma)</em>, if you want to receive Insights about the Like Buttons. The meta values will not display in your site until you\'ve completed this box.<br />
+					<strong>Find your ID</strong> by going to the URL like this: http://graph.facebook.com/yourusername') ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row">Facebook Application ID:</th>
+				<th scope="row"><?php _e('Facebook Application ID:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text" /><br />
-					For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://www.facebook.com/developers/apps.php" target="_blank">Create FB App</a>.</td>
+					<?php _e('For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://www.facebook.com/developers/apps.php" target="_blank">Create FB App</a>.') ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row">Facebook Page ID:<br />
+				<th scope="row"><?php _e('Facebook Page ID:') ?><br />
 					<em>(Optional)</em></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_page_id]" value="<?php echo $options['wpfbogp_page_id']; ?>" class="regular-text" /><br />
-					For associating this site with a Facebook page for Insights. This is completely optional.</td>
+					<?php _e('For associating this site with a Facebook Page for Insights. This is completely optional.') ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row">Default Image URL to use:</th>
+				<th scope="row"><?php _e('Default Image URL to use:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
-					Full URL including http:// to the default image to use if your posts/pages don't have a featured image or an image in the content. Facebook says: <em>An image URL which should represent your object within the graph. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1</em>. They will make it square if you don't.</td>
+					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content.<br />
+					Facebook says: <em>An image URL which should represent your object within the graph. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1</em>. They will make it square if you don\'t.<br />
+					You can use the WordPress <a href="upload.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
 			</tr>
 		</table>
 		
@@ -262,6 +264,26 @@ function wpfbogp_admin_warnings() {
 	add_action('admin_notices', 'wpfbogp_warning');
 	}
 }
+/* HEY!! quit peaking... I still have to write it all before it's useful
+// add custom help information to help dropdown
+add_action('admin_menu','wpfbogp_helper_menu');
+function wpfbogp_helper_menu() {
+
+	// Custom help message
+	$text .= '<p>' . __( '<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.', 'wpfbogp' ) . '</p>';
+	$text .= '<p>' . __( "<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.", 'wpfbogp' ) . '</p>';
+	$text .= '<p>' . __( '<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.', 'wpfbogp' ) . '</p>';
+	$text .= '<p>' . __( '<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.', 'wpfbogp' ) . '</p>';
+
+	$text .= '<p><strong>' . __( 'For more information:', 'example-textdomain' ) . '</strong></p>';
+
+	$text .= '<ul>';
+	$text .= '<li><a href="http://rynoweb.com/wordpress-plugins#support">' . __( 'Support Form', 'example-textdomain' ) . '</a></li>';
+	$text .= '</ul>';
+
+	add_contextual_help('settings_page_wpfbogp',$text);
+}
+*/
 
 // twentyten and twentyeleven add crap to the excerpt so lets check for that and remove
 add_action('after_setup_theme','wpfbogp_fix_excerpts_exist');

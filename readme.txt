@@ -3,44 +3,52 @@ Contributors: ryno267
 Donate link: http://rynoweb.com/wordpress-plugins/
 Tags: facebook, open graph, ogp, facebook meta, open graph meta, featured image, facebook share, facebook like 
 Requires at least: 3.0
-Tested up to: 3.2
+Tested up to: 3.2.1
 Stable tag: trunk
 
-Adds the proper Facebook tags to your site so when your pages and posts are shared it looks awesome.
+Adds the proper Facebook meta tags and values to your site and/or blog so when your pages and posts are shared it looks awesome and provides Facebook with good data.
 
 == Description ==
 
-This plugin adds Facebook Meta information to your site and properly designates if it's an article or a website page.
+This plugin adds Facebook Meta information to your site and properly designates if it's an article or a website page. There will be more in regard to this in soonish releases. See Roadmap info below.
 
 = Image Handling =
 The plugin will first look for a featured image. If there isn't one or your theme doesn't have those available, then it will pull the first image in the post/page content. If that isn't there either, then it will default to using the image you put into the plugin settings in the admin panel. If THAT isn't there then... well you fail and you won't have an image. The plugin will still work fine but it won't look as pretty on your Facebook wall. People click more on wall posts with images and your site will have better reader conversion with an image in the content. Fact.
 
+= Title and Description =
+On your home/index it will display your site name (from wp settings), otherwise will display whatever the page or post title is. Description is tricky - what I have it doing is looking for an excerpt; it will use that and if one doesn't exist it will use the site description (from wp settings). More to come with this but for now it works great and for most use-cases that's fine.
+
 = Testing Your Site =
-Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your blog url's or your home page to see what info Facebook is pulling. This tool is located here: <a href="https://developers.facebook.com/tools/lint/">https://developers.facebook.com/tools/lint/</a>
+Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your post/page url's or your home page to see what info Facebook is pulling in. This tool is located here: <a href="https://developers.facebook.com/tools/lint/">https://developers.facebook.com/tools/lint/</a>
 
 = Plugin Roadmap =
-This plugin is fully featured as is right now; though I'm not going into it now, but there is MUCH to be desired in current OGP plugins, I just need more time to implement them into this plugin. But they'll make it in. Stay tuned!
+This plugin is fully featured as is right now. Though I'm not going into the details here, but there is MUCH to be desired in current OGP plugins and I just need more time to implement them into this plugin. But they'll make it in. Stay tuned!
 
 == Installation ==
 
 1. Upload the `wp-facebook-ogp` folder to the `/wp-content/plugins/` directory
 1. Activate the WP Facebook OGP plugin through the 'Plugins' menu in WordPress
-1. You MUST add a Facebook ID to the Plugin Settings page for the plugin to produce OGP meta data
+1. You MUST add your Facebook ID to the Plugin Settings page for the plugin to produce OGP meta data
 
 == Frequently Asked Questions ==
 
 = Do I need to create a Facebook Application to use this plugin? =
 
-Short answer is no. Your Facebook user ID or or an Application ID is a requirement. You don't need to register an app, just use your User ID (plugin admin helps you find that). You can have both App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: http://developers.facebook.com/docs/opengraph/#admin
+Short answer is no. Either your Facebook user ID or or an Application ID is a requirement. You don't need to register an app, just use your User ID (plugin admin helps you find that). You can have both App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: http://developers.facebook.com/docs/opengraph/#admin
 
 = Why doesn't this plugin have a Like/Send button? =
-Honestly it's not hard to add one once you have the proper meta content in the header. Look at <a href="http://developers.facebook.com/docs/opengraph/#plugins">how to add a Like button</a> using fb:like. I may incorporate a basic layout one if there's a demand for it. Let me know -> <a href="http://twitter.com/chuckreynolds">@chuckreynolds</a>
+Honestly it's not hard to add one once you have the proper meta content in the header. Look at <a href="http://developers.facebook.com/docs/opengraph/#plugins">how to add a Like button</a> using fb:like. I may consider incorporating a basic layout one if there's enough demand for it. Let me know -> <a href="http://twitter.com/chuckreynolds">@chuckreynolds</a>
 
 == Screenshots ==
 
 1. The FB OGP Admin options panel has all the control laid out in one easy place. The rest is all behind the scenes.
 
 == Changelog ==
+
+= 1.0 =
+* initial public release on wordpress repo
+* lots of verbiage and help updates. more to come here as I think it's still too confusing.
+* removed help menu function until I can get something more useful in there. next version.
 
 = 0.0.10 =
 * fixed the continue reading injection added to the end of excerpts in twentyten and twentyeleven themes/childs that look bad in meta desc
