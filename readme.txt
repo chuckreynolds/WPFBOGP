@@ -45,6 +45,10 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 
 == Changelog ==
 
+= 1.1 =
+* fixed an issue with single quotes in excerpts ruining the meta description (props Chris Jensen)
+* added link to support form for bugs and/or feature requests & minor copy updates in admin
+
 = 1.0 =
 * initial public release on wordpress repo
 * lots of verbiage and help updates. more to come here as I think it's still too confusing.

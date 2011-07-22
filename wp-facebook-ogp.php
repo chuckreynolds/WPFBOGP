@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: A better plugin to add the proper technical Facebook meta data to a WP site so when your pages, posts and/or custom post types are shared on Facebook it looks awesome. More advanced features in planning and to come soon.
-Version: 1.0
+Version: 1.1
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '1.0');
+define('WPFBOGP_VERSION', '1.1');
 wpfbogp_admin_warnings();
 
 
@@ -71,7 +71,7 @@ function wpfbogp_build_head() {
 	if ((!isset($options['wpfbogp_admin_ids']) || empty($options['wpfbogp_admin_ids'])) && (!isset($options['wpfbogp_app_id']) || empty($options['wpfbogp_app_id']))) {
 		echo "\n\t<!-- Facebook Open Graph protocol plugin NEEDS an admin or app ID to work, please visit the plugin settings page! -->\n\n";
 	}else{
-		echo "\n\t<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins -->\n";
+		echo "\n\t<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
 		
 		// do fb verification fields
 		if (isset($options['wpfbogp_admin_ids']) && $options['wpfbogp_admin_ids'] != '') {
@@ -99,12 +99,12 @@ function wpfbogp_build_head() {
 		}
 		
 		// do additional randoms
-		echo "\t<meta property='og:site_name' content='".esc_attr( get_bloginfo('name') )."' />\n";
+		echo "\t<meta property='og:site_name' content='".get_bloginfo('name')."' />\n";
 		
 		// do descriptions
 		if (is_singular('post')) {
 			if (has_excerpt($post->ID)) {
-				echo "\t<meta property='og:description' content='".strip_tags(get_the_excerpt($post->ID))."' />\n";
+				echo "\t<meta property='og:description' content='".esc_attr(strip_tags(get_the_excerpt($post->ID)))."' />\n";
 			}else{
 				echo "\t<meta property='og:description' content='".get_bloginfo('description')."' />\n";
 			}
@@ -163,9 +163,9 @@ function wpfbogp_buildpage() {
 		<div id="side-info-column" class="inner-sidebar">
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar"><?php _e('About the Author:') ?></h3>
+					<h3 class="hndle" id="about-sidebar"><?php _e('About the Plugin:') ?></h3>
 					<div class="inside">
-						<p>You can <a href="http://twitter.com/chuckreynolds" target="_blank">follow Chuck on Twitter</a> and/or ask questions there and <a href="http://facebook.com/rynoweb" target="_blank">like rYnoweb on Facebook</a>.</p>
+						<p>Talk to <a href="http://twitter.com/chuckreynolds" target="_blank">@ChuckReynolds</a> on twitter or please fill out the <a href="http://rynoweb.com/wordpress-plugins/" target="_blank">plugin support form</a> for bugs or feature requests.</p>
 						<p><?php _e('<strong>Enjoy the plugin?</strong>') ?><br />
 						<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
 						<p><?php _e('<strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!') ?><br />
