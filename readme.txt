@@ -11,6 +11,7 @@ Adds the proper Facebook meta tags and values to your site and/or blog so when y
 == Description ==
 
 This plugin adds Facebook Meta information to your site and properly designates if it's an article or a website page. There will be more in regard to this in soonish releases. See Roadmap info below.
+Shortname: WPFBOGP
 
 = Image Handling =
 The plugin will first look for a featured image. If there isn't one or your theme doesn't have those available, then it will pull the first image in the post/page content. If that isn't there either, then it will default to using the image you put into the plugin settings in the admin panel. If THAT isn't there then... well you fail and you won't have an image. The plugin will still work fine but it won't look as pretty on your Facebook wall. People click more on wall posts with images and your site will have better reader conversion with an image in the content. Fact.
