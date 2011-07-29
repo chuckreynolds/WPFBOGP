@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: A better plugin to add the proper technical Facebook meta data to a WP site so when your pages, posts and/or custom post types are shared on Facebook it looks awesome. More advanced features in planning and to come soon.
-Version: 1.1
+Version: 1.2
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,9 +25,8 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '1.1');
+define('WPFBOGP_VERSION', '1.2');
 wpfbogp_admin_warnings();
-
 
 // version check
 function wpfbogp_url( $path = '' ) {
@@ -61,7 +60,6 @@ function wpfbogp_first_image() {
   }
   return $wpfbogp_first_img;
 }
-
 
 // build ogp meta
 function wpfbogp_build_head() {
@@ -120,19 +118,26 @@ function wpfbogp_build_head() {
 		}
 		
 		// do image tricks
-		if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail())) {
-			$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'medium' );
-			echo "\t<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
-		}elseif (( wpfbogp_first_image() !== false ) && (is_singular())) {
-			echo "\t<meta property='og:image' content='".wpfbogp_first_image()."' />\n";
-		}else{
+		if (is_home()) {
 			if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
 				echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
 			}else{
 				echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 			}
+		} else {
+			if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail())) {
+				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'medium' );
+				echo "\t<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
+			}elseif (( wpfbogp_first_image() !== false ) && (is_singular())) {
+				echo "\t<meta property='og:image' content='".wpfbogp_first_image()."' />\n";
+			}else{
+				if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
+					echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
+				}else{
+					echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+				}
+			}
 		}
-		
 		echo "\t<!-- // end wpfbogp -->\n\n";
 		} // end isset admin ids
 

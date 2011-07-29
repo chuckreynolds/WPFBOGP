@@ -46,6 +46,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 
 == Changelog ==
 
+= 1.2 =
+* bug: if latest post in blog listing had a featured image, og:image would use that instead of default image from admin. Fixed that.
+
 = 1.1 =
 * fixed an issue with single quotes in excerpts ruining the meta description (props Chris Jensen)
 * added link to support form for bugs and/or feature requests & minor copy updates in admin
