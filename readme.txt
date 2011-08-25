@@ -1,16 +1,18 @@
 === WP Facebook Open Graph protocol ===
 Contributors: ryno267
 Donate link: http://rynoweb.com/wordpress-plugins/
-Tags: facebook, open graph, ogp, facebook meta, open graph meta, featured image, facebook share, facebook like 
+Tags: facebook, open graph, ogp, google +1, +1, google plus one, plus one, facebook meta, open graph meta, featured image, facebook share, facebook like 
 Requires at least: 3.0
 Tested up to: 3.2.1
 Stable tag: trunk
 
 Adds the proper Facebook meta tags and values to your site and/or blog so when your pages and posts are shared it looks awesome and provides Facebook with good data.
+NEW: Plugin will work for the new +Snippets for Google +1 Button!
 
 == Description ==
 
 This plugin adds Facebook Meta information to your site and properly designates if it's an article or a website page. There will be more in regard to this in soonish releases. See Roadmap info below.
+As of 08/24/2011 this plugin will also provide +Snippet data to the Google +1 Plus One Button.
 Shortname: WPFBOGP
 
 = Image Handling =
