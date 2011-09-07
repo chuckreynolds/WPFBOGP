@@ -308,4 +308,13 @@ function wpfbogp_add_settings_link($links, $file) {
 	return $links;
 }
 add_filter('plugin_action_links','wpfbogp_add_settings_link', 10, 2 );
+
+// lets offer an actual clean uninstall and rem db row on uninstall
+if (function_exists('register_uninstall_hook')) {
+    register_uninstall_hook(__FILE__, 'wpfbogp_uninstall_hook');
+		function wpfbogp_uninstall_hook() {
+			delete_option('wpfbogp');
+		}
+	}
+
 ?>
