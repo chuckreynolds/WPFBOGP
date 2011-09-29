@@ -22,7 +22,7 @@ The plugin will first look for a featured image. If there isn't one or your them
 On your home/index it will display your site name (from wp settings), otherwise will display whatever the page or post title is. Description on single posts will first look for an excerpt and if that's not there it now will auto-generate one from the first 160 characters of the content. On main pages it will use the site description (from wp settings). I've updated it to do so due to popular request.
 
 = Testing Your Site =
-Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your post/page url's or your home page to see what info Facebook is pulling in. This tool is located here: <a href="https://developers.facebook.com/tools/lint/">https://developers.facebook.com/tools/lint/</a>
+Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your post/page url's or your home page to see what info Facebook is pulling in. This tool is located here: <a href="http://developers.facebook.com/tools/debug">http://developers.facebook.com/tools/debug</a>
 
 = Plugin Roadmap =
 This plugin is fully featured as is right now. Though I'm not going into the details here, but there is MUCH to be desired in current OGP plugins and I just need more time to implement them into this plugin. But they'll make it in. Stay tuned!
