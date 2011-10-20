@@ -86,7 +86,7 @@ function wpfbogp_build_head() {
 		if (is_home() || is_front_page() ) {
 			echo "\t<meta property='og:url' content='".get_bloginfo('url')."' />\n";
 		}else{
-			echo "\t<meta property='og:url' content='".get_permalink($post->ID)."' />\n";
+			echo "\t<meta property='og:url' content='http://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']."' />\n";
 		}
 		
 		// do title stuff
