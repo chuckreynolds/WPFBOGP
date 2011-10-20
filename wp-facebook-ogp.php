@@ -104,7 +104,7 @@ function wpfbogp_build_head() {
 			if (has_excerpt($post->ID)) {
 				echo "\t<meta property='og:description' content='".esc_attr(strip_tags(get_the_excerpt($post->ID)))."' />\n";
 			}else{
-				echo "\t<meta property='og:description' content='".esc_attr(substr(strip_tags(strip_shortcodes($post->post_content)), 0, 160))."' />\n";
+				echo "\t<meta property='og:description' content='".esc_attr(str_replace("\r\n",' ',substr(strip_tags(strip_shortcodes($post->post_content)), 0, 160)))."' />\n";
 			}
 		}else{
 			echo "\t<meta property='og:description' content='".get_bloginfo('description')."' />\n";
