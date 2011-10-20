@@ -125,8 +125,8 @@ function wpfbogp_build_head() {
 				echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 			}
 		} else {
-			if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail())) {
-				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'medium' );
+			if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail($post->ID))) {
+				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'thumbnail' );
 				echo "\t<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
 			}elseif (( wpfbogp_first_image() !== false ) && (is_singular())) {
 				echo "\t<meta property='og:image' content='".wpfbogp_first_image()."' />\n";
