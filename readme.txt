@@ -48,11 +48,12 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 
 == Changelog ==
 
-= 1.4 =
+= 1.3.5 =
 * fixed bug with line returns if they were in auto desc
 * added strip_shortcodes on autogen desc
 * updated image handling post id issue and changed medium size image to thumbnail for optimization and speed
 * fixed og:url to work with every page type and archive type
+* x.5 update because needed to push some of these bugs out but too busy to fix others. more updates coming soon.
 
 = 1.3 =
 * Added much requested auto-description generation from content. So now on single posts, it will still look for the post excerpt and if one doesn't exist it will auto-generate one from the first 160 characters of the content field.
