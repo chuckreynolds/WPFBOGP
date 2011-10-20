@@ -48,12 +48,18 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 
 == Changelog ==
 
+= 1.4 =
+* fixed bug with line returns if they were in auto desc
+* added strip_shortcodes on autogen desc
+* updated image handling post id issue and changed medium size image to thumbnail for optimization and speed
+* fixed og:url to work with every page type and archive type
+
 = 1.3 =
 * Added much requested auto-description generation from content. So now on single posts, it will still look for the post excerpt and if one doesn't exist it will auto-generate one from the first 160 characters of the content field.
 * redacted some other updates to push this one feature out - more soonish.
 
 = 1.2 =
-* bug: if latest post in blog listing had a featured image, og:image would use that instead of default image from admin. Fixed that.
+* fixed if latest post in blog listing had a featured image, og:image would use that instead of default image from admin. Fixed that.
 
 = 1.1 =
 * fixed an issue with single quotes in excerpts ruining the meta description (props Chris Jensen)
