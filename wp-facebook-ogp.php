@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: A better plugin to add the proper technical Facebook meta data to a WP site so when your pages, posts and/or custom post types are shared on Facebook it looks awesome. More advanced features in planning and to come soon.
-Version: 1.3
+Version: 1.4b
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '1.3');
+define('WPFBOGP_VERSION', '1.4b');
 wpfbogp_admin_warnings();
 
 // version check
@@ -104,7 +104,7 @@ function wpfbogp_build_head() {
 			if (has_excerpt($post->ID)) {
 				echo "\t<meta property='og:description' content='".esc_attr(strip_tags(get_the_excerpt($post->ID)))."' />\n";
 			}else{
-				echo "\t<meta property='og:description' content='".esc_attr(substr(strip_tags($post->post_content), 0, 160))."' />\n";
+				echo "\t<meta property='og:description' content='".esc_attr(substr(strip_tags(strip_shortcodes($post->post_content)), 0, 160))."' />\n";
 			}
 		}else{
 			echo "\t<meta property='og:description' content='".get_bloginfo('description')."' />\n";
