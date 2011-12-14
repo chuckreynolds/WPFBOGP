@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: A better plugin to add the proper technical Facebook meta data to a WP site so when your pages, posts and/or custom post types are shared on Facebook it looks awesome. More advanced features in planning and to come soon.
-Version: 1.4
+Version: 1.5b
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,10 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '1.4');
+// beta changes since 1.4
+// remove hidden code for old contextual menus that never happened
+
+define('WPFBOGP_VERSION', '1.5b');
 wpfbogp_admin_warnings();
 
 // version check
@@ -271,26 +274,6 @@ function wpfbogp_admin_warnings() {
 	add_action('admin_notices', 'wpfbogp_warning');
 	}
 }
-/* HEY!! quit peaking... I still have to write it all before it's useful
-// add custom help information to help dropdown
-add_action('admin_menu','wpfbogp_helper_menu');
-function wpfbogp_helper_menu() {
-
-	// Custom help message
-	$text .= '<p>' . __( '<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.', 'wpfbogp' ) . '</p>';
-	$text .= '<p>' . __( "<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.", 'wpfbogp' ) . '</p>';
-	$text .= '<p>' . __( '<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.', 'wpfbogp' ) . '</p>';
-	$text .= '<p>' . __( '<strong>Subject:</strong> Lorem ipsum dolor sit amet, in quo mediocrem definitiones. No molestie legendos pertinacia vix. Eu has minimum voluptatum. Cum debet eirmod in, habemus tibique te mea. Mel no libris dignissim, ex quod case interesset usu.', 'wpfbogp' ) . '</p>';
-
-	$text .= '<p><strong>' . __( 'For more information:', 'example-textdomain' ) . '</strong></p>';
-
-	$text .= '<ul>';
-	$text .= '<li><a href="http://rynoweb.com/wordpress-plugins#support">' . __( 'Support Form', 'example-textdomain' ) . '</a></li>';
-	$text .= '</ul>';
-
-	add_contextual_help('settings_page_wpfbogp',$text);
-}
-*/
 
 // twentyten and twentyeleven add crap to the excerpt so lets check for that and remove
 add_action('after_setup_theme','wpfbogp_fix_excerpts_exist');
