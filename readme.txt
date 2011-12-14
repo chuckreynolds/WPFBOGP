@@ -48,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 
 == Changelog ==
 
+= 1.4 =
+* added og:locale as facebook has started requiring that for valid ogp
+
 = 1.3.5 =
 * fixed bug with line returns if they were in auto desc
 * added strip_shortcodes on autogen desc
