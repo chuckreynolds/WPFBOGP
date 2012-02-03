@@ -3,7 +3,7 @@ Contributors: ryno267
 Donate link: http://goo.gl/8lGv3
 Tags: facebook, open graph, ogp, google +1, +1, google plus one, plus one, facebook meta, open graph meta, featured image, facebook share, facebook like 
 Requires at least: 3.0
-Tested up to: 3.3
+Tested up to: 3.3.1
 Stable tag: trunk
 
 Adds the proper Facebook meta tags and values to your site and/or blog so when your pages and posts are shared it looks awesome and provides Facebook with good data.
@@ -47,6 +47,12 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The FB OGP Admin options panel has all the control laid out in one easy place. The rest is all behind the scenes.
 
 == Changelog ==
+
+= 1.5 =
+* simple cleanup and couple bug fixes
+* fix image path auto pulled from content if there wasn't a basepath
+* fix for custom post type og:description. (props Leia Scofield) did same for og:type
+* remove hidden code for old contextual menus that never happened
 
 = 1.4 =
 * added og:locale as facebook has started requiring that for valid ogp
