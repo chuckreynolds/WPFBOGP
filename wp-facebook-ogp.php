@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: A better plugin to add the proper technical Facebook meta data to a WP site so when your pages, posts and/or custom post types are shared on Facebook it looks awesome. More advanced features in planning and to come soon.
-Version: 1.5b
+Version: 1.5
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -27,8 +27,10 @@ License: GPL2
 
 // beta changes since 1.4
 // remove hidden code for old contextual menus that never happened
+// fix image path auto pulled from content if there wasn't a basepath
+// fix for custom post type og:description. (props Leia Scofield) did same for og:type
 
-define('WPFBOGP_VERSION', '1.5b');
+define('WPFBOGP_VERSION', '1.5');
 wpfbogp_admin_warnings();
 
 // version check
@@ -38,7 +40,6 @@ function wpfbogp_url( $path = '' ) {
 		$folder = dirname(plugin_basename( __FILE__ ));
 		if ('.' != $folder)
 			$path = path_join(ltrim($folder, '/'), $path);
-
 		return plugins_url($path);
 	}
 	return plugins_url($path,__FILE__);
@@ -50,18 +51,27 @@ function wpfbogp_namespace($output) {
 }
 add_filter('language_attributes','wpfbogp_namespace');
 
-// function to call first uploaded image in functions file. borrowed from i forgot :/ sorry.
+// function to call first uploaded image in content
 function wpfbogp_first_image() {
-  global $post, $posts;
-  $wpfbogp_first_img = '';
-  ob_start();
-  ob_end_clean();
-  $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-  $wpfbogp_first_img = $matches [1] [0];
-  if(empty($wpfbogp_first_img)){ // return false if nothing there, makes life easier
-    return false;
-  }
-  return $wpfbogp_first_img;
+	global $post, $posts;
+	$wpfbogp_first_img = '';
+	ob_start();
+	ob_end_clean();
+	$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+	$wpfbogp_first_img = $matches [1] [0];
+	if(empty($wpfbogp_first_img)){ // return false if nothing there, makes life easier
+		return false;
+	}
+	// if no base url in image path lets make one
+	$img_src = $wpfbogp_first_img;
+	$img_src_check = strpos($img_src, home_url());
+	if(!$img_src_check) {
+		if($img_src[0]!='/') {
+			$img_src = '/'.$img_src;
+		}
+		$img_src = home_url().$img_src;
+	}
+	return $img_src;
 }
 
 // build ogp meta
@@ -103,7 +113,7 @@ function wpfbogp_build_head() {
 		echo "\t<meta property='og:site_name' content='".get_bloginfo('name')."' />\n";
 		
 		// do descriptions
-		if (is_singular('post')) {
+		if (is_singular()) {
 			if (has_excerpt($post->ID)) {
 				echo "\t<meta property='og:description' content='".esc_attr(strip_tags(get_the_excerpt($post->ID)))."' />\n";
 			}else{
@@ -114,7 +124,7 @@ function wpfbogp_build_head() {
 		}
 		
 		// do ogp type
-		if (is_singular('post')) {
+		if (is_singular()) {
 			echo "\t<meta property='og:type' content='article' />\n";
 		}else{
 			echo "\t<meta property='og:type' content='website' />\n";
