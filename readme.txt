@@ -46,7 +46,13 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 
 1. The FB OGP Admin options panel has all the control laid out in one easy place. The rest is all behind the scenes.
 
+== Upgrade Notice ==
+= 1.5.1 =
+Bug Fix for images created with 1.5 update. Please update so images work okay on facebook.
+
 == Changelog ==
+= 1.5.1 =
+* bug fix in image basepath thing I fixed in 1.5... false checking. make sure to update this or your images could not display on facebook 
 
 = 1.5 =
 * simple cleanup and couple bug fixes
