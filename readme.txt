@@ -6,12 +6,12 @@ Requires at least: 3.0
 Tested up to: 3.3.1
 Stable tag: trunk
 
-Adds the proper Facebook meta tags and values to your site and/or blog so when your pages and posts are shared it looks awesome and provides Facebook with good data.
+Adds the proper Facebook open graph meta tags and values to your site and/or blog so when your pages and posts are shared it looks awesome and provides Facebook with good data.
 NEW: Plugin will work for the new +Snippets for Google +1 Button!
 
 == Description ==
 
-This plugin adds Facebook Meta information to your site and properly designates if it's an article or a website page. There will be more in regard to this in soonish releases. See Roadmap info below.
+This plugin adds Facebook Open Graph Meta information to your site and properly designates if it's an article or a website page. There will be more in regard to this in soonish releases. See Roadmap info below.
 As of 08/24/2011 this plugin will also provide +Snippet data to the Google +1 Plus One Button.
 Shortname: WPFBOGP
 
