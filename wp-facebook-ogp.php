@@ -100,12 +100,9 @@ function wpfbogp_build_head() {
 		global $wp;
 		echo "\t<meta property='og:url' content='" . add_query_arg( $wp->query_string, '', home_url( $wp->request ) ) . "' />\n";
 		
-		// do title stuff
-		if (is_home() || is_front_page() ) {
-			echo "\t<meta property='og:title' content='".get_bloginfo('name')."' />\n";
-		}else{
-			echo "\t<meta property='og:title' content='".get_the_title()."' />\n";
-		}
+		// use wp_title() to get the title of the current page. SEO plugins filter wp_title
+		// so we will get the best title available
+		echo "\t<meta property='og:title' content='".wp_title('', false)."' />\n";
 		
 		// do additional randoms
 		echo "\t<meta property='og:site_name' content='".get_bloginfo('name')."' />\n";
