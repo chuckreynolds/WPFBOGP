@@ -56,10 +56,6 @@ function wpfbogp_first_image() {
 	ob_start();
 	ob_end_clean();
 	$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-	// avoid undefined offset error in case there are no matches
-	if (count($matches[1]) == 0) {
-		return false;
-	}
 	$wpfbogp_first_img = $matches [1] [0];
 	if(empty($wpfbogp_first_img)){ // return false if nothing there, makes life easier
 		return false;
