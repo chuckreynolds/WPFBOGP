@@ -176,82 +176,86 @@ function wpfbogp_buildpage() {
 
 <div class="wrap">
 	<h2>Facebook Open Graph protocol plugin <em>v<?php echo WPFBOGP_VERSION; ?></em></h2>
-	<div id="poststuff">
-		<div id="post-body" class="columns-2">
-			<div id="postbox-container-1" class="postbox-container">
-				<div id="side-sortables" class="meta-box-sortables ui-sortable">
-					<div id="about" class="postbox">
-						<h3 class="hndle" id="about-sidebar"><?php _e('About the Plugin:') ?></h3>
-						<div class="inside">
-							<p>Talk to <a href="http://twitter.com/chuckreynolds" target="_blank">@ChuckReynolds</a> on twitter or please fill out the <a href="http://rynoweb.com/wordpress-plugins/" target="_blank">plugin support form</a> for bugs or feature requests.</p>
-							<p><?php _e('<strong>Enjoy the plugin?</strong>') ?><br />
-							<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
-							<p><?php _e('<strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!') ?><br />
-							<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-							<input type="hidden" name="cmd" value="_s-xclick">
-							<input type="hidden" name="hosted_button_id" value="GWGGBTBJTJMPW">
-							<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-							<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-							</form></p>
-						</div>
-					</div>
-				</div>
-				<div class="meta-box-sortables">
-					<div id="about" class="postbox">
-						<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
-						<div class="inside">
-							<p>
-								<a href="http://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
-								<a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
-								<a href="http://developers.facebook.com/docs/opengraph/#admin" target="_blank">Facebook Admin Verification</a><br />
-								<a href="http://developers.facebook.com/docs/insights/" target="_blank">Insights: Domain vs App vs Page</a><br />
-								<a href="http://developers.facebook.com/docs/opengraph/#plugins" target="_blank">How To Add a Like Button</a>
-							</p>
-						</div>
+	<div id="poststuff" class="metabox-holder has-right-sidebar">
+		<div id="side-info-column" class="inner-sidebar">
+			<div class="meta-box-sortables">
+				<div id="about" class="postbox">
+					<h3 class="hndle" id="about-sidebar"><?php _e('About the Plugin:') ?></h3>
+					<div class="inside">
+						<p>Talk to <a href="http://twitter.com/chuckreynolds" target="_blank">@ChuckReynolds</a> on twitter or please fill out the <a href="http://rynoweb.com/wordpress-plugins/" target="_blank">plugin support form</a> for bugs or feature requests.</p>
+						<p><?php _e('<strong>Enjoy the plugin?</strong>') ?><br />
+						<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
+						<p><?php _e('<strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!') ?><br />
+						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="GWGGBTBJTJMPW">
+						<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+						<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+						</form></p>
 					</div>
 				</div>
 			</div>
-			<div id="post-body-content">
+			
+			<div class="meta-box-sortables">
+				<div id="about" class="postbox">
+					<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
+					<div class="inside">
+						<p><a href="http://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
+							<a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
+							<a href="http://developers.facebook.com/docs/opengraph/#admin" target="_blank">Facebook Admin Verification</a><br />
+							<a href="http://developers.facebook.com/docs/insights/" target="_blank">Insights: Domain vs App vs Page</a><br />
+							<a href="http://developers.facebook.com/docs/opengraph/#plugins" target="_blank">How To Add a Like Button</a></p>
+					</div>
+				</div>
+			</div>
+		</div> <!-- // #side-info-column .inner-sidebar -->
+
+
+		<div id="post-body" class="has-sidebar">
+			<div id="post-body-content" class="has-sidebar-content">
 				<div id="normal-sortables" class="meta-box-sortables">
 					<div id="about" class="postbox">
 						<div class="inside">
-							<form method="post" action="options.php">
-								<?php settings_fields('wpfbogp_options'); ?>
-								<?php $options = get_option('wpfbogp'); ?>
-								<table class="form-table">
-									<tr valign="top">
-										<th scope="row"><?php _e('Facebook User Account ID:') ?></th>
-										<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br />
-											<?php _e('For personal sites use your Facebook User ID here. <em>(You can enter multiple by separating each with a comma)</em>, if you want to receive Insights about the Like Buttons. The meta values will not display in your site until you\'ve completed this box.<br />
-											<strong>Find your ID</strong> by going to the URL like this: http://graph.facebook.com/yourusername') ?></td>
-									</tr>
-									<tr valign="top">
-										<th scope="row"><?php _e('Facebook Application ID:') ?></th>
-										<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text" /><br />
-											<?php _e('For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://www.facebook.com/developers/apps.php" target="_blank">Create FB App</a>.') ?></td>
-									</tr>
-									<tr valign="top">
-										<th scope="row"><?php _e('Facebook Page ID:') ?><br />
-											<em>(Optional)</em></th>
-										<td><input type="text" name="wpfbogp[wpfbogp_page_id]" value="<?php echo $options['wpfbogp_page_id']; ?>" class="regular-text" /><br />
-											<?php _e('For associating this site with a Facebook Page for Insights. This is completely optional.') ?></td>
-									</tr>
-									<tr valign="top">
-										<th scope="row"><?php _e('Default Image URL to use:') ?></th>
-										<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
-											<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content.<br />
-											Facebook says: <em>An image URL which should represent your object within the graph. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1</em>. They will make it square if you don\'t.<br />
-											You can use the WordPress <a href="upload.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
-									</tr>
-								</table>
-								<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-							</form>
-							<br class="clear" />
-						</div>
+
+		<form method="post" action="options.php">
+			<?php settings_fields('wpfbogp_options'); ?>
+			<?php $options = get_option('wpfbogp'); ?>
+
+		<table class="form-table">
+			<tr valign="top">
+				<th scope="row"><?php _e('Facebook User Account ID:') ?></th>
+				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br />
+					<?php _e('For personal sites use your Facebook User ID here. <em>(You can enter multiple by separating each with a comma)</em>, if you want to receive Insights about the Like Buttons. The meta values will not display in your site until you\'ve completed this box.<br />
+					<strong>Find your ID</strong> by going to the URL like this: http://graph.facebook.com/yourusername') ?></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Facebook Application ID:') ?></th>
+				<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text" /><br />
+					<?php _e('For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://www.facebook.com/developers/apps.php" target="_blank">Create FB App</a>.') ?></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Facebook Page ID:') ?><br />
+					<em>(Optional)</em></th>
+				<td><input type="text" name="wpfbogp[wpfbogp_page_id]" value="<?php echo $options['wpfbogp_page_id']; ?>" class="regular-text" /><br />
+					<?php _e('For associating this site with a Facebook Page for Insights. This is completely optional.') ?></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Default Image URL to use:') ?></th>
+				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
+					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content.<br />
+					Facebook says: <em>An image URL which should represent your object within the graph. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1</em>. They will make it square if you don\'t.<br />
+					You can use the WordPress <a href="upload.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
+			</tr>
+		</table>
+		
+		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+		</form>
+		<br class="clear" />
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </div>
 <?php	
