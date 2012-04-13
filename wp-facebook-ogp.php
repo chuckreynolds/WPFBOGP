@@ -135,13 +135,7 @@ function wpfbogp_build_head() {
 				echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 			}
 		} else {
-			if ($options['wpfbogp_force_fallback'] == 1) {
-				if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
-					echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
-				}else{
-					echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
-				}
-			}elseif ((function_exists('has_post_thumbnail')) && (has_post_thumbnail($post->ID))) {
+			if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail($post->ID))) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'thumbnail' );
 				echo "\t<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
 			}elseif (( wpfbogp_first_image() !== false ) && (is_singular())) {
@@ -249,10 +243,6 @@ function wpfbogp_buildpage() {
 											Facebook says: <em>An image URL which should represent your object within the graph. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1</em>. They will make it square if you don\'t.<br />
 											You can use the WordPress <a href="upload.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
 									</tr>
-									<tr valign="top">
-										<th scope="row"><?php _e('Force default image') ?></th>
-										<td><label><input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>) /> <?php _e('Use this option if you would like to use the default image on every page.') ?></label></td>
-									</tr>
 								</table>
 								<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 							</form>
@@ -273,7 +263,6 @@ function wpfbogp_validate($input) {
 	$input['wpfbogp_app_id'] = wp_filter_nohtml_kses($input['wpfbogp_app_id']);
 	$input['wpfbogp_page_id'] = wp_filter_nohtml_kses($input['wpfbogp_page_id']);
 	$input['wpfbogp_fallback_img'] = wp_filter_nohtml_kses($input['wpfbogp_fallback_img']);
-	$input['wpfbogp_force_fallback'] = isset($input['wpfbogp_force_fallback']) ? 1 : 0;
 	return $input;
 }
 
