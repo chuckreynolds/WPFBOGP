@@ -97,8 +97,11 @@ function wpfbogp_build_head() {
 		}
 		
 		// do url stuff
-		global $wp;
-		echo "\t<meta property='og:url' content='" . add_query_arg( $wp->query_string, '', home_url( $wp->request ) ) . "' />\n";
+		if (is_home() || is_front_page() ) {
+			echo "\t<meta property='og:url' content='".get_bloginfo('url')."' />\n";
+		}else{
+			echo "\t<meta property='og:url' content='http" . (isset($_SERVER['HTTPS'])?'s':'') . "://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']."' />\n";
+		}
 		
 		// do title stuff
 		if (is_home() || is_front_page() ) {
