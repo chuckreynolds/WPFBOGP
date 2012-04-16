@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: A better plugin to add the proper technical Facebook meta data to a WP site so when your pages, posts and/or custom post types are shared on Facebook it looks awesome. More advanced features in planning and to come soon.
-Version: 1.6b
+Version: 1.7b
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -24,11 +24,11 @@ License: GPL2
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
+// changes since 1.6
+// 
+// 
 
-// beta changes since 1.5.2
-// mod og:url to sniff & use https if site requires it. props Janos.
-
-define('WPFBOGP_VERSION', '1.6b');
+define('WPFBOGP_VERSION', '1.7b');
 wpfbogp_admin_warnings();
 
 // version check
@@ -56,6 +56,10 @@ function wpfbogp_first_image() {
 	ob_start();
 	ob_end_clean();
 	$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+	// avoid undefined offset error in case there are no matches
+	if (count($matches[1]) == 0) {
+		return false;
+	}
 	$wpfbogp_first_img = $matches [1] [0];
 	if(empty($wpfbogp_first_img)){ // return false if nothing there, makes life easier
 		return false;
@@ -100,11 +104,7 @@ function wpfbogp_build_head() {
 		}
 		
 		// do title stuff
-		if (is_home() || is_front_page() ) {
-			echo "\t<meta property='og:title' content='".get_bloginfo('name')."' />\n";
-		}else{
-			echo "\t<meta property='og:title' content='".get_the_title()."' />\n";
-		}
+		echo "\t<meta property='og:title' content='".wp_title('', false)."' />\n";
 		
 		// do additional randoms
 		echo "\t<meta property='og:site_name' content='".get_bloginfo('name')."' />\n";
@@ -135,7 +135,13 @@ function wpfbogp_build_head() {
 				echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 			}
 		} else {
-			if ((function_exists('has_post_thumbnail')) && (has_post_thumbnail($post->ID))) {
+			if ($options['wpfbogp_force_fallback'] == 1) {
+				if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
+					echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
+				}else{
+					echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+				}
+			}elseif ((function_exists('has_post_thumbnail')) && (has_post_thumbnail($post->ID))) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'thumbnail' );
 				echo "\t<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
 			}elseif (( wpfbogp_first_image() !== false ) && (is_singular())) {
@@ -200,11 +206,10 @@ function wpfbogp_buildpage() {
 				<div id="about" class="postbox">
 					<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
 					<div class="inside">
-						<p><a href="http://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
-							<a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
-							<a href="http://developers.facebook.com/docs/opengraph/#admin" target="_blank">Facebook Admin Verification</a><br />
-							<a href="http://developers.facebook.com/docs/insights/" target="_blank">Insights: Domain vs App vs Page</a><br />
-							<a href="http://developers.facebook.com/docs/opengraph/#plugins" target="_blank">How To Add a Like Button</a></p>
+						<p><a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
+						<a href="https://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
+						<a href="https://developers.facebook.com/docs/insights/" target="_blank">Insights: Domain vs App vs Page</a><br />
+						<a href="https://developers.facebook.com/docs/reference/plugins/like/" target="_blank">How To Add a Like Button</a></p>
 					</div>
 				</div>
 			</div>
@@ -242,9 +247,12 @@ function wpfbogp_buildpage() {
 			<tr valign="top">
 				<th scope="row"><?php _e('Default Image URL to use:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
-					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content.<br />
-					Facebook says: <em>An image URL which should represent your object within the graph. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1</em>. They will make it square if you don\'t.<br />
+					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content. The image is recommended to be 200px by 200px.<br />
 					You can use the WordPress <a href="upload.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><?php _e('Force Fallback Image as Default') ?></th>
+				<td><input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>) /> <?php _e('Use this if you want to use the Default Image for everything instead of looking for featured/content images.') ?></label></td>
 			</tr>
 		</table>
 		
@@ -267,6 +275,7 @@ function wpfbogp_validate($input) {
 	$input['wpfbogp_app_id'] = wp_filter_nohtml_kses($input['wpfbogp_app_id']);
 	$input['wpfbogp_page_id'] = wp_filter_nohtml_kses($input['wpfbogp_page_id']);
 	$input['wpfbogp_fallback_img'] = wp_filter_nohtml_kses($input['wpfbogp_fallback_img']);
+	$input['wpfbogp_force_fallback'] = isset($input['wpfbogp_force_fallback']) ? 1 : 0;
 	return $input;
 }
 
@@ -308,5 +317,4 @@ if (function_exists('register_uninstall_hook')) {
 			delete_option('wpfbogp');
 		}
 	}
-
 ?>
