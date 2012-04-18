@@ -161,7 +161,9 @@ function wpfbogp_build_head() {
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' );
 				$wpfbogp_images[] = $thumbnail_src[0]; // Add to images array
-			} elseif ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
+			}
+			
+			if ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
 				$wpfbogp_images = wpfbogp_find_images(); // Returns an array already
 			}
 		}
