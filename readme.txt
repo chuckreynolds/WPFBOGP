@@ -55,6 +55,9 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 1.6.1 =
+Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/ no seo plugins. It worked on all testing sites but obviously I need to test a little more. Standby
+
 = 1.6 =
 * update help info and links as Facebook has changed a lot about their docs including image should be 200px square now
 * use wp_title() to get the title of the current page. SEO plugins filter wp_title so we will get the best title available. This is a baby step towards bigger and better things :)
