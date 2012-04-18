@@ -111,12 +111,11 @@ function wpfbogp_build_head() {
 		
 		// do fb verification fields
 		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
-			$wpfbogp_app_id = $options['wpfbogp_admin_ids'];
+			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '">' . "\n";
 		}
 		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
-			$wpfbogp_app_id = $options['wpfbogp_app_id'];
+			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '">' . "\n";
 		}
-		echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $wpfbogp_app_id ) ) . '">' . "\n";
 		
 		// do url stuff
 		if (is_home() || is_front_page() ) {
