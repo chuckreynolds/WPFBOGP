@@ -161,7 +161,7 @@ function wpfbogp_build_head() {
 			}
 			
 			if ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
-				$wpfbogp_images = wpfbogp_find_images(); // Returns an array already
+				$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() ); // Returns an array already, so merge into existing
 			}
 		}
 		
