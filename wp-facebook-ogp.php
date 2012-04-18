@@ -74,12 +74,18 @@ function flush_buffer() {
 	// Check to make sure start_output_buffer() was called
 	if ( ! $buffered ) return;
 	
-	// Get the entire page HTML output and grab the content of <title></title>
+	// Get the entire page HTML output and grab the page title and meta description
 	$content = ob_get_contents();
-	$title = preg_match( '/<title>(.*?)<\/title>/siU', $content, $matches );
+	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
+	$decsription = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
 	
-	// Take page title and place it in the og:title meta tag
-	$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $matches[1] . '">', $content );
+	// Take page title and meta description and place it in the ogp meta tags
+	if ( $title !== FALSE ) {
+		$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $title_matches[1] . '">', $content );
+	}
+	if ( $description !== FALSE ) {
+		$content = preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . $description_matches[1] . '">', $content );
+	}
 	
 	// End output buffer and echo content
 	ob_end_clean();
