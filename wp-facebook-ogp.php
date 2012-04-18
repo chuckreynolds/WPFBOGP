@@ -31,18 +31,6 @@ License: GPL2
 define('WPFBOGP_VERSION', '1.7b');
 wpfbogp_admin_warnings();
 
-// version check
-function wpfbogp_url( $path = '' ) {
-	global $wp_version;
-	if (version_compare( $wp_version, '3.0', '<' )) { // using at least WordPress 3.0?
-		$folder = dirname(plugin_basename( __FILE__ ));
-		if ('.' != $folder)
-			$path = path_join(ltrim($folder, '/'), $path);
-		return plugins_url($path);
-	}
-	return plugins_url($path,__FILE__);
-}
-
 // add OGP namespace per ogp.me schema
 function wpfbogp_namespace($output) {
 	return $output.' xmlns:og="http://ogp.me/ns#"';
