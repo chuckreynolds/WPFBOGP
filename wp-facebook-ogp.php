@@ -40,27 +40,26 @@ add_filter('language_attributes','wpfbogp_namespace');
 // function to call first uploaded image in content
 function wpfbogp_first_image() {
 	global $post, $posts;
-	$wpfbogp_first_img = '';
-	ob_start();
-	ob_end_clean();
-	$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
-	// avoid undefined offset error in case there are no matches
-	if (count($matches[1]) == 0) {
+	
+	// Grab filtered content (so all shorttags are fired) and match first image
+	$content = apply_filters( 'the_content', $post->post_content );
+	$output = preg_match( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
+	
+	// Make sure there was an image that was found, otherwise return false
+	if ( $output === FALSE || empty( $matches[1] ) ) {
 		return false;
 	}
-	$wpfbogp_first_img = $matches [1] [0];
-	if(empty($wpfbogp_first_img)){ // return false if nothing there, makes life easier
-		return false;
+	
+	// Assign to an easier variable
+	$wpfbogp_first_img = $matches[1];
+	
+	// If the image path is relative, add the site url to the beginning
+	if ( ! preg_match('/^https?:\/\//', $wpfbogp_first_img ) ) {
+		// Remove any starting slash with ltrim() and add one to the end of site_url()
+		$wpfbogp_first_img = site_url( '/' ) . ltrim( $wpfbogp_first_img, '/' );
 	}
-	// if no base url in image path lets make one
-	$img_src = $wpfbogp_first_img;
-	if(!preg_match('/^https?:\/\//', $img_src)) {
-		if($img_src[0]!='/') {
-			$img_src = '/'.$img_src;
-		}
-		$img_src = home_url().$img_src;
-	}
-	return $img_src;
+	
+	return $wpfbogp_first_img;
 }
 
 function start_output_buffer() {
@@ -165,7 +164,7 @@ function wpfbogp_build_head() {
 			} elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'thumbnail' );
 				$wpfbogp_image = $thumbnail_src[0];
-			}elseif ( wpfbogp_first_image() !== false && is_singular() ) {
+			} elseif ( wpfbogp_first_image() !== false && is_singular() ) {
 				$wpfbogp_image = wpfbogp_first_image();
 			} else {
 				if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
