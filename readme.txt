@@ -1,5 +1,5 @@
 === WP Facebook Open Graph protocol ===
-Contributors: ryno267
+Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
 Tags: facebook, open graph, ogp, google +1, +1, google plus one, plus one, facebook meta, open graph meta, featured image, facebook share, facebook like 
 Requires at least: 3.0
@@ -48,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The FB OGP Admin options panel has all the control laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 1.6.1 =
+Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/ no seo plugins. It worked on all testing sites but obviously I need to test a little more. Standby
+
 = 1.6 =
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 

@@ -24,7 +24,7 @@ License: GPL2
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
-// changes since 1.6
+// changes since 1.6.1
 // 
 // 
 
@@ -104,7 +104,14 @@ function wpfbogp_build_head() {
 		}
 		
 		// do title stuff
-		echo "\t<meta property='og:title' content='".wp_title('', false)."' />\n";
+		if (is_home() || is_front_page() ) {
+			echo "\t<meta property='og:title' content='".get_bloginfo('name')."' />\n";
+		}else{
+			echo "\t<meta property='og:title' content='".get_the_title()."' />\n";
+		}
+		// initial 1.6 change but issues w/ peeps not using seo plugins.
+		// need a better way to handle 'naked sites'. Will fix soonish; standby...
+		// echo "\t<meta property='og:title' content='".wp_title('', false)."' />\n";
 		
 		// do additional randoms
 		echo "\t<meta property='og:site_name' content='".get_bloginfo('name')."' />\n";
