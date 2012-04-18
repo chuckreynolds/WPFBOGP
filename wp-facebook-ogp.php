@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 // changes since 1.6.1
-// 
+// remove og:page_id from plugin as now depreciated april 2012 https://developers.facebook.com/docs/insights/
 // 
 
 define('WPFBOGP_VERSION', '1.7b');
@@ -91,9 +91,6 @@ function wpfbogp_build_head() {
 		}
 		if (isset($options['wpfbogp_app_id']) && $options['wpfbogp_app_id'] != '') {
 			echo "\t<meta property='fb:app_id' content='".esc_attr($options['wpfbogp_app_id'])."' />\n";
-		}
-		if (isset($options['wpfbogp_page_id']) && $options['wpfbogp_page_id'] != '') {
-			echo "\t<meta property='fb:page_id' content='".esc_attr($options['wpfbogp_page_id'])."' />\n";
 		}
 		
 		// do url stuff
@@ -246,12 +243,6 @@ function wpfbogp_buildpage() {
 					<?php _e('For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://www.facebook.com/developers/apps.php" target="_blank">Create FB App</a>.') ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Facebook Page ID:') ?><br />
-					<em>(Optional)</em></th>
-				<td><input type="text" name="wpfbogp[wpfbogp_page_id]" value="<?php echo $options['wpfbogp_page_id']; ?>" class="regular-text" /><br />
-					<?php _e('For associating this site with a Facebook Page for Insights. This is completely optional.') ?></td>
-			</tr>
-			<tr valign="top">
 				<th scope="row"><?php _e('Default Image URL to use:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
 					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content. The image is recommended to be 200px by 200px.<br />
@@ -280,7 +271,6 @@ function wpfbogp_buildpage() {
 function wpfbogp_validate($input) {
 	$input['wpfbogp_admin_ids'] = wp_filter_nohtml_kses($input['wpfbogp_admin_ids']);
 	$input['wpfbogp_app_id'] = wp_filter_nohtml_kses($input['wpfbogp_app_id']);
-	$input['wpfbogp_page_id'] = wp_filter_nohtml_kses($input['wpfbogp_page_id']);
 	$input['wpfbogp_fallback_img'] = wp_filter_nohtml_kses($input['wpfbogp_fallback_img']);
 	$input['wpfbogp_force_fallback'] = isset($input['wpfbogp_force_fallback']) ? 1 : 0;
 	return $input;
