@@ -38,28 +38,28 @@ function wpfbogp_namespace($output) {
 add_filter('language_attributes','wpfbogp_namespace');
 
 // function to call first uploaded image in content
-function wpfbogp_first_image() {
+function wpfbogp_find_images() {
 	global $post, $posts;
 	
 	// Grab filtered content (so all shorttags are fired) and match first image
 	$content = apply_filters( 'the_content', $post->post_content );
-	$output = preg_match( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
+	$output = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
 	
 	// Make sure there was an image that was found, otherwise return false
-	if ( $output === FALSE || empty( $matches[1] ) ) {
+	if ( $output === FALSE ) {
 		return false;
 	}
 	
-	// Assign to an easier variable
-	$wpfbogp_first_img = $matches[1];
-	
-	// If the image path is relative, add the site url to the beginning
-	if ( ! preg_match('/^https?:\/\//', $wpfbogp_first_img ) ) {
-		// Remove any starting slash with ltrim() and add one to the end of site_url()
-		$wpfbogp_first_img = site_url( '/' ) . ltrim( $wpfbogp_first_img, '/' );
+	foreach ( $matches[1] as $match ) {
+		// If the image path is relative, add the site url to the beginning
+		if ( ! preg_match('/^https?:\/\//', $match ) ) {
+			// Remove any starting slash with ltrim() and add one to the end of site_url()
+			$match = site_url( '/' ) . ltrim( $match, '/' );
+		}
+		$wpfbogp_images[] = $match;
 	}
 	
-	return $wpfbogp_first_img;
+	return $wpfbogp_images;
 }
 
 function start_output_buffer() {
@@ -152,36 +152,33 @@ function wpfbogp_build_head() {
 		}
 		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '">' . "\n";
 		
-		// do image tricks
-		$wpfbogp_image = '';
-		if ( is_home() ) {
-			if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
-				$wpfbogp_image = $options['wpfbogp_fallback_img'];
-			} else {
-				echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
-			}
-		} else {
-			if ( $options['wpfbogp_force_fallback'] == 1 ) {
-				if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
-					$wpfbogp_image = $options['wpfbogp_fallback_img'];
-				} else {
-					echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
-				}
-			} elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'thumbnail' );
-				$wpfbogp_image = $thumbnail_src[0];
-			} elseif ( wpfbogp_first_image() !== false && is_singular() ) {
-				$wpfbogp_image = wpfbogp_first_image();
-			} else {
-				if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
-					$wpfbogp_image = $options['wpfbogp_fallback_img'];
-				} else {
-					echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
-				}
+		// Find/output any images for use in the OGP tags
+		$wpfbogp_images = array();
+		
+		// Only find images if it isn't the homepage and the fallback isn't being forced
+		if ( ! is_home() && $options['wpfbogp_force_fallback'] != 1 ) {
+			// Find featured thumbnail of the current post/page
+			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' );
+				$wpfbogp_images[] = $thumbnail_src[0]; // Add to images array
+			} elseif ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
+				$wpfbogp_images = wpfbogp_find_images(); // Returns an array already
 			}
 		}
-		if ( ! empty( $wpfbogp_image ) ) {
-			echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $wpfbogp_image ) ) . '">' . "\n";
+		
+		// Add the fallback image to the images array (which is empty if it's being forced)
+		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
+			$wpfbogp_images[] = $options['wpfbogp_fallback_img']; // Add to images array
+		}
+		
+		// Make sure there were images passed as an array and loop through/output each
+		if ( ! empty( $wpfbogp_images ) && is_array( $wpfbogp_images ) ) {
+			foreach ( $wpfbogp_images as $image ) {
+				echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '">' . "\n";
+			}
+		} else {
+			// No images were outputted because they have no default image (at the very least)
+			echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 		}
 		
 		// do locale
