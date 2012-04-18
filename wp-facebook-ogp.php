@@ -89,7 +89,7 @@ function flush_buffer() {
 	$content = ob_get_contents();
 	$title = preg_match( '/<title>(.*)<\/title>/', $content, $matches );
 	
-	$content = preg_replace( "/<meta property='og:title' content='(.*)' \/>/", "<meta property='og:title' content='" . strip_tags( $matches[0] ) . "' />", $content );
+	$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . strip_tags( $matches[0] ) . '">', $content );
 	
 	ob_end_clean();
 	
@@ -104,90 +104,96 @@ function wpfbogp_build_head() {
 	global $post;
 	$options = get_option('wpfbogp');
 	// check to see if you've filled out one of the required fields and announce if not
-	if ((!isset($options['wpfbogp_admin_ids']) || empty($options['wpfbogp_admin_ids'])) && (!isset($options['wpfbogp_app_id']) || empty($options['wpfbogp_app_id']))) {
-		echo "\n\t<!-- Facebook Open Graph protocol plugin NEEDS an admin or app ID to work, please visit the plugin settings page! -->\n\n";
-	}else{
-		echo "\n\t<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
+	if ( ( ! isset( $options['wpfbogp_admin_ids'] ) || empty( $options['wpfbogp_admin_ids'] ) ) && ( ! isset( $options['wpfbogp_app_id'] ) || empty( $options['wpfbogp_app_id'] ) ) ) {
+		echo "<!-- Facebook Open Graph protocol plugin NEEDS an admin or app ID to work, please visit the plugin settings page! -->\n";
+	} else {
+		echo "<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
 		
 		// do fb verification fields
-		if (isset($options['wpfbogp_admin_ids']) && $options['wpfbogp_admin_ids'] != '') {
-			echo "\t<meta property='fb:admins' content='".esc_attr($options['wpfbogp_admin_ids'])."' />\n";
+		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
+			$wpfbogp_app_id = $options['wpfbogp_admin_ids'];
 		}
-		if (isset($options['wpfbogp_app_id']) && $options['wpfbogp_app_id'] != '') {
-			echo "\t<meta property='fb:app_id' content='".esc_attr($options['wpfbogp_app_id'])."' />\n";
+		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
+			$wpfbogp_app_id = $options['wpfbogp_app_id'];
 		}
+		echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $wpfbogp_app_id ) ) . '">' . "\n";
 		
 		// do url stuff
 		if (is_home() || is_front_page() ) {
-			echo "\t<meta property='og:url' content='".get_bloginfo('url')."' />\n";
-		}else{
-			echo "\t<meta property='og:url' content='http" . (isset($_SERVER['HTTPS'])?'s':'') . "://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']."' />\n";
+			$wpfbogp_url = get_bloginfo( 'url' );
+		} else {
+			$wpfbogp_url = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . "://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
+		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '">' . "\n";
 		
 		// do title stuff
 		if (is_home() || is_front_page() ) {
-			echo "\t<meta property='og:title' content='".get_bloginfo('name')."' />\n";
-		}else{
-			echo "\t<meta property='og:title' content='".get_the_title()."' />\n";
+			$wpfbogp_title = get_bloginfo( 'name' );
+		} else {
+			$wpfbogp_title = get_the_title();
 		}
-		// initial 1.6 change but issues w/ peeps not using seo plugins.
-		// need a better way to handle 'naked sites'. Will fix soonish; standby...
-		// echo "\t<meta property='og:title' content='".wp_title('', false)."' />\n";
+		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '">' . "\n";
 		
 		// do additional randoms
-		echo "\t<meta property='og:site_name' content='".get_bloginfo('name')."' />\n";
+		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '">' . "\n";
 		
 		// do descriptions
-		if (is_singular()) {
-			if (has_excerpt($post->ID)) {
-				echo "\t<meta property='og:description' content='".esc_attr(strip_tags(get_the_excerpt($post->ID)))."' />\n";
-			}else{
-				echo "\t<meta property='og:description' content='".esc_attr(str_replace("\r\n",' ',substr(strip_tags(strip_shortcodes($post->post_content)), 0, 160)))."' />\n";
-			}
-		}else{
-			echo "\t<meta property='og:description' content='".get_bloginfo('description')."' />\n";
-		}
-		
-		// do ogp type
-		if (is_singular()) {
-			echo "\t<meta property='og:type' content='article' />\n";
-		}else{
-			echo "\t<meta property='og:type' content='website' />\n";
-		}
-		
-		// do image tricks
-		if (is_home()) {
-			if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
-				echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
-			}else{
-				echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+		if ( is_singular() ) {
+			if ( has_excerpt( $post->ID ) ) {
+				$wpfbogp_description = strip_tags( get_the_excerpt( $post->ID ) );
+			} else {
+				$wpfbogp_description = str_replace( "\r\n", ' ' , substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160 ) );
 			}
 		} else {
-			if ($options['wpfbogp_force_fallback'] == 1) {
-				if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
-					echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
-				}else{
-					echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+			$wpfbogp_description = get_bloginfo( 'description' );
+		}
+		echo '<meta property="og:description" content="' . esc_attr( apply_filters( 'wpfbogp_description', $wpfbogp_description ) ) . '">' . "\n";
+		
+		// do ogp type
+		if ( is_singular() ) {
+			$wpfbogp_type = 'article';
+		} else {
+			$wpfbogp_type = 'website';
+		}
+		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '">' . "\n";
+		
+		// do image tricks
+		$wpfbogp_image = '';
+		if ( is_home() ) {
+			if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
+				$wpfbogp_image = $options['wpfbogp_fallback_img'];
+			} else {
+				echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+			}
+		} else {
+			if ( $options['wpfbogp_force_fallback'] == 1 ) {
+				if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
+					$wpfbogp_image = $options['wpfbogp_fallback_img'];
+				} else {
+					echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 				}
-			}elseif ((function_exists('has_post_thumbnail')) && (has_post_thumbnail($post->ID))) {
+			} elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'thumbnail' );
-				echo "\t<meta property='og:image' content='".esc_attr($thumbnail_src[0])."' />\n";
-			}elseif (( wpfbogp_first_image() !== false ) && (is_singular())) {
-				echo "\t<meta property='og:image' content='".wpfbogp_first_image()."' />\n";
-			}else{
-				if (isset($options['wpfbogp_fallback_img']) && $options['wpfbogp_fallback_img'] != '') {
-					echo "\t<meta property='og:image' content='".$options['wpfbogp_fallback_img']."' />\n";
-				}else{
-					echo "\t<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+				$wpfbogp_image = $thumbnail_src[0];
+			}elseif ( wpfbogp_first_image() !== false && is_singular() ) {
+				$wpfbogp_image = wpfbogp_first_image();
+			} else {
+				if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
+					$wpfbogp_image = $options['wpfbogp_fallback_img'];
+				} else {
+					echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 				}
 			}
 		}
+		if ( ! empty( $wpfbogp_image ) ) {
+			echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $wpfbogp_image ) ) . '">' . "\n";
+		}
+		
 		// do locale
-		echo "\t<meta property='og:locale' content='".esc_attr( get_locale() )."' />\n";
-		echo "\t<!-- // end wpfbogp -->\n\n";
-		} // end isset admin ids
-
-} // end function
+		echo '<meta property="og:locale" content="' . esc_attr( get_locale() ) . '">' . "\n";
+		echo "<!-- // end wpfbogp -->\n";
+	}
+}
 
 
 add_action('wp_head','wpfbogp_build_head',50);
@@ -323,10 +329,10 @@ function wpfbogp_fix_excerpts_exist() {
 function wpfbogp_add_settings_link($links, $file) {
 	static $this_plugin;
 	if (!$this_plugin) $this_plugin = plugin_basename(__FILE__);
-		if ($file == $this_plugin){
-			$settings_link = '<a href="options-general.php?page=wpfbogp">'.__("Settings","wpfbogp").'</a>';
-			array_unshift($links, $settings_link);
-		}
+	if ($file == $this_plugin){
+		$settings_link = '<a href="options-general.php?page=wpfbogp">'.__("Settings","wpfbogp").'</a>';
+		array_unshift($links, $settings_link);
+	}
 	return $links;
 }
 add_filter('plugin_action_links','wpfbogp_add_settings_link', 10, 2 );
@@ -334,8 +340,7 @@ add_filter('plugin_action_links','wpfbogp_add_settings_link', 10, 2 );
 // lets offer an actual clean uninstall and rem db row on uninstall
 if (function_exists('register_uninstall_hook')) {
     register_uninstall_hook(__FILE__, 'wpfbogp_uninstall_hook');
-		function wpfbogp_uninstall_hook() {
-			delete_option('wpfbogp');
-		}
+	function wpfbogp_uninstall_hook() {
+		delete_option('wpfbogp');
 	}
-?>
+}
