@@ -63,20 +63,15 @@ function wpfbogp_find_images() {
 }
 
 function start_output_buffer() {
-	global $buffered;
 	// Start the buffer before any output
-	$buffered = true;
 	ob_start();
 }
 
 function flush_buffer() {
-	global $buffered;
-	// Check to make sure start_output_buffer() was called
-	if ( ! $buffered ) return;
-	
 	// Get the entire page HTML output and grab the page title and meta description
 	$content = ob_get_contents();
 	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
+	
 	$decsription = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
 	
 	// Take page title and meta description and place it in the ogp meta tags
@@ -89,6 +84,7 @@ function flush_buffer() {
 	
 	// End output buffer and echo content
 	ob_end_clean();
+	
 	echo $content;
 }
 
