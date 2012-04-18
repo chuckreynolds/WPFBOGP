@@ -75,6 +75,30 @@ function wpfbogp_first_image() {
 	return $img_src;
 }
 
+function start_output_buffer() {
+	global $buffered;
+	$buffered = true;
+	ob_start();
+}
+
+function flush_buffer() {
+	global $buffered;
+	
+	if ( ! $buffered ) return;
+	
+	$content = ob_get_contents();
+	$title = preg_match( '/<title>(.*)<\/title>/', $content, $matches );
+	
+	$content = preg_replace( "/<meta property='og:title' content='(.*)' \/>/", "<meta property='og:title' content='" . strip_tags( $matches[0] ) . "' />", $content );
+	
+	ob_end_clean();
+	
+	echo $content;
+}
+
+add_action( 'get_header', 'start_output_buffer' );
+add_action( 'wp_footer', 'flush_buffer' );
+
 // build ogp meta
 function wpfbogp_build_head() {
 	global $post;
