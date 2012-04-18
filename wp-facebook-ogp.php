@@ -50,6 +50,7 @@ function wpfbogp_find_images() {
 		return false;
 	}
 	
+	$wpfbogp_images = array();
 	foreach ( $matches[1] as $match ) {
 		// If the image path is relative, add the site url to the beginning
 		if ( ! preg_match('/^https?:\/\//', $match ) ) {
