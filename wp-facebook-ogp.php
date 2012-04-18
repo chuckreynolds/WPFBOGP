@@ -77,27 +77,30 @@ function wpfbogp_first_image() {
 
 function start_output_buffer() {
 	global $buffered;
+	// Start the buffer before any output
 	$buffered = true;
 	ob_start();
 }
 
 function flush_buffer() {
 	global $buffered;
-	
+	// Check to make sure start_output_buffer() was called
 	if ( ! $buffered ) return;
 	
+	// Get the entire page HTML output and grab the content of <title></title>
 	$content = ob_get_contents();
-	$title = preg_match( '/<title>(.*)<\/title>/', $content, $matches );
+	$title = preg_match( '/<title>(.*?)<\/title>/siU', $content, $matches );
 	
-	$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . strip_tags( $matches[0] ) . '">', $content );
+	// Take page title and place it in the og:title meta tag
+	$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $matches[1] . '">', $content );
 	
+	// End output buffer and echo content
 	ob_end_clean();
-	
 	echo $content;
 }
 
 add_action( 'get_header', 'start_output_buffer' );
-add_action( 'wp_footer', 'flush_buffer' );
+add_action( 'wp_footer', 'flush_buffer', 15 ); // Fire after other plugins (which default to priority 10)
 
 // build ogp meta
 function wpfbogp_build_head() {
