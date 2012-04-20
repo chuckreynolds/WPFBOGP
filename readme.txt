@@ -1,53 +1,56 @@
 === WP Facebook Open Graph protocol ===
 Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
-Tags: facebook, open graph, ogp, google +1, +1, google plus one, plus one, facebook meta, open graph meta, featured image, facebook share, facebook like 
+Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
 Tested up to: 3.3.1
 Stable tag: trunk
 
-Adds the proper Facebook Open Graph Meta Tags and values to your site and/or blog so when your pages and posts are shared it looks awesome and provides Facebook with good data. 
-NEW: Plugin will work for the new +Snippets for Google +1 Button!
+Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome!
 
 == Description ==
-
-This plugin adds Facebook Open Graph Meta tag information to your site and properly designates if it's an article or a website page. The idea is to keep minimal settings and options as to remain out of your hair and in the background while still proving a powerful Open Graph plugin for your WordPress site.
-As of 08/24/2011 this plugin will also provide +Snippet data to the Google +1 Plus One Button.
+This plugin adds well executed and accurate Facebook Open Graph Meta tag information to your site. The idea is to keep minimal settings and options as to remain out of your way and in the background while still proving a powerful Open Graph plugin for your WordPress site. This plugin works on Facebook, Google Plus, and Linkedin.
 Shortname: WPFBOGP
 
 = Image Handling =
-The plugin will first look for a featured image. If there isn't one or your theme doesn't have those available, then it will pull the first image in the post/page content. If that isn't there either, then it will default to using the image you put into the plugin settings in the admin panel. If THAT isn't there then... well you fail and you won't have an image. The plugin will still work fine but it won't look as pretty on your Facebook wall. People click more on wall posts with images and your site will have better reader conversion with an image in the content. Fact.
-NEW as of 1.6: You can set the fallback image url as the default for everything site-wide. That's been a big request.
+By popular demand we've added a setting so the Fallback image in settings can be the default sitewide. If you don't check that box, here's now she works.
+The plugin will first look for a featured image. If there isn't one or your theme doesn't have those available, then it will pull the image(s) in the post/page content. If that isn't there either, then it will default to using the image you put into the plugin settings in the admin panel. If THAT isn't there then... well you fail and you won't have an image and we'll put a comment in your source to remind you to add one as Facebook requires one.
+New in 2.0 - We'll pull ALL those images and feed them to Facebook and Google + so you can hit the arrows to select which one you want. It will use the fallback image first IF it's selected as default, then will do featured image next and then any content images.
+Test with the <a href="http://developers.facebook.com/tools/debug">Facebook Debugger</a>.
 
 = Title and Description =
-On your home/index it will display your site name (from wp settings), otherwise will display whatever the page or post title is. If you have an SEO plugin installed, it should now pull that title (will work on the bigger popular seo plugins like yoasts and allinone). Description on single posts will first look for an excerpt and if that's not there it now will auto-generate one from the first 160 characters of the content. On main pages it will use the site description (from wp settings). I've updated it to do so due to popular request.
+New in 2.0, the plugin will use the title and meta description from ANY SEO plugin or theme, including Genesis and Thesis. Worst case it'll fall back to pulling some of your content as a last-ditch backup. But if you're concerned with what your Open Graph tags look like, then you should probably be running some kind of SEO plugin anyways. AMIRITE?
 
 = Testing Your Site =
 Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your post/page url's or your home page to see what info Facebook is pulling in. This tool is located here: <a href="http://developers.facebook.com/tools/debug">http://developers.facebook.com/tools/debug</a>
 
 = Plugin Roadmap =
-Working on getting more development time. Need to work on some styling for 3.4. Working on further integration with other meta plugins while keeping settings options minimal. I have a whole list of mods, just need time. Coming soon though!
+3.4 beta needs some admin styling.
+If you have feature requests? Use the form on <a href="http://rynoweb.com/wordpress-plugins/" title="rynoweb wordpress plugins">rYnoweb.com/WordPress-Plugins</a>
 
 == Installation ==
 
 1. Upload the `wp-facebook-ogp` folder to the `/wp-content/plugins/` directory
 1. Activate the WP Facebook OGP plugin through the 'Plugins' menu in WordPress
-1. You MUST add your Facebook ID to the Plugin Settings page for the plugin to produce OGP meta data
+1. You MUST add your Facebook ID OR an App ID to the Plugin Settings page for the plugin to produce OGP meta data. This is required by Facebook.
 
 == Frequently Asked Questions ==
 
 = Do I need to create a Facebook Application to use this plugin? =
 
-Short answer is no. Either your Facebook user ID or or an Application ID is a requirement. You don't need to register an app, just use your User ID (plugin admin helps you find that). You can have both App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: http://developers.facebook.com/docs/opengraph/#admin
+Short answer is no. Either your Facebook User ID or or an Application ID is a requirement. You don't need to register an app, just use your User ID (plugin admin settings page helps you find that). You can have both App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: https://developers.facebook.com/docs/insights/
 
 = Why doesn't this plugin have a Like/Send button? =
-Honestly it's not hard to add one once you have the proper meta content in the header. Look at <a href="http://developers.facebook.com/docs/opengraph/#plugins">how to add a Like button</a> using fb:like. I may consider incorporating a basic layout one if there's enough demand for it. Let me know -> <a href="http://twitter.com/chuckreynolds">@chuckreynolds</a>
+Honestly it's not hard to add one once you have the proper meta content in the header. Look at <a href="https://developers.facebook.com/docs/reference/plugins/like/">how to add a Like button</a> using fb:like. There are a lot of 'like' button plugins but this one focuses on solid and accurate Open Graph meta data. 
 
 == Screenshots ==
 
-1. The FB OGP Admin options panel has all the control laid out in one easy place. The rest is all behind the scenes.
+1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0 =
+BIG Update - now works with ALL SEO plugins for titles and descriptions, adds multiple images and other fixes!
+
 = 1.6.1 =
 Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/ no seo plugins. It worked on all testing sites but obviously I need to test a little more. Standby
 
@@ -55,8 +58,18 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 2.0 =
+* Now works with ALL SEO plugins AND Frameworks like Genesis and Thesis. It now grabs the actual outputted <title> tag and <meta> description after all SEO plugins/themes/etc have done their job.
+* New Open Graph feature allow multiple images therefore we now add all those properly for selection (in Facebook, Google +, and even now Linkedin) if there are more than one in the post/page in addition to any featured image and the fallback image in settings (only if force fallback isn't selected).
+* Removed og:page_id - Facebook depreciated that 1 April 2012.
+* Adds filters to all outputted values.
+* Images in Galleries work too now as we apply filters to the_content() before pulling images.
+* Some house cleaning: old functions removed, code cleaned up, and better follows WordPress coding standards.
+* Modified plugin settings help links - facebook keeps changing things :/
+* Last but certainly not least... Improves performance == WIN
+
 = 1.6.1 =
-Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/ no seo plugins. It worked on all testing sites but obviously I need to test a little more. Standby
+* Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/ no seo plugins. It worked on all testing sites but obviously I need to test a little more. Standby
 
 = 1.6 =
 * update help info and links as Facebook has changed a lot about their docs including image should be 200px square now
