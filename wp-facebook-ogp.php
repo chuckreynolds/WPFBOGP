@@ -63,34 +63,35 @@ function wpfbogp_find_images() {
 	return $wpfbogp_images;
 }
 
-function start_output_buffer() {
+function wpfbogp_start_ob() {
 	// Start the buffer before any output
 	ob_start();
 }
 
-function flush_buffer() {
+function wpfbogp_flush_ob() {
 	// Get the entire page HTML output and grab the page title and meta description
 	$content = ob_get_contents();
-	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
 	
+	// Grab the page title and meta description
+	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
 	$decsription = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
 	
 	// Take page title and meta description and place it in the ogp meta tags
-	if ( $title !== FALSE ) {
+	if ( $title !== FALSE && count( $title_matches ) == 2 ) {
 		$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $title_matches[1] . '">', $content );
 	}
-	if ( $description !== FALSE ) {
+	
+	if ( $description !== FALSE && count( $description_matches ) == 2 ) {
 		$content = preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . $description_matches[1] . '">', $content );
 	}
 	
-	// End output buffer and echo content
 	ob_end_clean();
 	
 	echo $content;
 }
 
-add_action( 'get_header', 'start_output_buffer' );
-add_action( 'wp_footer', 'flush_buffer', 15 ); // Fire after other plugins (which default to priority 10)
+add_action( 'init', 'wpfbogp_start_ob', 0 );
+add_action( 'wp_footer', 'wpfbogp_end_ob', 10000 ); // Fire after other plugins (which default to priority 10)
 
 // build ogp meta
 function wpfbogp_build_head() {
