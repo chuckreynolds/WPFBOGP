@@ -142,7 +142,7 @@ function wpfbogp_build_head() {
 		echo '<meta property="og:description" content="' . esc_attr( apply_filters( 'wpfbogp_description', $wpfbogp_description ) ) . '">' . "\n";
 		
 		// do ogp type
-		if ( is_singular() ) {
+		if ( is_single() ) {
 			$wpfbogp_type = 'article';
 		} else {
 			$wpfbogp_type = 'website';
