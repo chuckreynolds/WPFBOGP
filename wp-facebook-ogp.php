@@ -65,13 +65,10 @@ function wpfbogp_find_images() {
 
 function wpfbogp_start_ob() {
 	// Start the buffer before any output
-	ob_start();
+	ob_start( 'wpfbogp_callback' );
 }
 
-function wpfbogp_flush_ob() {
-	// Get the entire page HTML output and grab the page title and meta description
-	$content = ob_get_contents();
-	
+function wpfbogp_callback( $content ) {
 	// Grab the page title and meta description
 	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
 	$decsription = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
@@ -85,9 +82,11 @@ function wpfbogp_flush_ob() {
 		$content = preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . $description_matches[1] . '">', $content );
 	}
 	
-	ob_end_clean();
-	
-	echo $content;
+	return $content;
+}
+
+function wpfbogp_flush_ob() {
+	ob_end_flush();
 }
 
 add_action( 'init', 'wpfbogp_start_ob', 0 );
