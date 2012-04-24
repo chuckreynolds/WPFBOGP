@@ -3,8 +3,8 @@ Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
-Tested up to: 3.3.1
-Stable tag: trunk
+Tested up to: 3.3.2
+Stable tag: 2.0.1
 
 Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome!
 
@@ -48,6 +48,12 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.2 = 
+Fixes bug that would display a PHP warning with debug mode turned on.
+
+= 2.0.1 =
+Bug fixes for HTTPS/SSL pages, SEO plugins, force fallback images and more.
+
 = 2.0 =
 BIG Update - now works with ALL SEO plugins for titles and descriptions, adds multiple images and other fixes!
 
@@ -58,6 +64,15 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 2.0.2 =
+* Fixes bug that would display a PHP warning with debug mode turned on.
+
+= 2.0.1 =
+* Fixed bug where og:url was returning a https URL instead of http, causing Facebook Linter to fail. Now using the WordPress function is_ssl() instead of the $_SERVER global variable.
+* Fixed bug with some SEO plugins where the page title and meta description were not being pulled correctly.
+* Changed front pages to have the og:type 'website', not 'article'.
+* Fixed bug where the 'force fallback' checkbox will check itself after initial installation.
+
 = 2.0 =
 * Now works with ALL SEO plugins AND Frameworks like Genesis and Thesis. It now grabs the actual outputted <title> tag and <meta> description after all SEO plugins/themes/etc have done their job.
 * New Open Graph feature allow multiple images therefore we now add all those properly for selection (in Facebook, Google +, and even now Linkedin) if there are more than one in the post/page in addition to any featured image and the fallback image in settings (only if force fallback isn't selected).
