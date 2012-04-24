@@ -38,8 +38,8 @@ add_filter('language_attributes','wpfbogp_namespace');
 function wpfbogp_find_images() {
 	global $post, $posts;
 	
-	// Grab filtered content (so all shorttags are fired) and match first image
-	$content = apply_filters( 'the_content', $post->post_content );
+	// Grab content and match first image
+	$content = $post->post_content;
 	$output = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
 	
 	// Make sure there was an image that was found, otherwise return false
