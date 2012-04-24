@@ -4,7 +4,7 @@ Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
 Tested up to: 3.3.2
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome!
 
@@ -49,7 +49,7 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 
 == Upgrade Notice ==
 = 2.0.2 = 
-Fixes bug that would display a PHP warning with debug mode turned on.
+Fixes bug that caused a PHP warning to display and also fixes bugs with plugins not functioning properly when using content filters.
 
 = 2.0.1 =
 Bug fixes for HTTPS/SSL pages, SEO plugins, force fallback images and more.
@@ -66,6 +66,7 @@ Because we're getting more accurate titles you may see a change in how they're p
 == Changelog ==
 = 2.0.2 =
 * Fixes bug that would display a PHP warning with debug mode turned on.
+* Removed code that would filter the_content() which caused problems with plugins that also used that same filter.
 
 = 2.0.1 =
 * Fixed bug where og:url was returning a https URL instead of http, causing Facebook Linter to fail. Now using the WordPress function is_ssl() instead of the $_SERVER global variable.
