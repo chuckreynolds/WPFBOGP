@@ -177,9 +177,8 @@ function wpfbogp_build_head() {
 			echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
 		}
 		
-		// do locale
+		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
 		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '">' . "\n";
-		// echo '<meta property="og:locale" content="' . esc_attr( get_locale() ) . '">' . "\n";
 		echo "<!-- // end wpfbogp -->\n";
 	}
 }

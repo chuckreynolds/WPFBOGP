@@ -4,7 +4,7 @@ Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
 Tested up to: 3.3.2
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 
 Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome!
 
@@ -48,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.3 =
+This update should fix the "Parser Mismatched Metadata" warnings Facebook started throwing.
+
 = 2.0.2 = 
 Fixes bug that caused a PHP warning to display and also fixes bugs with plugins not functioning properly when using content filters.
 
@@ -64,6 +67,9 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 2.0.3 =
+* Should fix the "Parser Mismatched Metadata" warnings Facebook started throwing. Made locale all lowercase.
+
 = 2.0.2 =
 * Fixes bug that would display a PHP warning with debug mode turned on.
 * Removed code that would filter the_content() which caused problems with plugins that also used that same filter.
