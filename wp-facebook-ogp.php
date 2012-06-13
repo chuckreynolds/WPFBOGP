@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google + and Linkedin too!
-Version: 2.0.3
+Version: 2.0.4
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -25,7 +25,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '2.0.3');
+define('WPFBOGP_VERSION', '2.0.4');
 wpfbogp_admin_warnings();
 
 // add OGP namespace per ogp.me schema
@@ -153,7 +153,7 @@ function wpfbogp_build_head() {
 		if ( ! is_home() && $options['wpfbogp_force_fallback'] != 1 ) {
 			// Find featured thumbnail of the current post/page
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' );
+				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
 				$wpfbogp_images[] = $thumbnail_src[0]; // Add to images array
 			}
 			
@@ -182,7 +182,6 @@ function wpfbogp_build_head() {
 		echo "<!-- // end wpfbogp -->\n";
 	}
 }
-
 
 add_action('wp_head','wpfbogp_build_head',50);
 add_action('admin_init','wpfbogp_init');
@@ -263,7 +262,7 @@ function wpfbogp_buildpage() {
 			<tr valign="top">
 				<th scope="row"><?php _e('Default Image URL to use:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
-					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content. The image is recommended to be 200px by 200px.<br />
+					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content. <strong>The image is recommended to be 200px by 200px</strong>.<br />
 					You can use the WordPress <a href="upload.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
 			</tr>
 			<tr valign="top">
