@@ -68,7 +68,7 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
-= 2.0.4=
+= 2.0.4 =
 * Image size for OpenGraph now defaults to medium for thumbnail image
 * updated screenshot. it was from v1 so was about time
 
