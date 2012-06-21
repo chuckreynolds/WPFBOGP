@@ -281,7 +281,7 @@ function wpfbogp_buildpage() {
 	</div>
 	</div>
 </div>
-<?php	
+<?php
 }
 
 // sanitize inputs. accepts an array, return a sanitized array.
