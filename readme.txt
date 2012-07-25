@@ -71,6 +71,7 @@ Because we're getting more accurate titles you may see a change in how they're p
 = 2.0.4 =
 * Image size for OpenGraph now defaults to medium for thumbnail image
 * updated screenshot. it was from v1 so was about time
+* fixed grammar error - props Jeff K.
 
 = 2.0.3 =
 * Should fix the "Parser Mismatched Metadata" warnings Facebook started throwing. Made locale all lowercase.
