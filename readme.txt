@@ -3,8 +3,8 @@ Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 2.0.4
+Tested up to: 3.4.2
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,13 +21,13 @@ New in 2.0 - We'll pull ALL those images and feed them to Facebook and Google + 
 Test with the <a href="http://developers.facebook.com/tools/debug">Facebook Debugger</a>.
 
 = Title and Description =
-New in 2.0, the plugin will use the title and meta description from ANY SEO plugin or theme, including Genesis and Thesis. Worst case it'll fall back to pulling some of your content as a last-ditch backup. But if you're concerned with what your Open Graph tags look like, then you should probably be running some kind of SEO plugin anyways. AMIRITE?
+New in 2.0+, the plugin will use the title and meta description from ANY SEO plugin or theme, including Genesis and Thesis. Worst case it'll fall back to pulling some of your content as a last-ditch backup. But if you're concerned with what your Open Graph tags look like, then you should probably be running some kind of SEO plugin anyways. AMIRITE?
 
 = Testing Your Site =
 Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your post/page url's or your home page to see what info Facebook is pulling in. This tool is located here: <a href="http://developers.facebook.com/tools/debug">http://developers.facebook.com/tools/debug</a>
 
 = Plugin Roadmap =
-If you have feature requests? Use the form on <a href="http://rynoweb.com/wordpress-plugins/" title="rynoweb wordpress plugins">rYnoweb.com/WordPress-Plugins</a>
+If you have feature requests or bugs? Use the support links on <a href="http://rynoweb.com/wordpress-plugins/" title="rynoweb wordpress plugins">rYnoweb.com/WordPress-Plugins</a> and get in touch.
 
 == Installation ==
 
@@ -38,8 +38,7 @@ If you have feature requests? Use the form on <a href="http://rynoweb.com/wordpr
 == Frequently Asked Questions ==
 
 = Do I need to create a Facebook Application to use this plugin? =
-
-Short answer is no. Either your Facebook User ID or or an Application ID is a requirement. You don't need to register an app, just use your User ID (plugin admin settings page helps you find that). You can have both App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: https://developers.facebook.com/docs/insights/
+No. Either your Facebook User ID or or an Application ID is a requirement. You're not required to register an app, instead just use your User ID (plugin admin settings page helps you find that). You can use both an App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: https://developers.facebook.com/docs/insights/
 
 = Why doesn't this plugin have a Like/Send button? =
 Honestly it's not hard to add one once you have the proper meta content in the header. Look at <a href="https://developers.facebook.com/docs/reference/plugins/like/">how to add a Like button</a> using fb:like. There are a lot of 'like' button plugins but this one focuses on solid and accurate Open Graph meta data. 
@@ -49,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.5 =
+Fixes issues with dollar signs and special characters in titles and descriptions
+
 = 2.0.3 =
 This update should fix the "Parser Mismatched Metadata" warnings Facebook started throwing.
 
@@ -68,6 +70,9 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 2.0.5 =
+* Short: Dollar signs in titles were screwing things up. Long Story: Fixed a bug where preg_replace() would think a dollar sign in the argument is a backreference, instead of just a dollar sign. Now using preg_quote() to escape all regex variables/symbols in a string. Makes things mo betta!
+
 = 2.0.4 =
 * Image size for OpenGraph now defaults to medium for thumbnail image
 * updated screenshot. it was from v1 so was about time
