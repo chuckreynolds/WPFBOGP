@@ -72,11 +72,11 @@ function wpfbogp_callback( $content ) {
 	
 	// Take page title and meta description and place it in the ogp meta tags
 	if ( $title !== FALSE && count( $title_matches ) == 2 ) {
-		$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $title_matches[1] . '">', $content );
+		$content = stripslashes( preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . preg_quote( $title_matches[1] ) . '">', $content ) );
 	}
 	
 	if ( $description !== FALSE && count( $description_matches ) == 2 ) {
-		$content = preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . $description_matches[1] . '">', $content );
+		$content = stripslashes( preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . preg_quote( $description_matches[1] ) . '">', $content ) );
 	}
 	
 	return $content;
