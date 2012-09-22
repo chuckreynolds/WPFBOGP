@@ -3,7 +3,7 @@
 Plugin Name: WP Facebook Open Graph protocol
 Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
 Description: Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google + and Linkedin too!
-Version: 2.0.6
+Version: 2.0.7b
 Author: Chuck Reynolds
 Author URI: http://chuckreynolds.us
 License: GPL2
@@ -24,8 +24,11 @@ License: GPL2
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
+/* beta change notes to keep track - will remove this into readme before final push
+- added back self-close on meta tags to preserve xhtml compat, html5 is forgiving. core does this.
+*/
 
-define('WPFBOGP_VERSION', '2.0.6');
+define('WPFBOGP_VERSION', '2.0.7b');
 wpfbogp_admin_warnings();
 
 // add OGP namespace per ogp.me schema
@@ -101,10 +104,10 @@ function wpfbogp_build_head() {
 		
 		// do fb verification fields
 		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
-			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '">' . "\n";
+			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '"/>' . "\n";
 		}
 		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
-			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '">' . "\n";
+			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '"/>' . "\n";
 		}
 		
 		// do url stuff
@@ -113,7 +116,7 @@ function wpfbogp_build_head() {
 		} else {
 			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
-		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '">' . "\n";
+		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '"/>' . "\n";
 		
 		// do title stuff
 		if (is_home() || is_front_page() ) {
@@ -121,10 +124,10 @@ function wpfbogp_build_head() {
 		} else {
 			$wpfbogp_title = get_the_title();
 		}
-		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '">' . "\n";
+		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '"/>' . "\n";
 		
 		// do additional randoms
-		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '">' . "\n";
+		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>' . "\n";
 		
 		// do descriptions
 		if ( is_singular() ) {
@@ -136,7 +139,7 @@ function wpfbogp_build_head() {
 		} else {
 			$wpfbogp_description = get_bloginfo( 'description' );
 		}
-		echo '<meta property="og:description" content="' . esc_attr( apply_filters( 'wpfbogp_description', $wpfbogp_description ) ) . '">' . "\n";
+		echo '<meta property="og:description" content="' . esc_attr( apply_filters( 'wpfbogp_description', $wpfbogp_description ) ) . '"/>' . "\n";
 		
 		// do ogp type
 		if ( is_single() ) {
@@ -144,7 +147,7 @@ function wpfbogp_build_head() {
 		} else {
 			$wpfbogp_type = 'website';
 		}
-		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '">' . "\n";
+		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '"/>' . "\n";
 		
 		// Find/output any images for use in the OGP tags
 		$wpfbogp_images = array();
@@ -170,7 +173,7 @@ function wpfbogp_build_head() {
 		// Make sure there were images passed as an array and loop through/output each
 		if ( ! empty( $wpfbogp_images ) && is_array( $wpfbogp_images ) ) {
 			foreach ( $wpfbogp_images as $image ) {
-				echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '">' . "\n";
+				echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '"/>' . "\n";
 			}
 		} else {
 			// No images were outputted because they have no default image (at the very least)
@@ -178,7 +181,7 @@ function wpfbogp_build_head() {
 		}
 		
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
-		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '">' . "\n";
+		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '"/>' . "\n";
 		echo "<!-- // end wpfbogp -->\n";
 	}
 }
