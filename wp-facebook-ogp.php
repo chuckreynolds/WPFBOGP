@@ -71,7 +71,7 @@ function wpfbogp_start_ob() {
 function wpfbogp_callback( $content ) {
 	// Grab the page title and meta description
 	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
-	$decsription = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
+	$description = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
 	
 	// Take page title and meta description and place it in the ogp meta tags
 	if ( $title !== FALSE && count( $title_matches ) == 2 ) {
