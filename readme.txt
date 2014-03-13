@@ -3,8 +3,8 @@ Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 2.0.7
+Tested up to: 3.5
+Stable tag: 2.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.8 =
+fixes feed problems some people are having. this is an interm upgrade before the massive rewrite coming soon
+
 = 2.0.7 =
 fixes bug with certain plugins not showing description tags properly
 
@@ -76,6 +79,11 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 2.0.8 =
+* update html namespace to prefix (ogp.me) from xmlns (facebook)
+* dont run buffer if in a feed
+* fixed media uploader link
+
 = 2.0.7 =
 * fixes bug with certain plugins not showing description tags properly
 * added back self-close on meta tags to preserve xhtml compatability, html5 is forgiving. core does this.

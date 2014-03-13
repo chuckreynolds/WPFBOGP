@@ -1,39 +1,36 @@
 <?php 
 /*
-Plugin Name: WP Facebook Open Graph protocol
-Plugin URI: http://wordpress.org/extend/plugins/wp-facebook-open-graph-protocol/
-Description: Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google + and Linkedin too!
-Version: 2.0.8b
-Author: Chuck Reynolds
-Author URI: http://chuckreynolds.us
-License: GPL2
-*/
-/*
-	Copyright 2011 WordPress Facebook Open Graph protocol plugin (email: chuck@rynoweb.com)
-	
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as 
-	published by the Free Software Foundation.
-	
-	This program is distributed in the hope that it will be useful, 
-	but WITHOUT ANY WARRANTY; without even the implied warranty of 
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-	GNU General Public License for more details.
-	
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-*/
-/* LIST UPDATES WHILE IN BETA
-- nothing yet... fresh same as 2.0.7 right now...
+Plugin Name:    WP Facebook Open Graph protocol
+Plugin URI:     http://wordpress.org/plugins/wp-facebook-open-graph-protocol/
+Description:    Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google + and Linkedin too!
+Version: 		2.0.8
+Author: 		Chuck Reynolds
+Author URI: 	http://chuckreynolds.us
+License:		GPLv2 or later
+License URI: 	http://www.gnu.org/licenses/gpl-2.0.html
+
+Copyright 2014 Chuck Reynolds (email : chuck@rynoweb.com)
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License, version 2, as
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '2.0.8b');
+define('WPFBOGP_VERSION', '2.0.8');
 wpfbogp_admin_warnings();
 
 // add OGP namespace per ogp.me schema
 function wpfbogp_namespace($output) {
-	return $output.' xmlns:og="http://ogp.me/ns#"';
+	return $output.' prefix="og: http://ogp.me/ns#"';
 }
 add_filter('language_attributes','wpfbogp_namespace');
 
@@ -65,7 +62,9 @@ function wpfbogp_find_images() {
 
 function wpfbogp_start_ob() {
 	// Start the buffer before any output
-	ob_start( 'wpfbogp_callback' );
+	if ( ! is_feed() ) {
+		ob_start( 'wpfbogp_callback' );
+	}
 }
 
 function wpfbogp_callback( $content ) {
@@ -86,7 +85,9 @@ function wpfbogp_callback( $content ) {
 }
 
 function wpfbogp_flush_ob() {
-	ob_end_flush();
+	if ( ! is_feed() ) {
+		ob_end_flush();
+	}
 }
 
 add_action( 'init', 'wpfbogp_start_ob', 0 );
@@ -266,7 +267,7 @@ function wpfbogp_buildpage() {
 				<th scope="row"><?php _e('Default Image URL to use:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br />
 					<?php _e('Full URL including http:// to the default image to use if your posts/pages don\'t have a featured image or an image in the content. <strong>The image is recommended to be 200px by 200px</strong>.<br />
-					You can use the WordPress <a href="upload.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
+					You can use the WordPress <a href="media-new.php">media uploader</a> if you wish, just copy the location of the image and put it here.') ?></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Force Fallback Image as Default') ?></th>
