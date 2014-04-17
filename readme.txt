@@ -3,8 +3,8 @@ Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 2.0.8
+Tested up to: 3.9
+Stable tag: 2.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ New in 2.0+, the plugin will use the title and meta description from ANY SEO plu
 Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your post/page url's or your home page to see what info Facebook is pulling in. This tool is located here: <a href="http://developers.facebook.com/tools/debug">http://developers.facebook.com/tools/debug</a>
 
 = Plugin Roadmap =
-If you have feature requests or bugs? Use the support links on <a href="http://rynoweb.com/wordpress-plugins/" title="rynoweb wordpress plugins">rYnoweb.com/WordPress-Plugins</a> and get in touch.
+If you have feature requests or bugs? Use the support links on <a href="http://rynoweb.com/wordpress-plugins/?utm_source=wpfbogp_readme" title="rynoweb wordpress plugins">rYnoweb.com/WordPress-Plugins</a> and get in touch.
 
 == Installation ==
 
@@ -48,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.9 =
+uses large size thumbnail instead of medium. bigger is better!
+
 = 2.0.8 =
 fixes feed problems some people are having. this is an interm upgrade before the massive rewrite coming soon
 
@@ -79,6 +82,9 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 2.0.9 =
+* bump og:image size to large like beta/dev version. bigger is better. but size doesn't matter? well it's large now
+
 = 2.0.8 =
 * update html namespace to prefix (ogp.me) from xmlns (facebook)
 * dont run buffer if in a feed
