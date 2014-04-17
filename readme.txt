@@ -84,6 +84,7 @@ Because we're getting more accurate titles you may see a change in how they're p
 == Changelog ==
 = 2.0.9 =
 * bump og:image size to large like beta/dev version. bigger is better. but size doesn't matter? well it's large now
+* tested to WP3.9
 
 = 2.0.8 =
 * update html namespace to prefix (ogp.me) from xmlns (facebook)
