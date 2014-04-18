@@ -4,7 +4,7 @@ Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 2.0.9
+Stable tag: 2.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+= 2.0.10 =
+* Remove deprecated argument from `get_the_excerpt`. Fixes PHP Notice. props -> github.com/jjeaton
+
 = 2.0.9 =
 * bump og:image size to large like beta/dev version. bigger is better. but size doesn't matter? well it's large now
 * tested to WP3.9
