@@ -39,7 +39,7 @@ function wpfbogp_find_images() {
 	global $post, $posts;
 
 	if( !is_object($post) || get_class($post) != 'WP_Post' ) {
-		return [];
+		return array();
 	}
 
 	// Grab content and match first image
