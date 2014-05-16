@@ -3,7 +3,7 @@
 Plugin Name:    WP Facebook Open Graph protocol
 Plugin URI:     http://wordpress.org/plugins/wp-facebook-open-graph-protocol/
 Description:    Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google + and Linkedin too!
-Version: 		2.0.10
+Version: 		2.0.11
 Author: 		Chuck Reynolds
 Author URI: 	http://chuckreynolds.us
 License:		GPLv2 or later
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '2.0.10');
+define('WPFBOGP_VERSION', '2.0.11');
 wpfbogp_admin_warnings();
 
 // add OGP namespace per ogp.me schema
@@ -158,7 +158,12 @@ function wpfbogp_build_head() {
 			// Find featured thumbnail of the current post/page
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
-				$wpfbogp_images[] = $thumbnail_src[0]; // Add to images array
+				$link = $thumbnail_src[0];
+ 				if ( ! preg_match( '/^https?:\/\//', $link ) ) {
+ 					// Remove any starting slash with ltrim() and add one to the end of site_url()
+					$link = site_url( '/' ) . ltrim( $link, '/' );
+				}
+				$wpfbogp_images[] = $link; // Add to images array
 			}
 			
 			if ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
