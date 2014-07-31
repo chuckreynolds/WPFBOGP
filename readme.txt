@@ -48,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.11 =
+Fixes an issue some had with thumbnail image paths & fixes php notice some were getting. Cheers.
+
 = 2.0.9 =
 uses large size thumbnail instead of medium. bigger is better!
 
@@ -84,6 +87,8 @@ Because we're getting more accurate titles you may see a change in how they're p
 == Changelog ==
 = 2.0.11 =
 * Check for relative URLs in post thumbnails images - props -> github.com/jjeaton
+* fixes problem w/ strings in image array
+* flip image array. this will move your default image (if you have one) to the top of the array but Facebook pulls it the way they want anyways.
 
 = 2.0.10 =
 * Remove deprecated argument from `get_the_excerpt`. Fixes PHP Notice. props -> github.com/jjeaton

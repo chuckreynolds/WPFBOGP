@@ -173,7 +173,14 @@ function wpfbogp_build_head() {
 		
 		// Add the fallback image to the images array (which is empty if it's being forced)
 		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
-			$wpfbogp_images[] = $options['wpfbogp_fallback_img']; // Add to images array
+			if ( is_array( $wpfbogp_images ) )
+			{
+				$wpfbogp_images[] = $options['wpfbogp_fallback_img']; // Add to images array
+				$wpfbogp_images = array_reverse($wpfbogp_images);
+			}
+			else {
+				$wpfbogp_images = array( $options['wpfbogp_fallback_img'] ); // Create image array with default image as index 0
+			}
 		}
 		
 		// Make sure there were images passed as an array and loop through/output each
