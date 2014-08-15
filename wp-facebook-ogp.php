@@ -37,7 +37,11 @@ add_filter('language_attributes','wpfbogp_namespace');
 // function to call first uploaded image in content
 function wpfbogp_find_images() {
 	global $post, $posts;
-	
+
+	if( !is_object($post) || get_class($post) != 'WP_Post' ) {
+		return array();
+	}
+
 	// Grab content and match first image
 	$content = $post->post_content;
 	$output = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
@@ -96,6 +100,11 @@ add_action( 'wp_footer', 'wpfbogp_flush_ob', 10000 ); // Fire after other plugin
 // build ogp meta
 function wpfbogp_build_head() {
 	global $post;
+
+	if( !is_object($post) || get_class($post) != 'WP_Post' ) {
+		return '';
+	}
+
 	$options = get_option('wpfbogp');
 	// check to see if you've filled out one of the required fields and announce if not
 	if ( ( ! isset( $options['wpfbogp_admin_ids'] ) || empty( $options['wpfbogp_admin_ids'] ) ) && ( ! isset( $options['wpfbogp_app_id'] ) || empty( $options['wpfbogp_app_id'] ) ) ) {
