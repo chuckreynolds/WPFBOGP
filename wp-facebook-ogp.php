@@ -234,9 +234,9 @@ function wpfbogp_buildpage() {
 				<div id="about" class="postbox">
 					<h3 class="hndle" id="about-sidebar"><?php _e('About the Plugin:') ?></h3>
 					<div class="inside">
-						<p>Talk to <a href="http://twitter.com/chuckreynolds" target="_blank">@ChuckReynolds</a> on twitter or please fill out the <a href="http://rynoweb.com/wordpress-plugins/" target="_blank">plugin support form</a> for bugs or feature requests.</p>
+						<p>Talk to <a href="https://twitter.com/chuckreynolds" target="_blank">@ChuckReynolds</a> on twitter or please fill out the <a href="http://rynoweb.com/wordpress-plugins/" target="_blank">plugin support form</a> for bugs or feature requests.</p>
 						<p><?php _e('<strong>Enjoy the plugin?</strong>') ?><br />
-						<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
+						<a href="https://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
 						<p><?php _e('<strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!') ?><br />
 						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 						<input type="hidden" name="cmd" value="_s-xclick">
@@ -253,9 +253,9 @@ function wpfbogp_buildpage() {
 					<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
 					<div class="inside">
 						<p><a href="http://ogp.me" target="_blank">The Open Graph Protocol</a><br />
-						<a href="https://developers.facebook.com/docs/opengraph/" target="_blank">Facebook Open Graph Docs</a><br />
-						<a href="https://developers.facebook.com/docs/insights/" target="_blank">Insights: Domain vs App vs Page</a><br />
-						<a href="https://developers.facebook.com/docs/reference/plugins/like/" target="_blank">How To Add a Like Button</a></p>
+						<a href="https://developers.facebook.com/docs/sharing/best-practices" target="_blank">Sharing Best Practices for Websites</a><br />
+						<a href="https://developers.facebook.com/docs/platforminsights/domains" target="_blank">Domain Insights</a><br />
+						<a href="https://developers.facebook.com/docs/plugins/like-button" target="_blank">How To Add a Like Button</a></p>
 					</div>
 				</div>
 			</div>
@@ -277,12 +277,12 @@ function wpfbogp_buildpage() {
 				<th scope="row"><?php _e('Facebook User Account ID:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br />
 					<?php _e('For personal sites use your Facebook User ID here. <em>(You can enter multiple by separating each with a comma)</em>, if you want to receive Insights about the Like Buttons. The meta values will not display in your site until you\'ve completed this box.<br />
-					<strong>Find your ID</strong> by going to the URL like this: http://graph.facebook.com/yourusername') ?></td>
+					<strong>Find your ID</strong> by going to the URL like this: https://graph.facebook.com/yourusername') ?></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Facebook Application ID:') ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text" /><br />
-					<?php _e('For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://www.facebook.com/developers/apps.php" target="_blank">Create FB App</a>.') ?></td>
+					<?php _e('For business and/or brand sites use Insights on an App ID as to not associate it with a particular person. You can use this with or without the User ID field. Create an app and use the "App ID": <a href="https://developers.facebook.com/quickstarts/" target="_blank">Create FB App</a>.') ?></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><?php _e('Default Image URL to use:') ?></th>
