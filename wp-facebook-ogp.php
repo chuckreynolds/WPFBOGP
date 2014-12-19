@@ -1,9 +1,9 @@
-<?php 
+<?php
 /*
 Plugin Name:    WP Facebook Open Graph protocol
 Plugin URI:     http://wordpress.org/plugins/wp-facebook-open-graph-protocol/
 Description:    Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google + and Linkedin too!
-Version: 		2.0.11
+Version: 		2.0.12
 Author: 		Chuck Reynolds
 Author URI: 	http://chuckreynolds.us
 License:		GPLv2 or later
@@ -25,16 +25,24 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '2.0.11');
+define('WPFBOGP_VERSION', '2.0.12');
 wpfbogp_admin_warnings();
 
-// add OGP namespace per ogp.me schema
+/**
+* Add OGP namespace per ogp.me schema
+*
+* @return string with opg.me schema added
+*/
 function wpfbogp_namespace($output) {
 	return $output.' prefix="og: http://ogp.me/ns#"';
 }
 add_filter('language_attributes','wpfbogp_namespace');
 
-// function to call first uploaded image in content
+/**
+* Function to call first uploaded image in content
+*
+* @return array of images from the current post
+*/
 function wpfbogp_find_images() {
 	global $post, $posts;
 
@@ -45,12 +53,12 @@ function wpfbogp_find_images() {
 	// Grab content and match first image
 	$content = $post->post_content;
 	$output = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
-	
+
 	// Make sure there was an image that was found, otherwise return false
 	if ( $output === FALSE ) {
 		return false;
 	}
-	
+
 	$wpfbogp_images = array();
 	foreach ( $matches[1] as $match ) {
 		// If the image path is relative, add the site url to the beginning
@@ -60,10 +68,15 @@ function wpfbogp_find_images() {
 		}
 		$wpfbogp_images[] = $match;
 	}
-	
+
 	return $wpfbogp_images;
 }
 
+/**
+* Start the output buffer for 'wpfbogp_callback'
+*
+* @return void
+*/
 function wpfbogp_start_ob() {
 	// Start the buffer before any output
 	if ( ! is_feed() ) {
@@ -71,23 +84,33 @@ function wpfbogp_start_ob() {
 	}
 }
 
+/**
+* Create the og:title and og:description tag with content from blog <title> and meda description
+*
+* @return string of og meta tags
+*/
 function wpfbogp_callback( $content ) {
 	// Grab the page title and meta description
 	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
 	$description = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
-	
+
 	// Take page title and meta description and place it in the ogp meta tags
 	if ( $title !== FALSE && count( $title_matches ) == 2 ) {
 		$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $title_matches[1] . '">', $content );
 	}
-	
+
 	if ( $description !== FALSE && count( $description_matches ) == 2 ) {
 		$content = preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . $description_matches[1] . '">', $content );
 	}
-	
+
 	return $content;
 }
 
+/**
+* End the output buffer for 'wpfbogp_callback'
+*
+* @return void
+*/
 function wpfbogp_flush_ob() {
 	if ( ! is_feed() ) {
 		ob_end_flush();
@@ -97,7 +120,11 @@ function wpfbogp_flush_ob() {
 add_action( 'init', 'wpfbogp_start_ob', 0 );
 add_action( 'wp_footer', 'wpfbogp_flush_ob', 10000 ); // Fire after other plugins (which default to priority 10)
 
-// build ogp meta
+/**
+* Build ogp meta
+*
+* @return string of meta tag content
+*/
 function wpfbogp_build_head() {
 	global $post;
 
@@ -105,13 +132,13 @@ function wpfbogp_build_head() {
 		return '';
 	}
 
-	$options = get_option('wpfbogp');
+	$options = wpfbogp_get_option();
 	// check to see if you've filled out one of the required fields and announce if not
 	if ( ( ! isset( $options['wpfbogp_admin_ids'] ) || empty( $options['wpfbogp_admin_ids'] ) ) && ( ! isset( $options['wpfbogp_app_id'] ) || empty( $options['wpfbogp_app_id'] ) ) ) {
 		echo "\n<!-- Facebook Open Graph protocol plugin NEEDS an admin or app ID to work, please visit the plugin settings page! -->\n";
 	} else {
 		echo "\n<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
-		
+
 		// do fb verification fields
 		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
 			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '"/>' . "\n";
@@ -119,7 +146,7 @@ function wpfbogp_build_head() {
 		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
 			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '"/>' . "\n";
 		}
-		
+
 		// do url stuff
 		if (is_home() || is_front_page() ) {
 			$wpfbogp_url = get_bloginfo( 'url' );
@@ -127,7 +154,7 @@ function wpfbogp_build_head() {
 			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '"/>' . "\n";
-		
+
 		// do title stuff
 		if (is_home() || is_front_page() ) {
 			$wpfbogp_title = get_bloginfo( 'name' );
@@ -135,10 +162,10 @@ function wpfbogp_build_head() {
 			$wpfbogp_title = get_the_title();
 		}
 		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '"/>' . "\n";
-		
+
 		// do additional randoms
 		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>' . "\n";
-		
+
 		// do descriptions
 		if ( is_singular() ) {
 			if ( has_excerpt( $post->ID ) ) {
@@ -150,7 +177,7 @@ function wpfbogp_build_head() {
 			$wpfbogp_description = get_bloginfo( 'description' );
 		}
 		echo '<meta property="og:description" content="' . esc_attr( apply_filters( 'wpfbogp_description', $wpfbogp_description ) ) . '"/>' . "\n";
-		
+
 		// do ogp type
 		if ( is_single() ) {
 			$wpfbogp_type = 'article';
@@ -158,10 +185,10 @@ function wpfbogp_build_head() {
 			$wpfbogp_type = 'website';
 		}
 		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '"/>' . "\n";
-		
+
 		// Find/output any images for use in the OGP tags
 		$wpfbogp_images = array();
-		
+
 		// Only find images if it isn't the homepage and the fallback isn't being forced
 		if ( ! is_home() && $options['wpfbogp_force_fallback'] != 1 ) {
 			// Find featured thumbnail of the current post/page
@@ -174,24 +201,26 @@ function wpfbogp_build_head() {
 				}
 				$wpfbogp_images[] = $link; // Add to images array
 			}
-			
+
 			if ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
 				$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() ); // Returns an array already, so merge into existing
 			}
 		}
-		
+
 		// Add the fallback image to the images array (which is empty if it's being forced)
 		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
+			$wpfbogp_fallback_img = esc_attr( apply_filters( 'wpfbogp_fallback_img', $options['wpfbogp_fallback_img'] ) );
+
 			if ( is_array( $wpfbogp_images ) )
 			{
-				$wpfbogp_images[] = $options['wpfbogp_fallback_img']; // Add to images array
+				$wpfbogp_images[] = $wpfbogp_fallback_img; // Add to images array
 				$wpfbogp_images = array_reverse($wpfbogp_images);
 			}
 			else {
-				$wpfbogp_images = array( $options['wpfbogp_fallback_img'] ); // Create image array with default image as index 0
+				$wpfbogp_images = array( $wpfbogp_fallback_img ); // Create image array with default image as index 0
 			}
 		}
-		
+
 		// Make sure there were images passed as an array and loop through/output each
 		if ( ! empty( $wpfbogp_images ) && is_array( $wpfbogp_images ) ) {
 			foreach ( $wpfbogp_images as $image ) {
@@ -199,30 +228,87 @@ function wpfbogp_build_head() {
 			}
 		} else {
 			// No images were outputted because they have no default image (at the very least)
-			echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+			echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n";
 		}
-		
+
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
 		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '"/>' . "\n";
 		echo "<!-- // end wpfbogp -->\n";
 	}
 }
 
+/**
+* Getter for the wpfbogp options-array
+*
+* Use this getter whenever you need to get the plugin options.
+* It checks for options on multi site level first.
+* Should there be none, it checks the blog options.
+*
+* @return array of wordpress options "wpfbogp"
+*/
+function wpfbogp_get_option() {
+	#if( is_multisite() == true ) {
+	#	$options = get_site_option('wpfbogp', false, true);
+	#}
+	#if( $options === false ) {
+	#	$options = get_option('wpfbogp');
+	#}
+	$options = get_site_option('wpfbogp', false, true);
+	return $options;
+}
+// hhvm log was outputting this error. get_site_option will fallback to get_option if not multisite
+// Notice: Undefined variable: options in /var/www/public/wp-content/plugins/WPFBOGP/wp-facebook-ogp.php on line 253
+// Notice: Undefined variable: options in /var/www/public/wp-content/plugins/WPFBOGP/wp-facebook-ogp.php on line 256
+
+/**
+* Deletes all wpfbogp from wordpress options table
+*
+* It deletes the blog options as well as multisite options.
+*
+* @return void
+*/
+function wpfbogp_delete_option() {
+	if( is_multisite() == true ) {
+		delete_site_option('wpfbogp');
+	}
+	delete_option('wpfbogp');
+}
+
 add_action('wp_head','wpfbogp_build_head',50);
 add_action('admin_init','wpfbogp_init');
 add_action('admin_menu','wpfbogp_add_page');
 
-// register settings and sanitization callback
+/**
+* Register settings and sanitization callback
+*
+* @return void
+*/
 function wpfbogp_init() {
 	register_setting('wpfbogp_options','wpfbogp','wpfbogp_validate');
 }
 
-// add admin page to menu
+/**
+* Add admin page to menu
+*
+* You can hide the admin menu with the option 'wpfbogp_hide_page'
+* You need to set this option with a custom plugin.
+*
+* @return void
+*/
 function wpfbogp_add_page() {
-	add_options_page('Facebook Open Graph protocol plugin','Facebook OGP','manage_options','wpfbogp','wpfbogp_buildpage');
+	$options = wpfbogp_get_option();
+	if( $options && array_key_exists( 'wpfbogp_hide_page', $options ) && $options['wpfbogp_hide_page'] == true ) {
+		return; # Do not add the options_page
+	} else {
+		add_options_page('Facebook Open Graph protocol plugin','Facebook OGP','manage_options','wpfbogp','wpfbogp_buildpage');
+	}
 }
 
-// build admin page
+/**
+* Build the admin page
+*
+* @return returns (echo) the form html
+*/
 function wpfbogp_buildpage() {
 ?>
 
@@ -247,7 +333,7 @@ function wpfbogp_buildpage() {
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
 					<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
@@ -270,7 +356,7 @@ function wpfbogp_buildpage() {
 
 		<form method="post" action="options.php">
 			<?php settings_fields('wpfbogp_options'); ?>
-			<?php $options = get_option('wpfbogp'); ?>
+			<?php $options = wpfbogp_get_option(); ?>
 
 		<table class="form-table">
 			<tr valign="top">
@@ -295,7 +381,7 @@ function wpfbogp_buildpage() {
 				<td><input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>) /> <?php _e('Use this if you want to use the Default Image for everything instead of looking for featured/content images.') ?></label></td>
 			</tr>
 		</table>
-		
+
 		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 		</form>
 		<br class="clear" />
@@ -309,7 +395,12 @@ function wpfbogp_buildpage() {
 <?php
 }
 
-// sanitize inputs. accepts an array, return a sanitized array.
+/**
+* Sanitize inputs.
+*
+* @var $input array
+* @return returns a sanatized array
+*/
 function wpfbogp_validate($input) {
 	$input['wpfbogp_admin_ids'] = wp_filter_nohtml_kses($input['wpfbogp_admin_ids']);
 	$input['wpfbogp_app_id'] = wp_filter_nohtml_kses($input['wpfbogp_app_id']);
@@ -318,10 +409,14 @@ function wpfbogp_validate($input) {
 	return $input;
 }
 
-// run admin notices on activation or if settings not set
+/**
+* Run admin notices on activation or if settings not set
+*
+* @return void
+*/
 function wpfbogp_admin_warnings() {
 	global $wpfbogp_admins;
-		$wpfbogp_data = get_option('wpfbogp');
+		$wpfbogp_data = wpfbogp_get_option();
 	if ((empty($wpfbogp_data['wpfbogp_admin_ids']) || $wpfbogp_data['wpfbogp_admin_ids'] == '') && (empty($wpfbogp_data['wpfbogp_app_id']) || $wpfbogp_data['wpfbogp_app_id'] == '')) {
 		function wpfbogp_warning() {
 			echo "<div id='wpfbogp-warning' class='updated fade'><p><strong>".__('WP FB OGP is almost ready.')."</strong> ".sprintf(__('You must <a href="%1$s">enter your Facebook User ID or App ID</a> for it to work.'), "options-general.php?page=wpfbogp")."</p></div>";
@@ -330,14 +425,22 @@ function wpfbogp_admin_warnings() {
 	}
 }
 
-// twentyten and twentyeleven add crap to the excerpt so lets check for that and remove
+/**
+* twentyten and twentyeleven add crap to the excerpt so lets check for that and remove
+*
+* @return void
+*/
 add_action('after_setup_theme','wpfbogp_fix_excerpts_exist');
 function wpfbogp_fix_excerpts_exist() {
 	remove_filter('get_the_excerpt','twentyten_custom_excerpt_more');
 	remove_filter('get_the_excerpt','twentyeleven_custom_excerpt_more');
 }
 
-// add settings link to plugins list
+/**
+* Add settings link to plugins list
+*
+* @return string with link to settings
+*/
 function wpfbogp_add_settings_link($links, $file) {
 	static $this_plugin;
 	if (!$this_plugin) $this_plugin = plugin_basename(__FILE__);
@@ -349,10 +452,14 @@ function wpfbogp_add_settings_link($links, $file) {
 }
 add_filter('plugin_action_links','wpfbogp_add_settings_link', 10, 2 );
 
-// lets offer an actual clean uninstall and rem db row on uninstall
+/**
+* Lets offer an actual clean uninstall and rem db row on uninstall
+*
+* @return void
+*/
 if (function_exists('register_uninstall_hook')) {
     register_uninstall_hook(__FILE__, 'wpfbogp_uninstall_hook');
 	function wpfbogp_uninstall_hook() {
-		delete_option('wpfbogp');
+		wpfbogp_delete_option();
 	}
 }
