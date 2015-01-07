@@ -25,6 +25,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+if (!function_exists('mb_substr')) {
+	function mb_substr($str , $start, $length = null, $encoding = 'UTF-8') {
+		return is_null($length) ? substr($str , $start) : substr($str , $start, $length);
+	}
+}
+
 define('WPFBOGP_VERSION', '2.0.11');
 wpfbogp_admin_warnings();
 
@@ -144,7 +150,7 @@ function wpfbogp_build_head() {
 			if ( has_excerpt( $post->ID ) ) {
 				$wpfbogp_description = strip_tags( get_the_excerpt() );
 			} else {
-				$wpfbogp_description = str_replace( "\r\n", ' ' , substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160 ) );
+				$wpfbogp_description = preg_replace('/\s+/', ' ', mb_substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160, 'UTF-8' ) );
 			}
 		} else {
 			$wpfbogp_description = get_bloginfo( 'description' );
