@@ -213,11 +213,11 @@ function wpfbogp_build_head() {
 
 			if ( is_array( $wpfbogp_images ) )
 			{
-				$wpfbogp_images[] = $wpfbogp_fallback_img; // Add to images array
-				$wpfbogp_images = array_reverse($wpfbogp_images);
+				$wpfbogp_images[] = $wpfbogp_fallback_img; // Add default img to image array
+				$wpfbogp_images; // order now is: feat img, content imgs, default-unchecked
 			}
 			else {
-				$wpfbogp_images = array( $wpfbogp_fallback_img ); // Create image array with default image as index 0
+				$wpfbogp_images = array( $wpfbogp_fallback_img ); // Replace image array with default image as index 0
 			}
 		}
 
@@ -228,7 +228,7 @@ function wpfbogp_build_head() {
 			}
 		} else {
 			// No images were outputted because they have no default image (at the very least)
-			echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n";
+			echo "<!-- No featured or content images are found and no default image is set in the plugin settings! -->\n";
 		}
 
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
