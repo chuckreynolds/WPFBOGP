@@ -320,7 +320,7 @@ function wpfbogp_buildpage() {
 				<div id="about" class="postbox">
 					<h3 class="hndle" id="about-sidebar"><?php _e('About the Plugin:') ?></h3>
 					<div class="inside">
-						<p>Talk to <a href="http://twitter.com/chuckreynolds" target="_blank">@ChuckReynolds</a> on twitter or please fill out the <a href="http://rynoweb.com/wordpress-plugins/" target="_blank">plugin support form</a> for bugs or feature requests.</p>
+						<p>For any support issues or feature/function requests please use the <a href="https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol" target="_blank">support forum on wordpress.org</a>.</p>
 						<p><?php _e('<strong>Enjoy the plugin?</strong>') ?><br />
 						<a href="http://twitter.com/?status=I'm using @chuckreynolds's WordPress Facebook Open Graph plugin - check it out! http://rynoweb.com/wordpress-plugins/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
 						<p><?php _e('<strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!') ?><br />
