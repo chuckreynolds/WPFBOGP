@@ -201,7 +201,7 @@ function wpfbogp_build_head() {
 		if ( ! is_home() && $options['wpfbogp_force_fallback'] != 1 ) {
 			// Find featured thumbnail of the current post/page
 			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
-				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'large' );
+				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 				$link = $thumbnail_src[0];
  				if ( ! preg_match( '/^https?:\/\//', $link ) ) {
  					// Remove any starting slash with ltrim() and add one to the end of site_url()
