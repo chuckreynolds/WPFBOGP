@@ -41,7 +41,7 @@ add_filter( 'jetpack_enable_open_graph', '__return_false' );
 * @return string with opg.me schema added
 */
 function wpfbogp_namespace( $output ) {
-	return $output.' prefix="og: http://ogp.me/ns#"';
+	return $output.' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"';
 }
 add_filter( 'language_attributes','wpfbogp_namespace' );
 
