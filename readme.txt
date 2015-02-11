@@ -41,13 +41,16 @@ If you have feature requests or bugs? Use the support links on <a href="http://r
 No. Either your Facebook User ID or or an Application ID is a requirement. You're not required to register an app, instead just use your User ID (plugin admin settings page helps you find that). You can use both an App ID and User ID if you'd like. More details on how Facebook verifies admins is located here: https://developers.facebook.com/docs/insights/
 
 = Why doesn't this plugin have a Like/Send button? =
-Honestly it's not hard to add one once you have the proper meta content in the header. Look at <a href="https://developers.facebook.com/docs/reference/plugins/like/">how to add a Like button</a> using fb:like. There are a lot of 'like' button plugins but this one focuses on solid and accurate Open Graph meta data. 
+Honestly it's not hard to add one once you have the proper meta content in the header. Look at <a href="https://developers.facebook.com/docs/reference/plugins/like/">how to add a Like button</a> using fb:like. There are a lot of 'like' button plugins but this one focuses on solid and accurate Open Graph meta data.
 
 == Screenshots ==
 
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.12 =
+Show featured image first to Facebook (upped to full size), then content images, then fallback. Better metadata code filtering.
+
 = 2.0.11 =
 Fixes an issue some had with thumbnail image paths & fixes php notice some were getting. Cheers.
 
@@ -69,7 +72,7 @@ Fixes issues with dollar signs and special characters in titles and descriptions
 = 2.0.3 =
 This update should fix the "Parser Mismatched Metadata" warnings Facebook started throwing.
 
-= 2.0.2 = 
+= 2.0.2 =
 Fixes bug that caused a PHP warning to display and also fixes bugs with plugins not functioning properly when using content filters.
 
 = 2.0.1 =
@@ -85,24 +88,31 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
-= 2.0.11 =
-* Check for relative URLs in post thumbnails images - props -> github.com/jjeaton
-* fixes problem w/ strings in image array
-* flip image array. this will move your default image (if you have one) to the top of the array but Facebook pulls it the way they want anyways.
+= 2.0.12 - 2015-02-10 =
+* Adjust image array to use feat img first, then content images, then fallback. It WAS like this but Facebook changed in which order they prioritize the image they use first. So - I'm trying to keep up with them.
+* Use full size featured image now instead of large.
+* Better metadata code filtering
+* Some code cleanup
+* Start dating releases in changelog and backdate some of the old ones. I find this very useful in other plugins so here we go.
 
-= 2.0.10 =
+= 2.0.11 - 2014-07-31 =
+* Check for relative URLs in post thumbnails images - props -> github.com/jjeaton
+* Fixes problem w/ strings in image array
+* Flip image array. this will move your default image (if you have one) to the top of the array but Facebook pulls it the way they want anyways.
+
+= 2.0.10 - 2014-04-18 =
 * Remove deprecated argument from `get_the_excerpt`. Fixes PHP Notice. props -> github.com/jjeaton
 
-= 2.0.9 =
+= 2.0.9 - 2014-04-17 =
 * bump og:image size to large like beta/dev version. bigger is better. but size doesn't matter? well it's large now
 * tested to WP3.9
 
-= 2.0.8 =
+= 2.0.8 - 2014-03-13 =
 * update html namespace to prefix (ogp.me) from xmlns (facebook)
 * dont run buffer if in a feed
 * fixed media uploader link
 
-= 2.0.7 =
+= 2.0.7 - 2012-10-25 =
 * fixes bug with certain plugins not showing description tags properly
 * added back self-close on meta tags to preserve xhtml compatability, html5 is forgiving. core does this.
 
