@@ -154,11 +154,11 @@ function wpfbogp_build_head() {
 			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '"/>' . "\n";
 		}
 
-		// do url stuff
-		if (is_home() || is_front_page() ) {
-			$wpfbogp_url = get_bloginfo( 'url' );
+		// do url stuff based on rel_canonical in wp
+		if ( !is_singular() ) {
+			$wpfbogp_url = trailingslashit( home_url() );
 		} else {
-			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 		}
 		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '"/>' . "\n";
 
