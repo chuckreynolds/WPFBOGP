@@ -25,18 +25,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define('WPFBOGP_VERSION', '2.0.12');
+define( 'WPFBOGP_VERSION', '2.0.12' );
 wpfbogp_admin_warnings();
+
+/**
+* Drop filter for when jetpack has their ogp stuff on
+*
+* @return void
+*/
+add_filter( 'jetpack_enable_open_graph', '__return_false' );
 
 /**
 * Add OGP namespace per ogp.me schema
 *
 * @return string with opg.me schema added
 */
-function wpfbogp_namespace($output) {
+function wpfbogp_namespace( $output ) {
 	return $output.' prefix="og: http://ogp.me/ns#"';
 }
-add_filter('language_attributes','wpfbogp_namespace');
+add_filter( 'language_attributes','wpfbogp_namespace' );
 
 /**
 * Function to call first uploaded image in content
