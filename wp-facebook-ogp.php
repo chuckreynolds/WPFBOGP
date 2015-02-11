@@ -326,12 +326,12 @@ function wpfbogp_buildpage() {
 		<div id="side-info-column" class="inner-sidebar">
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar"><?php _e('About the Plugin:') ?></h3>
+					<h3 class="hndle" id="about-sidebar"><?php _e( 'About the Plugin' ); ?></h3>
 					<div class="inside">
-						<p>For any support issues or feature/function requests please use the <a href="https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol" target="_blank">support forum on wordpress.org</a>.</p>
-						<p><?php _e('<strong>Enjoy the plugin?</strong>') ?><br />
-						<a href="https://twitter.com/?status=I'm using the %23WordPress Facebook Open Graph plugin by @chuckreynolds - check it out! http://wordpress.org/plugins/wp-facebook-open-graph-protocol/" target="_blank"><?php _e('Tweet about it') ?></a> <?php _e('and consider donating.') ?></p>
-						<p><?php _e('<strong>Donate:</strong> A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!') ?><br />
+						<p><?php printf( __( 'For any support issues or feature/function requests please use the <a href="%s" target="_blank">support forum on wordpress.org</a>.' ), 'https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol' ); ?></p>
+						<p><strong><?php _e( 'Enjoy the plugin?' ); ?></strong><br>
+						<?php printf( __( '<a href="%s" target="_blank">Tweet about it</a> and consider donating.' ), 'https://twitter.com/?status=I\'m using the %23WordPress Facebook Open Graph plugin by @chuckreynolds - check it out! http://wordpress.org/plugins/wp-facebook-open-graph-protocol/' ); ?></p>
+						<p><strong><?php _e( 'Donate:' ); ?></strong> <?php _e( 'A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!' ); ?><br>
 						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 						<input type="hidden" name="cmd" value="_s-xclick">
 						<input type="hidden" name="hosted_button_id" value="GWGGBTBJTJMPW">
@@ -344,14 +344,15 @@ function wpfbogp_buildpage() {
 
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
+					<h3 class="hndle" id="about-sidebar"><?php _e( 'Relevant Information' ); ?></h3>
 					<div class="inside">
+						<p><?php printf( __( '<a href="%s" target="_blank">Facebook debugger</a> for checking errors and flushing Facebook\'s cache.' ), 'https://developers.facebook.com/tools/debug/' ); ?></p>
 						<p>
-							<a href="https://github.com/chuckreynolds/social-profile-image-sizes" target="_blank">Social Media Image Size Reference Guide</a><br />
-							<a href="http://ogp.me" target="_blank">Open Graph Protocol</a><br />
-							<a href="https://developers.facebook.com/docs/sharing/best-practices" target="_blank">Facebook Sharing Best Practices</a><br />
-							<a href="https://developers.facebook.com/docs/platforminsights/domains" target="_blank">Facebook Domain Insights</a><br />
-							<a href="https://developers.facebook.com/docs/plugins/like-button" target="_blank">How To Add a Like Button</a>
+							<a href="https://github.com/chuckreynolds/social-profile-image-sizes" target="_blank"><?php _e( 'Social Media Image Size Reference Guide' ); ?></a><br>
+							<a href="http://ogp.me" target="_blank"><?php _e( 'Open Graph Protocol' ); ?></a><br>
+							<a href="https://developers.facebook.com/docs/sharing/best-practices" target="_blank"><?php _e( 'Facebook Sharing Best Practices' ); ?></a><br>
+							<a href="https://developers.facebook.com/docs/platforminsights/domains" target="_blank"><?php _e( 'Facebook Domain Insights' ); ?></a><br>
+							<a href="https://developers.facebook.com/docs/plugins/like-button" target="_blank"><?php _e( 'How To Add a Like Button' ); ?></a>
 						</p>
 					</div>
 				</div>
@@ -366,45 +367,45 @@ function wpfbogp_buildpage() {
 						<div class="inside">
 
 		<form method="post" action="options.php">
-			<?php settings_fields('wpfbogp_options'); ?>
+			<?php settings_fields( 'wpfbogp_options' ); ?>
 			<?php $options = wpfbogp_get_option(); ?>
 
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e('General Info') ?></th>
-				<td><?php _e('Facebook requires you to use either a personal Facebook User ID <i>(most common)</i> or an Application ID. You can use both if you\'d like, but the plugin will not output tags for Facebook until one of these inputs has data. Then you\'re all set!') ?></td>
+				<th scope="row"><?php _e( 'General Info' ); ?></th>
+				<td><?php _e( 'Facebook requires you to use either a personal Facebook User ID <i>(most common)</i> or an Application ID. You can use both if you\'d like, but the plugin will not output tags for Facebook until one of these inputs has data. Then you\'re all set!' ); ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Facebook User Account ID') ?></th>
+				<th scope="row"><?php _e( 'Facebook User Account ID' ); ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br>
-					<?php _e('Enter your personal Facebook User ID number here. For most sites you will use this field instead of an App ID below.<br>
+					<?php _e( 'Enter your personal Facebook User ID number here. For most sites you will use this field instead of an App ID below.<br>
 						<strong>How to find your ID:</strong> Go to: <code>http://graph.facebook.com/<strong>YOURusername</strong></code> and copy the number next to "<code>id:</code>".<br>
 						<i><small>- NOTE: You can enter multiple ID numbers by separating each with a comma</small></i><br>
-						<i><small>- NOTE: This is your Personal ID number and cannot be a Page ID - Facebook will throw an error with a Page ID</small></i>') ?></td>
+						<i><small>- NOTE: This is your Personal ID number and cannot be a Page ID - Facebook will throw an error with a Page ID</small></i>' ); ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('Facebook Application ID') ?></th>
+				<th scope="row"><?php _e( 'Facebook Application ID' ); ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text" /><br>
-					<?php _e('If you have a Facebook Application and would rather track insights on that instead of a personal ID, then use this field instead. Typically for business/brand sites.<br>
+					<?php _e( 'If you have a Facebook Application and would rather track insights on that instead of a personal ID, then use this field instead. Typically for business/brand sites.<br>
 						<strong>How to find your Application ID</strong>: Go to: <code>https://developers.facebook.com/apps/</code> and copy the number next to "<code>App ID:</code>".<br>
-						<i><small>- NOTE: You cannot use multiple App IDs here</small></i>') ?></td>
+						<i><small>- NOTE: You cannot use multiple App IDs here</small></i>' ); ?></td>
 			</tr>
 		</table>
 		<table class="form-table">
 			<tr valign="top">
-				<th scope="row"><?php _e('Fallback Image URL') ?></th>
+				<th scope="row"><?php _e( 'Fallback Image URL' ); ?></th>
 				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br>
-					<?php _e('Optional: Enter the full URL (including the http:// part) of the image you\'d like to use as a fallback when others aren\'t available.<br>
+					<?php _e( 'Optional: Enter the full URL (including the http:// part) of the image you\'d like to use as a fallback when others aren\'t available.<br>
 						<i><small>- NOTE: FB\'s minimum image size is 600px by 315px. (1200px by 630px is recommended)</small></i><br>
-						<i><small>- NOTE: Choose or Upload an image via the <a href="upload.php">Media Library</a> and then copy the image URL and put it here. It doesn\'t have to be a local image file.</small></i>') ?></td>
+						<i><small>- NOTE: Choose or Upload an image via the <a href="upload.php">Media Library</a> and then copy the image URL and put it here. It doesn\'t have to be a local image file.</small></i>' ); ?></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><?php _e('FORCE Image Fallback?') ?></th>
-				<td><input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>) /> <?php _e('Check this only if you want to use the Fallback Image for EVERYTHING instead of featured images or content images.') ?></td>
+				<th scope="row"><?php _e( 'FORCE Image Fallback?' ); ?></th>
+				<td><input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>) /> <?php _e( 'Check this only if you want to use the Fallback Image for EVERYTHING instead of featured images or content images.' ); ?></td>
 			</tr>
 		</table>
 
-		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+		<input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ); ?>" />
 		</form>
 		<br class="clear" />
 					</div>
