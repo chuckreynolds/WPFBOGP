@@ -163,20 +163,21 @@ function wpfbogp_build_head() {
 		}
 		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '"/>' . "\n";
 
-		// do additional randoms
+		// do site title general
 		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>' . "\n";
 
 		// do descriptions
 		if ( is_singular() ) {
 			if ( has_excerpt( $post->ID ) ) {
-				$wpfbogp_description = strip_tags( get_the_excerpt() );
+				$wpfbogp_description = get_the_excerpt();
 			} else {
-				$wpfbogp_description = str_replace( "\r\n", ' ' , substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160 ) );
+				$wpfbogp_description = str_replace( "\r\n", ' ' , substr( $post->post_content, 0, 160 ) );
 			}
 		} else {
 			$wpfbogp_description = get_bloginfo( 'description' );
 		}
-		echo '<meta property="og:description" content="' . esc_attr( apply_filters( 'wpfbogp_description', $wpfbogp_description ) ) . '"/>' . "\n";
+		$wpfbogp_description_clean = sanitize_text_field( strip_shortcodes( $wpfbogp_description ) );
+		echo '<meta property="og:description" content="' . apply_filters( 'wpfbogp_description', $wpfbogp_description_clean ) . '"/>' . "\n";
 
 		// do ogp type
 		if ( is_single() ) {
@@ -396,15 +397,15 @@ function wpfbogp_buildpage() {
 }
 
 /**
-* Sanitize inputs.
+* Sanitize inputs
 *
 * @var $input array
 * @return returns a sanatized array
 */
 function wpfbogp_validate($input) {
-	$input['wpfbogp_admin_ids'] = wp_filter_nohtml_kses($input['wpfbogp_admin_ids']);
-	$input['wpfbogp_app_id'] = wp_filter_nohtml_kses($input['wpfbogp_app_id']);
-	$input['wpfbogp_fallback_img'] = wp_filter_nohtml_kses($input['wpfbogp_fallback_img']);
+	$input['wpfbogp_admin_ids'] = sanitize_text_field($input['wpfbogp_admin_ids']);
+	$input['wpfbogp_app_id'] = sanitize_text_field($input['wpfbogp_app_id']);
+	$input['wpfbogp_fallback_img'] = sanitize_text_field($input['wpfbogp_fallback_img']);
 	$input['wpfbogp_force_fallback'] = ($input['wpfbogp_force_fallback'] == 1)  ? 1 : 0;
 	return $input;
 }
