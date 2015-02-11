@@ -92,7 +92,7 @@ function wpfbogp_start_ob() {
 }
 
 /**
-* Create the og:title and og:description tag with content from blog <title> and meda description
+* Create the og:title and og:description tag with content from blog <title> and meta description
 *
 * @return string of og meta tags
 */
