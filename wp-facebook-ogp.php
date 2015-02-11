@@ -33,10 +33,14 @@ wpfbogp_admin_warnings();
 *
 * @return void
 */
-add_filter( 'jetpack_enable_open_graph', '__return_false' );
+function wpfbogp_filter_jetpackogp () {
+	add_filter( 'jetpack_enable_open_graph', '__return_false' );
+}
 
 /**
 * Add OGP namespace per ogp.me schema
+*
+* @param string $output The output namespace string
 *
 * @return string with opg.me schema added
 */
@@ -53,7 +57,7 @@ add_filter( 'language_attributes','wpfbogp_namespace' );
 function wpfbogp_find_images() {
 	global $post;
 
-	if( !is_object($post) || get_class($post) != 'WP_Post' ) {
+	if( !is_object($post) || get_class($post) !== 'WP_Post' ) {
 		return array();
 	}
 
@@ -135,7 +139,7 @@ add_action( 'wp_footer', 'wpfbogp_flush_ob', 10000 ); // Fire after other plugin
 function wpfbogp_build_head() {
 	global $post;
 
-	if( !is_object($post) || get_class($post) != 'WP_Post' ) {
+	if( !is_object($post) || get_class($post) !== 'WP_Post' ) {
 		return '';
 	}
 
@@ -148,10 +152,10 @@ function wpfbogp_build_head() {
 
 		// do fb verification fields
 		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
-			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '"/>' . "\n";
+			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '" />' . "\n";
 		}
 		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
-			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '"/>' . "\n";
+			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '" />' . "\n";
 		}
 
 		// do url stuff based on rel_canonical in wp
@@ -162,7 +166,7 @@ function wpfbogp_build_head() {
 		} else {
 			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 		}
-		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '"/>' . "\n";
+		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '" />' . "\n";
 
 		// do title stuff
 		if (is_home() || is_front_page() ) {
@@ -170,10 +174,10 @@ function wpfbogp_build_head() {
 		} else {
 			$wpfbogp_title = get_the_title();
 		}
-		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '"/>' . "\n";
+		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '" />' . "\n";
 
 		// do site title general
-		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>' . "\n";
+		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '" />' . "\n";
 
 		// do descriptions
 		if ( is_singular() ) {
@@ -186,7 +190,7 @@ function wpfbogp_build_head() {
 			$wpfbogp_description = get_bloginfo( 'description' );
 		}
 		$wpfbogp_description_clean = sanitize_text_field( strip_shortcodes( $wpfbogp_description ) );
-		echo '<meta property="og:description" content="' . apply_filters( 'wpfbogp_description', $wpfbogp_description_clean ) . '"/>' . "\n";
+		echo '<meta property="og:description" content="' . apply_filters( 'wpfbogp_description', $wpfbogp_description_clean ) . '" />' . "\n";
 
 		// do ogp type
 		if ( is_single() ) {
@@ -194,7 +198,7 @@ function wpfbogp_build_head() {
 		} else {
 			$wpfbogp_type = 'website';
 		}
-		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '"/>' . "\n";
+		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '" />' . "\n";
 
 		// Find/output any images for use in the OGP tags
 		$wpfbogp_images = array();
@@ -218,7 +222,7 @@ function wpfbogp_build_head() {
 		}
 
 		// Add the fallback image to the images array (which is empty if it's being forced)
-		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
+		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
 			$wpfbogp_fallback_img = esc_attr( apply_filters( 'wpfbogp_fallback_img', $options['wpfbogp_fallback_img'] ) );
 
 			if ( is_array( $wpfbogp_images ) )
@@ -234,7 +238,7 @@ function wpfbogp_build_head() {
 		// Make sure there were images passed as an array and loop through/output each
 		if ( ! empty( $wpfbogp_images ) && is_array( $wpfbogp_images ) ) {
 			foreach ( $wpfbogp_images as $image ) {
-				echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '"/>' . "\n";
+				echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '" />' . "\n";
 			}
 		} else {
 			// No images were outputted because they have no default image (at the very least)
@@ -242,7 +246,7 @@ function wpfbogp_build_head() {
 		}
 
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
-		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '"/>' . "\n";
+		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '" />' . "\n";
 		echo "<!-- // end wpfbogp -->\n";
 	}
 }
@@ -263,7 +267,7 @@ function wpfbogp_get_option() {
 	#if( $options === false ) {
 	#	$options = get_option('wpfbogp');
 	#}
-	$options = get_site_option('wpfbogp', false, true);
+	$options = get_site_option( 'wpfbogp', false, true );
 	return $options;
 }
 // hhvm log was outputting this error. get_site_option will fallback to get_option if not multisite
@@ -279,14 +283,14 @@ function wpfbogp_get_option() {
 */
 function wpfbogp_delete_option() {
 	if( is_multisite() == true ) {
-		delete_site_option('wpfbogp');
+		delete_site_option( 'wpfbogp' );
 	}
-	delete_option('wpfbogp');
+	delete_option( 'wpfbogp' );
 }
 
-add_action('wp_head','wpfbogp_build_head',50);
-add_action('admin_init','wpfbogp_init');
-add_action('admin_menu','wpfbogp_add_page');
+add_action( 'wp_head', 'wpfbogp_build_head', 50 );
+add_action( 'admin_init', 'wpfbogp_init' );
+add_action( 'admin_menu', 'wpfbogp_add_page' );
 
 /**
 * Register settings and sanitization callback
@@ -294,7 +298,7 @@ add_action('admin_menu','wpfbogp_add_page');
 * @return void
 */
 function wpfbogp_init() {
-	register_setting('wpfbogp_options','wpfbogp','wpfbogp_validate');
+	register_setting( 'wpfbogp_options', 'wpfbogp', 'wpfbogp_validate' );
 }
 
 /**
@@ -308,9 +312,9 @@ function wpfbogp_init() {
 function wpfbogp_add_page() {
 	$options = wpfbogp_get_option();
 	if( $options && array_key_exists( 'wpfbogp_hide_page', $options ) && $options['wpfbogp_hide_page'] == true ) {
-		return; # Do not add the options_page
+		return;
 	} else {
-		add_options_page('Facebook Open Graph protocol plugin','Facebook OGP','manage_options','wpfbogp','wpfbogp_buildpage');
+		add_options_page( 'Facebook Open Graph protocol plugin', 'Facebook OGP', 'manage_options', 'wpfbogp', 'wpfbogp_buildpage' );
 	}
 }
 
