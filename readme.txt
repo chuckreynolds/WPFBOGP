@@ -107,11 +107,12 @@ Because we're getting more accurate titles you may see a change in how they're p
 
 == Changelog ==
 = 2.5 =
-*Release Date - 2015-02-10*
+*Release Date - 2015-02-11*
 * Adjust image array to use feat img first, then content images, then fallback. It WAS like this but Facebook changed in which order they prioritize the image they use first. So - I'm trying to keep up with them
 * Use full size featured image now instead of large
-* Better metadata code filtering
 * Some code cleanup
+* Rewrote the settings page completely to use WP 4.1x css. And it looks better too!
+* Updated the screenshot to reflect new admin settings page look
 * Start dating releases in changelog and backdate some previous releases. I find this very useful, at times, in other plugins so I'm doing it too and so should everybody
 
 = 2.0.11 =

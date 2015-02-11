@@ -328,99 +328,99 @@ function wpfbogp_buildpage() {
 
 <div class="wrap">
 	<h2>Facebook Open Graph protocol plugin <em>v<?php echo WPFBOGP_VERSION; ?></em></h2>
-	<div id="poststuff" class="metabox-holder has-right-sidebar">
-		<div id="side-info-column" class="inner-sidebar">
-			<div class="meta-box-sortables">
-				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar"><?php _e( 'About the Plugin' ); ?></h3>
-					<div class="inside">
-						<p><?php printf( __( 'For any support issues or feature/function requests please use the <a href="%s" target="_blank">support forum on wordpress.org</a>.' ), 'https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol' ); ?></p>
-						<p><strong><?php _e( 'Enjoy the plugin?' ); ?></strong><br>
-						<?php printf( __( '<a href="%s" target="_blank">Tweet about it</a> and consider donating.' ), 'https://twitter.com/?status=I\'m using the %23WordPress Facebook Open Graph plugin by @chuckreynolds - check it out! http://wordpress.org/plugins/wp-facebook-open-graph-protocol/' ); ?></p>
-						<p><strong><?php _e( 'Donate:' ); ?></strong> <?php _e( 'A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!' ); ?><br>
-						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-						<input type="hidden" name="cmd" value="_s-xclick">
-						<input type="hidden" name="hosted_button_id" value="GWGGBTBJTJMPW">
-						<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-						<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-						</form></p>
-					</div>
-				</div>
-			</div>
+	<div id="poststuff">
+		<div id="post-body" class="metabox-holder columns-2">
+			<div id="post-body-content" style="position: relative">
+				<form method="post" action="options.php">
+				<?php settings_fields( 'wpfbogp_options' ); ?>
+				<?php $options = wpfbogp_get_option(); ?>
 
-			<div class="meta-box-sortables">
-				<div id="about" class="postbox">
-					<h3 class="hndle" id="about-sidebar"><?php _e( 'Relevant Information' ); ?></h3>
-					<div class="inside">
-						<p><?php printf( __( '<a href="%s" target="_blank">Facebook debugger</a> for checking errors and flushing Facebook\'s cache.' ), 'https://developers.facebook.com/tools/debug/' ); ?></p>
-						<p>
-							<a href="https://github.com/chuckreynolds/social-profile-image-sizes" target="_blank"><?php _e( 'Social Media Image Size Reference Guide' ); ?></a><br>
-							<a href="http://ogp.me" target="_blank"><?php _e( 'Open Graph Protocol' ); ?></a><br>
-							<a href="https://developers.facebook.com/docs/sharing/best-practices" target="_blank"><?php _e( 'Facebook Sharing Best Practices' ); ?></a><br>
-							<a href="https://developers.facebook.com/docs/platforminsights/domains" target="_blank"><?php _e( 'Facebook Domain Insights' ); ?></a><br>
-							<a href="https://developers.facebook.com/docs/plugins/like-button" target="_blank"><?php _e( 'How To Add a Like Button' ); ?></a>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div> <!-- // #side-info-column .inner-sidebar -->
+				<table class="form-table">
+					<tr valign="top">
+						<th scope="row"></th>
+						<td><p class="description"><?php _e( 'Facebook requires you to use either a personal Facebook User ID <i>(most common)</i> or an Application ID. You can use both if you\'d like, but the plugin will not output tags for Facebook until one of these inputs has data. Then you\'re all set!' ); ?></p></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="wpfbogp[wpfbogp_admin_ids]"><?php _e( 'Facebook User Account ID' ); ?></label></th>
+						<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text">
+							<p class="description"><?php _e( 'Enter your personal Facebook User ID number here. For most sites you will use this field instead of an App ID below.<br>
+								<strong>How to find your ID:</strong> Go to: <code>http://graph.facebook.com/<strong>YOURusername</strong></code> and copy the number next to "<code>id:</code>".<br>
+								<small>- NOTE: You can enter multiple ID numbers by separating each with a comma</small><br>
+								<small>- NOTE: This is your Personal ID number and cannot be a Page ID - Facebook will throw an error with a Page ID</small>' ); ?></p></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><label for="wpfbogp[wpfbogp_app_id]"><?php _e( 'Facebook Application ID' ); ?></label></th>
+						<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text">
+							<p class="description"><?php _e( 'If you have a Facebook Application and would rather track insights on that instead of a personal ID, then use this field instead. Typically for business/brand sites.<br>
+								<strong>How to find your Application ID</strong>: Go to: <code>https://developers.facebook.com/apps/</code> and copy the number next to "<code>App ID:</code>".<br>
+								<small>- NOTE: You cannot use multiple App IDs here</small>' ); ?></p></td>
+					</tr>
+				</table>
 
+				<table class="form-table">
+					<tr valign="top">
+						<th scope="row"><label for="wpfbogp[wpfbogp_fallback_img]"><?php _e( 'Fallback Image URL' ); ?></label></th>
+						<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text">
+							<p class="description"><?php _e( 'Optional: Enter the full URL (including the http:// part) of the image you\'d like to use as a fallback when others aren\'t available.<br>
+								<small>- NOTE: FB\'s minimum image size is 600px by 315px. (1200px by 630px is recommended)</small><br>
+								<small>- NOTE: Choose or Upload an image via the <a href="upload.php">Media Library</a> and then copy the image URL and put it here. It doesn\'t have to be a local image file.</small>' ); ?></p></td>
+					</tr>
+					<tr valign="top">
+						<th scope="row"><?php _e( 'FORCE Image Fallback?' ); ?></th>
+						<td>
+							<fieldset>
+								<label for="wpfbogp[wpfbogp_force_fallback]">
+									<input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>)>
+									<?php _e( 'Check this to force the Fallback Image' ); ?>
+								</label>
+							</fieldset>
+							<p class="description"><?php _e( 'Optional: Check this only if you want to use the Fallback Image for EVERYTHING instead of featured images or content images.'); ?></p>
+						</td>
+					</tr>
+				</table>
+				<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
+				</form>
+			</div> <!-- / #post-body-content -->
 
-		<div id="post-body" class="has-sidebar">
-			<div id="post-body-content" class="has-sidebar-content">
-				<div id="normal-sortables" class="meta-box-sortables">
-					<div id="about" class="postbox">
+			<div id="postbox-container-1" class="postbox-container">
+				<div id="side-sortables" class="meta-box-sortables ui-sortable">
+					<div id="wpfbogp_about" class="postbox">
+						<h3 class="hndle" id="about-sidebar"><?php _e( 'About the Plugin' ); ?></h3>
 						<div class="inside">
+							<p><?php printf( __( 'For any support issues or feature/function requests please use the <a href="%s" target="_blank">support forum on wordpress.org</a>.' ), 'https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol' ); ?></p>
+							<p><strong><?php _e( 'Enjoy the plugin?' ); ?></strong><br>
+							<?php printf( __( '<a href="%s" target="_blank">Tweet about it</a> and consider donating.' ), 'https://twitter.com/?status=I\'m using the %23WordPress Facebook Open Graph plugin by @chuckreynolds - check it out! http://wordpress.org/plugins/wp-facebook-open-graph-protocol/' ); ?></p>
+							<p><strong><?php _e( 'Donate:' ); ?></strong> <?php _e( 'A lot of hard work goes into building plugins - support your open source developers. Include your twitter username and I\'ll send you a shout out for your generosity. Thank you!' ); ?><br>
+							<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+							<input type="hidden" name="cmd" value="_s-xclick">
+							<input type="hidden" name="hosted_button_id" value="GWGGBTBJTJMPW">
+							<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+							<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+							</form></p>
+						</div>
+					</div> <!-- / #wpfbogp_about -->
 
-		<form method="post" action="options.php">
-			<?php settings_fields( 'wpfbogp_options' ); ?>
-			<?php $options = wpfbogp_get_option(); ?>
+					<div id="wpfbogp_reference" class="postbox">
+						<h3 class="hndle" id="about-sidebar"><?php _e( 'Relevant Information' ); ?></h3>
+						<div class="inside">
+							<p><?php printf( __( '<a href="%s" target="_blank">Facebook debugger</a> for checking errors and flushing Facebook\'s cache.' ), 'https://developers.facebook.com/tools/debug/' ); ?></p>
+							<p>
+								<a href="https://github.com/chuckreynolds/social-profile-image-sizes" target="_blank"><?php _e( 'Social Media Image Size Reference Guide' ); ?></a><br>
+								<a href="http://ogp.me" target="_blank"><?php _e( 'Open Graph Protocol' ); ?></a><br>
+								<a href="https://developers.facebook.com/docs/sharing/best-practices" target="_blank"><?php _e( 'Facebook Sharing Best Practices' ); ?></a><br>
+								<a href="https://developers.facebook.com/docs/platforminsights/domains" target="_blank"><?php _e( 'Facebook Domain Insights' ); ?></a><br>
+								<a href="https://developers.facebook.com/docs/plugins/like-button" target="_blank"><?php _e( 'How To Add a Like Button' ); ?></a>
+							</p>
+						</div>
+					</div> <!-- / #wpfbogp_reference -->
+				</div> <!-- / #side-sortables .meta-box-sortables ui-sortable -->
+			</div> <!-- / #postbox-container-1 .postbox-container -->
 
-		<table class="form-table">
-			<tr valign="top">
-				<th scope="row"><?php _e( 'General Info' ); ?></th>
-				<td><?php _e( 'Facebook requires you to use either a personal Facebook User ID <i>(most common)</i> or an Application ID. You can use both if you\'d like, but the plugin will not output tags for Facebook until one of these inputs has data. Then you\'re all set!' ); ?></td>
-			</tr>
-			<tr valign="top">
-				<th scope="row"><?php _e( 'Facebook User Account ID' ); ?></th>
-				<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text" /><br>
-					<?php _e( 'Enter your personal Facebook User ID number here. For most sites you will use this field instead of an App ID below.<br>
-						<strong>How to find your ID:</strong> Go to: <code>http://graph.facebook.com/<strong>YOURusername</strong></code> and copy the number next to "<code>id:</code>".<br>
-						<i><small>- NOTE: You can enter multiple ID numbers by separating each with a comma</small></i><br>
-						<i><small>- NOTE: This is your Personal ID number and cannot be a Page ID - Facebook will throw an error with a Page ID</small></i>' ); ?></td>
-			</tr>
-			<tr valign="top">
-				<th scope="row"><?php _e( 'Facebook Application ID' ); ?></th>
-				<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text" /><br>
-					<?php _e( 'If you have a Facebook Application and would rather track insights on that instead of a personal ID, then use this field instead. Typically for business/brand sites.<br>
-						<strong>How to find your Application ID</strong>: Go to: <code>https://developers.facebook.com/apps/</code> and copy the number next to "<code>App ID:</code>".<br>
-						<i><small>- NOTE: You cannot use multiple App IDs here</small></i>' ); ?></td>
-			</tr>
-		</table>
-		<table class="form-table">
-			<tr valign="top">
-				<th scope="row"><?php _e( 'Fallback Image URL' ); ?></th>
-				<td><input type="text" name="wpfbogp[wpfbogp_fallback_img]" value="<?php echo $options['wpfbogp_fallback_img']; ?>" class="large-text" /><br>
-					<?php _e( 'Optional: Enter the full URL (including the http:// part) of the image you\'d like to use as a fallback when others aren\'t available.<br>
-						<i><small>- NOTE: FB\'s minimum image size is 600px by 315px. (1200px by 630px is recommended)</small></i><br>
-						<i><small>- NOTE: Choose or Upload an image via the <a href="upload.php">Media Library</a> and then copy the image URL and put it here. It doesn\'t have to be a local image file.</small></i>' ); ?></td>
-			</tr>
-			<tr valign="top">
-				<th scope="row"><?php _e( 'FORCE Image Fallback?' ); ?></th>
-				<td><input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>) /> <?php _e( 'Check this only if you want to use the Fallback Image for EVERYTHING instead of featured images or content images.' ); ?></td>
-			</tr>
-		</table>
+		</div> <!-- / #post-body .metabox-holder columns-2 -->
+		<br class="clear">
 
-		<input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ); ?>" />
-		</form>
-		<br class="clear" />
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
-</div>
+	</div> <!-- / #poststuff -->
+</div> <!-- / .wrap -->
 <?php
 }
 
