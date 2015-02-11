@@ -11,13 +11,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome!
 
 == Description ==
-This plugin adds well executed and accurate Facebook Open Graph Meta tag information to your site. The idea is to keep minimal settings and options as to remain out of your way and in the background while still proving a powerful Open Graph plugin for your WordPress site. This plugin works on Facebook, Google Plus, and Linkedin.
+This plugin adds well executed and accurate Facebook Open Graph Meta tag information to your site. The idea is to keep minimal settings and options as to remain out of your way and in the background while still proving a powerful Open Graph plugin for your WordPress site. This plugin works on Facebook, Google Plus, Linkedin, and any site that reads open graph tags.
 Shortname: WPFBOGP
 
 = Image Handling =
 By popular demand we've added a setting so the Fallback image in settings can be the default sitewide. If you don't check that box, here's now she works.
 The plugin will first look for a featured image. If there isn't one or your theme doesn't have those available, then it will pull the image(s) in the post/page content. If that isn't there either, then it will default to using the image you put into the plugin settings in the admin panel. If THAT isn't there then... well you fail and you won't have an image and we'll put a comment in your source to remind you to add one as Facebook requires one.
-New in 2.0 - We'll pull ALL those images and feed them to Facebook and Google + so you can hit the arrows to select which one you want. It will use the fallback image first IF it's selected as default, then will do featured image next and then any content images.
+New in 2.0 - We'll pull ALL those images and feed them to Facebook and Google+ so you can hit the arrows to select which one you want. It will use the fallback image first IF it's selected as default, then will do featured image next and then any content images.
 Test with the <a href="http://developers.facebook.com/tools/debug">Facebook Debugger</a>.
 
 = Title and Description =
@@ -223,7 +223,7 @@ Because we're getting more accurate titles you may see a change in how they're p
 * added meta field if no admin id set as to give instruction to liven up plugin
 * more readme explanation/help
 
-= 0.0.1 =
+= 0.0.1 -  2011-07-14 =
 * Initial beta release
 
 == Other Notes ==
