@@ -51,7 +51,7 @@ add_filter( 'language_attributes','wpfbogp_namespace' );
 * @return array of images from the current post
 */
 function wpfbogp_find_images() {
-	global $post, $posts;
+	global $post;
 
 	if( !is_object($post) || get_class($post) != 'WP_Post' ) {
 		return array();
