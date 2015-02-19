@@ -383,7 +383,7 @@ function wpfbogp_buildpage() {
 						<td>
 							<fieldset>
 								<label for="wpfbogp[wpfbogp_force_fallback]">
-									<input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>)>
+									<input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>>
 									<?php _e( 'Check this to force the Fallback Image' ); ?>
 								</label>
 							</fieldset>
@@ -447,7 +447,7 @@ function wpfbogp_validate($input) {
 	$input['wpfbogp_admin_ids'] = sanitize_text_field($input['wpfbogp_admin_ids']);
 	$input['wpfbogp_app_id'] = sanitize_text_field($input['wpfbogp_app_id']);
 	$input['wpfbogp_fallback_img'] = sanitize_text_field($input['wpfbogp_fallback_img']);
-	$input['wpfbogp_force_fallback'] = ($input['wpfbogp_force_fallback'] == 1)  ? 1 : 0;
+	$input['wpfbogp_force_fallback'] = (!empty($input['wpfbogp_force_fallback']) && ($input['wpfbogp_force_fallback'] == 1)  ? 1 : 0);
 	return $input;
 }
 
