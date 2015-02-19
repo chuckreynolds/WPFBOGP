@@ -1,10 +1,10 @@
 === WP Facebook Open Graph protocol ===
 Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
-Tags: open graph, ogp, facebook open graph, google +1, +1, google plus, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
+Tags: social sharing optimization, sso, open graph, ogp, facebook open graph, facebook meta tags, google +1, google plus, linkedin share, facebook meta, open graph meta, facebook share, linkedin, social sharing, wpsso, meta tags, meta, plugin
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 2.3-beta.2
+Stable tag: 2.3.0-beta.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,7 +66,7 @@ Do you have a feature request? Want to help with code? I could always use help -
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
-= 2.3 =
+= 2.3.0 =
 Show featured image 1st to Facebook (full size now!), then content images, then fallback. And made our settings more pretty-er!
 
 = 2.0.11 =
@@ -106,7 +106,7 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
-= 2.3 =
+= 2.3.0 =
 *Release Date - 2015-02-19*
 * Adjust image array to use feat img first, then content images, then fallback. It WAS like this but Facebook changed in which order they prioritize the image they use first. So - I'm trying to keep up with them
 * Use full size featured image now instead of large
@@ -116,6 +116,7 @@ Because we're getting more accurate titles you may see a change in how they're p
 * Updated the screenshot to reflect new admin settings page look
 * Start dating releases in changelog and backdate some previous releases. I find this very useful, at times, in other plugins so I'm doing it too and so should everybody
 * Version bump. Not that it matters but had messy dev environments with many ppl so needed to go above that. And cause Jordan 23!
+* Also to note - trying to be better at Semantic Versioning - semver.org
 
 = 2.0.11 =
 *Release Date - 2014-07-31*
