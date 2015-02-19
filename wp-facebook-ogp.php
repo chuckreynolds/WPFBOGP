@@ -29,6 +29,19 @@ define( 'WPFBOGP_VERSION', '2.0.12' );
 wpfbogp_admin_warnings();
 
 /**
+* Provide a fallback if server php doesn't have mb_substr enabled
+*
+* @link http://php.net/manual/en/mbstring.installation.php
+*
+* @return void
+*/
+if (!function_exists('mb_substr')) {
+	function mb_substr($str , $start, $length = null, $encoding = 'UTF-8') {
+		return is_null($length) ? substr($str , $start) : substr($str , $start, $length);
+	}
+}
+
+/**
 * Drop filter for when jetpack has their ogp stuff on
 *
 * @return void
@@ -184,7 +197,7 @@ function wpfbogp_build_head() {
 			if ( has_excerpt( $post->ID ) ) {
 				$wpfbogp_description = get_the_excerpt();
 			} else {
-				$wpfbogp_description = str_replace( "\r\n", ' ' , substr( $post->post_content, 0, 160 ) );
+				$wpfbogp_description = preg_replace('/\s+/', ' ', mb_substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160, 'UTF-8' ) );
 			}
 		} else {
 			$wpfbogp_description = get_bloginfo( 'description' );
