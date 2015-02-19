@@ -113,6 +113,7 @@ Because we're getting more accurate titles you may see a change in how they're p
 * Some code cleanup
 * Rewrote the settings page completely to use WP 4.1x css. And it looks better too!
 * Improved UTF-8 description extracting for non-english sites - props -> @garex
+* Fix for the undefined index notice on checkbox setting
 * Updated the screenshot to reflect new admin settings page look
 * Start dating releases in changelog and backdate some previous releases. I find this very useful, at times, in other plugins so I'm doing it too and so should everybody
 * Version bump. Not that it matters but had messy dev environments with many ppl so needed to go above that. And cause Jordan 23!
