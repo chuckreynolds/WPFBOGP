@@ -76,7 +76,7 @@ function wpfbogp_find_images() {
 
 	// Grab content and match first image
 	$content = $post->post_content;
-	$output = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
+	$output = preg_match_all( '|<img.*?src=[\'"](.*?)[\'"].*?>|i', $content, $matches );
 
 	// Make sure there was an image that was found, otherwise return false
 	if ( $output === FALSE ) {
