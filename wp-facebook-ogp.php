@@ -3,7 +3,7 @@
 Plugin Name:    WP Facebook Open Graph protocol
 Plugin URI:     https://wordpress.org/plugins/wp-facebook-open-graph-protocol/
 Description:    Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google+ and Linkedin too!
-Version: 		2.0.12
+Version: 		2.3-beta.2
 Author: 		Chuck Reynolds
 Author URI: 	https://chuckreynolds.us
 License:		GPLv2 or later
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define( 'WPFBOGP_VERSION', '2.0.12' );
+define( 'WPFBOGP_VERSION', '2.3-beta.2' );
 wpfbogp_admin_warnings();
 
 /**
