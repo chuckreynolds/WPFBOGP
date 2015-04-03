@@ -172,7 +172,7 @@ function wpfbogp_build_head() {
 		}
 
 		// do url stuff based on rel_canonical in wp
-		if (is_home() || is_front_page() ) {
+		if ( is_front_page() ) {
 			$wpfbogp_url = trailingslashit( home_url() );
 		} else {
 			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
