@@ -219,7 +219,7 @@ function wpfbogp_build_head() {
 		// Only find images if it isn't the homepage and the fallback isn't being forced
 		if ( ! is_home() && $options['wpfbogp_force_fallback'] != 1 ) {
 			// Find featured thumbnail of the current post/page
-			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) ) {
+			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail() ) {
 				$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 				$link = $thumbnail_src[0];
  				if ( ! preg_match( '/^https?:\/\//', $link ) ) {
@@ -238,8 +238,7 @@ function wpfbogp_build_head() {
 		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
 			$wpfbogp_fallback_img = esc_attr( apply_filters( 'wpfbogp_fallback_img', $options['wpfbogp_fallback_img'] ) );
 
-			if ( is_array( $wpfbogp_images ) )
-			{
+			if ( is_array( $wpfbogp_images ) ) {
 				$wpfbogp_images[] = $wpfbogp_fallback_img; // Add default img to image array
 				$wpfbogp_images; // order now is: feat img, content imgs, default-unchecked
 			}
@@ -260,7 +259,27 @@ function wpfbogp_build_head() {
 
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
 		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '" />' . "\n";
-		echo "<!-- // end wpfbogp -->\n";
+
+		// wrap it all up and show some helper_codes for support
+		echo "<!-- // end wpfbogp [";
+			if ($options['wpfbogp_force_fallback'] == 1) {
+				echo 'diY-';
+			} else {
+				echo 'diN-';
+			}
+			if ( ! is_singular() && ! is_home() ) {
+				echo '';
+			} elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail() ) {
+				echo 'ftY-';
+			} else {
+				echo 'ftN-';
+			}
+			if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
+				echo 'fbY';
+			} else {
+				echo 'fbN';
+			}
+		echo "] -->\n";
 	}
 }
 
