@@ -172,9 +172,7 @@ function wpfbogp_build_head() {
 		}
 
 		// do url stuff based on rel_canonical in wp
-		#if ( !is_singular() ) {
 		if (is_home() || is_front_page() ) {
-			#$wpfbogp_url = get_bloginfo( 'url' ) . '/';
 			$wpfbogp_url = trailingslashit( home_url() );
 		} else {
 			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
@@ -240,11 +238,11 @@ function wpfbogp_build_head() {
 
 			if ( is_array( $wpfbogp_images ) )
 			{
-				$wpfbogp_images[] = $wpfbogp_fallback_img; // Add default img to image array
-				$wpfbogp_images; // order now is: feat img, content imgs, default-unchecked
+				$wpfbogp_images[] = $wpfbogp_fallback_img; // Add fallback image to image array
+				$wpfbogp_images; // order now is: feat img, content imgs, fallback img unforced
 			}
 			else {
-				$wpfbogp_images = array( $wpfbogp_fallback_img ); // Replace image array with default image as index 0
+				$wpfbogp_images = array( $wpfbogp_fallback_img ); // Replace image array with forced fallback image as index 0
 			}
 		}
 
@@ -254,8 +252,8 @@ function wpfbogp_build_head() {
 				echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '" />' . "\n";
 			}
 		} else {
-			// No images were outputted because they have no default image (at the very least)
-			echo "<!-- No featured or content images are found and no default image is set in the plugin settings! -->\n";
+			// No images were outputted because they have no fallback image (at the very least)
+			echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
 		}
 
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
