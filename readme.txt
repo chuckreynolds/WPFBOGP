@@ -47,16 +47,16 @@ Once you've enabled the plugin head over to Facebook's testing tool and paste in
 Nope. FB does require you to use either a personal Facebook User ID (most common) or an Application ID but you can use both if you'd like. Read up on [Facebook Domain and App insights here](https://developers.facebook.com/docs/platforminsights).
 
 = How do I find my personal Facebook User ID? =
-Go to: [FB Graph API Explorer](https://developers.facebook.com/tools/explorer/?method=GET&path=me), hit Submit, then copy the `number` next to `id:`.
+Go to: [FB Graph API Explorer](https://developers.facebook.com/tools/explorer/?method=GET&path=me), click "Get Access Token" then click "Submit", then copy the `number` next to `id:`.
 
 = Why doesn't this plugin have a Like/Send button? =
 Honestly it's not hard to add one once you have the proper meta content in the header. Look at [how to add a Like button](https://developers.facebook.com/docs/plugins/like-button) using fb:like. There are a lot of 'like' button plugins but this plugin only focuses on solid and accurate Open Graph meta data.
 
 = Facebook is acting weird and not showing the correct info? =
-Yeah they do that. They change stuff ALL THE TIME, as in daily. Try the debugger and hope for the best.
+Yeah they do that. They change stuff ALL THE TIME; as in daily. Try the debugger and hope for the best.
 
 = How do I report a bug? =
-Try to be as specific as possible; write the steps to recreate; turn off all other plugins and test again; then use the wordpress support forum: [https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol](https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol).
+Try to be as specific as possible; write the steps to recreate; turn off all other plugins and test again; then use the wordpress support forum: [https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol](https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol). If you're a developer jump in and do the github thing. Info below.
 
 = Feature Requests / Help with Code =
 Do you have a feature request? Want to help with code? I could always use help - Feel free to jump into Github: [https://github.com/chuckreynolds/WPFBOGP](https://github.com/chuckreynolds/WPFBOGP).
@@ -107,11 +107,12 @@ Because we're getting more accurate titles you may see a change in how they're p
 
 == Changelog ==
 = 2.3.0 =
-*Release Date - 2015-02-29*
-* Adjust image array to use feat img first, then content images, then fallback. It WAS like this but Facebook changed in which order they prioritize the image they use first. So - I'm trying to keep up with them. I'm debating whether or not to display any fallback or content images if a featured image is available.
+*Release Date - 2015-04-04*
+* Adjust image array to use featured image first, then any content images, then the fallback image from settings. It WAS like this but Facebook changed in which order they prioritize the image they use first. So - I'm trying to keep up with them. I'm debating whether or not to display any fallback or content images if a featured image is available. Got an opinion on that? -> [https://github.com/chuckreynolds/WPFBOGP/issues/54](https://github.com/chuckreynolds/WPFBOGP/issues/54)
 * Use full size featured image now instead of large
 * Improved UTF-8 description extracting for non-english sites - props -> @garex
-* Fix for the undefined index notice on checkbox setting
+* Fixed undefined index notice on checkbox setting
+* Fixed issue when using the blog as a page had root url
 * Some code cleanup / refactoring
 * Start dating releases in changelog and backdate some previous releases. I find this very useful at times in other plugins so I'm doing it too and so should everybody
 * Version bump. Not that it matters but had messy dev environments with many ppl so needed to go above that. And cause Jordan 23!

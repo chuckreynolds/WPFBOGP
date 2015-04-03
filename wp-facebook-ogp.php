@@ -355,7 +355,7 @@ function wpfbogp_buildpage() {
 						<th scope="row"><label for="wpfbogp[wpfbogp_admin_ids]"><?php _e( 'Facebook User ID' ); ?></label></th>
 						<td><input type="text" name="wpfbogp[wpfbogp_admin_ids]" value="<?php echo $options['wpfbogp_admin_ids']; ?>" class="regular-text">
 							<p class="description"><?php _e( 'Enter your personal Facebook User ID number here. For most sites you will use this field instead of an App ID below.<br>
-								<strong>How to find your User ID:</strong> <a href="https://developers.facebook.com/tools/explorer/?method=GET&path=me" target="_blank">Click here then hit "Submit" to find your ID</a>. Copy only the number next to "<code>id:</code>".<br>
+								<strong>How to find your User ID:</strong> <a href="https://developers.facebook.com/tools/explorer/?method=GET&path=me" target="_blank">Go here</a>. Click "Get Access Token", then click "Submit" to find your ID. Copy only the number next to "<code>id:</code>".<br>
 								<small>- NOTE: You can enter multiple personal User ID numbers by separating each with a comma</small><br>
 								<small>- NOTE: This is your personal User ID number and cannot be a Page ID - Facebook will throw an error with a Page ID</small>' ); ?></p></td>
 					</tr>
@@ -363,7 +363,7 @@ function wpfbogp_buildpage() {
 						<th scope="row"><label for="wpfbogp[wpfbogp_app_id]"><?php _e( 'Facebook Application ID' ); ?></label></th>
 						<td><input type="text" name="wpfbogp[wpfbogp_app_id]" value="<?php echo $options['wpfbogp_app_id']; ?>" class="regular-text">
 							<p class="description"><?php _e( 'If you have a Facebook Application and would rather track insights on that instead of a personal ID, then use this field instead. Typically for business/brand sites.<br>
-								<strong>How to find your Application ID</strong>: Go to: <code>https://developers.facebook.com/apps/</code> and copy the number next to "<code>App ID:</code>".<br>
+								<strong>How to find your Application ID</strong>: Go to: <a href="https://developers.facebook.com/apps/" target="_blank"><code>https://developers.facebook.com/apps/</code></a> and copy the number next to "<code>App ID:</code>" for the app to associate with.<br>
 								<small>- NOTE: You cannot use multiple App IDs</small>' ); ?></p></td>
 					</tr>
 				</table>
