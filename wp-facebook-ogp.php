@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
 define( 'WPFBOGP_VERSION', '2.3.0-beta.2' );
+define( 'WPFBOGP_TITLE', 'Facebook Open Graph protocol plugin' );
 wpfbogp_admin_warnings();
 
 /**
@@ -60,7 +61,7 @@ function wpfbogp_filter_jetpackogp () {
 function wpfbogp_namespace( $output ) {
 	return $output.' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"';
 }
-add_filter( 'language_attributes','wpfbogp_namespace' );
+add_filter( 'language_attributes', 'wpfbogp_namespace' );
 
 /**
 * Function to call first uploaded image in content
@@ -70,8 +71,8 @@ add_filter( 'language_attributes','wpfbogp_namespace' );
 function wpfbogp_find_images() {
 	global $post;
 
-	if( !is_object($post) || get_class($post) !== 'WP_Post' ) {
-		return array();
+	if( !is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
+		return;
 	}
 
 	// Grab content and match first image
@@ -152,20 +153,19 @@ add_action( 'wp_footer', 'wpfbogp_flush_ob', 10000 ); // Fire after other plugin
 function wpfbogp_build_head() {
 	global $post;
 
-	if( !is_object($post) || get_class($post) !== 'WP_Post' ) {
-		return '';
+	if( !is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
+		return;
 	}
 
 	$options = wpfbogp_get_option();
 	// check to see if you've filled out one of the required fields and announce if not
 	if ( ( ! isset( $options['wpfbogp_admin_ids'] ) || empty( $options['wpfbogp_admin_ids'] ) ) && ( ! isset( $options['wpfbogp_app_id'] ) || empty( $options['wpfbogp_app_id'] ) ) ) {
-		echo "\n<!-- Facebook Open Graph protocol plugin requires a FB User ID or App ID to work, please visit the plugin settings page! -->\n";
+		echo "\n<!-- ".WPFBOGP_TITLE." requires a FB User ID or App ID to work, please visit the plugin settings page! -->\n";
 	} else {
-		echo "\n<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
-
+		echo "\n<!-- ".WPFBOGP_TITLE." (v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
 		// do fb verification fields
 		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
-			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '" />' . "\n";
+			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_admin_ids', $options['wpfbogp_admin_ids'] ) ) . '" />' . "\n";
 		}
 		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
 			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '" />' . "\n";
@@ -191,8 +191,8 @@ function wpfbogp_build_head() {
 		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '" />' . "\n";
 
 		// do descriptions
-		if ( is_singular() ) {
-			if ( has_excerpt( $post->ID ) ) {
+		if ( is_singular() || is_home() && get_option( 'page_for_posts' ) ) {
+			if ( has_excerpt() ) {
 				$wpfbogp_description = get_the_excerpt();
 			} else {
 				$wpfbogp_description = preg_replace('/\s+/', ' ', mb_substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160, 'UTF-8' ) );
@@ -211,6 +211,7 @@ function wpfbogp_build_head() {
 		}
 		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '" />' . "\n";
 
+/* time to hide old and start rebuild of the image handling.
 		// Find/output any images for use in the OGP tags
 		$wpfbogp_images = array();
 
@@ -255,30 +256,77 @@ function wpfbogp_build_head() {
 			// No images were outputted because they have no fallback image (at the very least)
 			echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
 		}
+*/
+		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_force_fallback'] === 1 ) {
+
+			echo '<meta property="og:image" content="' . esc_url( $options['wpfbogp_fallback_img'] ) . '" />' . "\n";
+
+		}
+		elseif ( function_exists( 'has_post_thumbnail' ) ) {
+			// true on pages or posts with a featured image
+			if ( is_singular() && has_post_thumbnail() ) {
+				$wpfbogp_featured_img_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+			}
+			// true if a page with blog posts
+			if ( is_home() && has_post_thumbnail( get_option( 'page_for_posts' ) ) ) {
+				$wpfbogp_featured_img_src = wp_get_attachment_image_src( get_post_thumbnail_id( get_option( 'page_for_posts' ) ), 'full' );
+			}
+			if ( isset( $wpfbogp_featured_img_src[0] ) ) {
+				$wpfbogp_featured_img_link = $wpfbogp_featured_img_src[0];
+				echo '<meta property="og:image" content="' . esc_url( $wpfbogp_featured_img_link ) . '" />' . "\n";
+			}
+		// now need to add search for content images.
+		// if ( is_singular() )
+		// Also need to check for if the home page is a static page so !is_home()? or is_front_page () && get_option( 'show_on_front')
+		// build an array with those images
+		// THEN need to check isset( $options['wpfbogp_fallback_img'] and add that to the bottom of the array
+		// THEN need to check all that above and fire the content warning if nothing was found at all.
+		}
+
+		else {
+			// test where i'm at
+			echo "\n----failed singular & failed page/blog & no featured images either\n";
+		}
+		/*
+		elseif {
+			// No images were outputted because they have no fallback image (at the very least)
+			echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
+		}
+		*/
+
+		// alert me if on a page that has the posts via settings
+		if ( is_home() && get_option( 'page_for_posts' ) ) { // THIS WORKS
+			echo "\n----this is a page that is the blog\n";
+		}
+
+
+
+
 
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
 		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '" />' . "\n";
 
-		// wrap it all up and show some helper_codes for support
-		echo "<!-- // end wpfbogp [";
+		/* wrap it all up and show some helper_codes for support
+		echo "<!-- [";
 			if ($options['wpfbogp_force_fallback'] == 1) {
-				echo 'diY-';
+				echo 'forceY-';
 			} else {
-				echo 'diN-';
-			}
-			if ( ! is_singular() && ! is_home() ) {
-				echo '';
-			} elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail() ) {
-				echo 'ftY-';
-			} else {
-				echo 'ftN-';
+				echo 'forceN-';
 			}
 			if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
-				echo 'fbY';
+				echo 'fallbackY-';
 			} else {
-				echo 'fbN';
+				echo 'fallbackN-';
 			}
-		echo "] -->\n";
+			if ( ! is_singular() && ! is_home() ) { // reminder to make this same loop as above
+				echo '';
+			} elseif ( function_exists( 'has_post_thumbnail' ) && (has_post_thumbnail() || has_post_thumbnail( get_option( 'page_for_posts' ) ) ) ) {
+				echo 'featY';
+			} else {
+				echo 'featN';
+			}
+		echo "] // end wpfbogp -->\n";
+		*/
 	}
 }
 
@@ -358,7 +406,7 @@ function wpfbogp_buildpage() {
 ?>
 
 <div class="wrap">
-	<h2>Facebook Open Graph protocol plugin <em>v<?php echo WPFBOGP_VERSION; ?></em></h2>
+	<h2><?php echo WPFBOGP_TITLE." <em>v".WPFBOGP_VERSION; ?></em></h2>
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-2">
 			<div id="post-body-content" style="position: relative">
@@ -479,7 +527,7 @@ function wpfbogp_admin_warnings() {
 		$wpfbogp_data = wpfbogp_get_option();
 	if ((empty($wpfbogp_data['wpfbogp_admin_ids']) || $wpfbogp_data['wpfbogp_admin_ids'] == '') && (empty($wpfbogp_data['wpfbogp_app_id']) || $wpfbogp_data['wpfbogp_app_id'] == '')) {
 		function wpfbogp_warning() {
-			echo "<div id='wpfbogp-warning' class='updated fade'><p><strong>".__('WP Facebook OGP plugin is almost ready!')."</strong> ".sprintf(__('A <a href="%1$s">Facebook ID is needed</a> for it to start working.'), "options-general.php?page=wpfbogp")."</p></div>";
+			echo "<div id='wpfbogp-warning' class='updated fade'><p><strong>".WPFBOGP_TITLE.__(' is almost ready!')."</strong> ".sprintf(__('A <a href="%1$s">Facebook ID is needed</a> for it to start working.'), "options-general.php?page=wpfbogp")."</p></div>";
 		}
 	add_action('admin_notices', 'wpfbogp_warning');
 	}
