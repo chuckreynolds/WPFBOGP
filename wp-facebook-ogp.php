@@ -75,11 +75,11 @@ function wpfbogp_find_images() {
 		return;
 	}
 
-	// Grab content and match first image
+	// Grab post content and match images
 	$content = $post->post_content;
 	$output = preg_match_all( '|<img.*?src=[\'"](.*?)[\'"].*?>|i', $content, $matches );
 
-	// Make sure there was an image that was found, otherwise return false
+	// Make sure there was at least one image found, otherwise return false
 	if ( $output === FALSE ) {
 		return false;
 	}
@@ -157,12 +157,51 @@ function wpfbogp_build_head() {
 		return;
 	}
 
-	$options = wpfbogp_get_option();
+	$options = wpfbogp_get_option(); // get all plugin options
+
+	/*
+	 * Test cases - help with dev
+	 *
+	$show_on_front  = get_option( 'show_on_front'  ); // returns either 'posts' or 'page'
+	$page_for_posts = get_option( 'page_for_posts' ); // returns the ID of the static page assigned to the blog posts index (posts page)
+	$page_on_front  = get_option( 'page_on_front'  ); // returns the ID of the static page assigned to the front page
+
+	// Determine whether the current page is the homepage and shows posts.
+	function wpfbogp_is_home_posts_page() {
+		return ( is_home() && 'posts' == get_option( 'show_on_front' ) );
+	}
+
+	// Determine whether the current page is a static homepage.
+	function wpfbogp_is_static_front_page() {
+		return ( is_front_page() && 'page' == get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
+	}
+
+	// Determine whether this is the posts page, regardless of whether it's the frontpage or not.
+	function wpfbogp_is_posts_index_page() {
+		return ( is_home() && 'page' == get_option( 'show_on_front' ) );
+	}
+
+	if ( wpfbogp_is_home_posts_page() ) {
+		echo "\n-- Current is the homepage and shows posts\n";}
+
+	if ( wpfbogp_is_static_front_page() ) {
+		echo "\n-- Current is the homepage and static page\n";}
+
+	if ( wpfbogp_is_posts_index_page() ) {
+		echo "\n-- Current is the posts index via a page\n";}
+
+	if ( wpfbogp_is_posts_index_page() && has_post_thumbnail( $page_for_posts ) ) {
+		echo "\n-- Current is posts index shown via a page AND has a featured image\n";
+	}
+	*/
+
+
 	// check to see if you've filled out one of the required fields and announce if not
 	if ( ( ! isset( $options['wpfbogp_admin_ids'] ) || empty( $options['wpfbogp_admin_ids'] ) ) && ( ! isset( $options['wpfbogp_app_id'] ) || empty( $options['wpfbogp_app_id'] ) ) ) {
 		echo "\n<!-- ".WPFBOGP_TITLE." requires a FB User ID or App ID to work, please visit the plugin settings page! -->\n";
 	} else {
 		echo "\n<!-- ".WPFBOGP_TITLE." (v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
+
 		// do fb verification fields
 		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
 			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_admin_ids', $options['wpfbogp_admin_ids'] ) ) . '" />' . "\n";
@@ -170,6 +209,17 @@ function wpfbogp_build_head() {
 		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
 			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '" />' . "\n";
 		}
+
+		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
+		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '" />' . "\n";
+
+		// do ogp type
+		if ( is_single() ) {
+			$wpfbogp_type = 'article';
+		} else {
+			$wpfbogp_type = 'website';
+		}
+		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '" />' . "\n";
 
 		// do url stuff based on rel_canonical in wp
 		if ( is_front_page() ) {
@@ -203,15 +253,9 @@ function wpfbogp_build_head() {
 		$wpfbogp_description_clean = sanitize_text_field( strip_shortcodes( $wpfbogp_description ) );
 		echo '<meta property="og:description" content="' . apply_filters( 'wpfbogp_description', $wpfbogp_description_clean ) . '" />' . "\n";
 
-		// do ogp type
-		if ( is_single() ) {
-			$wpfbogp_type = 'article';
-		} else {
-			$wpfbogp_type = 'website';
-		}
-		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '" />' . "\n";
 
 /* time to hide old and start rebuild of the image handling.
+
 		// Find/output any images for use in the OGP tags
 		$wpfbogp_images = array();
 
@@ -257,76 +301,64 @@ function wpfbogp_build_head() {
 			echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
 		}
 */
+
+
+		// Find/output any images for use in the OGP tags
+		// If force fallback options setting is set - then only show that
 		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_force_fallback'] === 1 ) {
-
 			echo '<meta property="og:image" content="' . esc_url( $options['wpfbogp_fallback_img'] ) . '" />' . "\n";
-
 		}
-		elseif ( function_exists( 'has_post_thumbnail' ) ) {
-			// true on pages or posts with a featured image
-			if ( is_singular() && has_post_thumbnail() ) {
-				$wpfbogp_featured_img_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+		// If no force fallback: and this is a page or post and has a featured image: pull the featured image
+		elseif ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) && is_singular() ) {
+			$wpfbogp_featured_img_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+			echo '<meta property="og:image" content="' . esc_url( $wpfbogp_featured_img_src[0] ) . '" />' . "\n";
+		}
+		// Use our function to find post/page images
+		elseif ( wpfbogp_find_images() !== false ) {
+			$wpfbogp_images = array();
+			$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() ); // Returns an array already, so merge into existing
+			foreach ( $wpfbogp_images as $image ) {
+				echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '" />' . "\n";
 			}
-			// true if a page with blog posts
-			if ( is_home() && has_post_thumbnail( get_option( 'page_for_posts' ) ) ) {
-				$wpfbogp_featured_img_src = wp_get_attachment_image_src( get_post_thumbnail_id( get_option( 'page_for_posts' ) ), 'full' );
-			}
-			if ( isset( $wpfbogp_featured_img_src[0] ) ) {
-				$wpfbogp_featured_img_link = $wpfbogp_featured_img_src[0];
-				echo '<meta property="og:image" content="' . esc_url( $wpfbogp_featured_img_link ) . '" />' . "\n";
-			}
-		// now need to add search for content images.
-		// if ( is_singular() )
-		// Also need to check for if the home page is a static page so !is_home()? or is_front_page () && get_option( 'show_on_front')
-		// build an array with those images
-		// THEN need to check isset( $options['wpfbogp_fallback_img'] and add that to the bottom of the array
-		// THEN need to check all that above and fire the content warning if nothing was found at all.
 		}
 
-		else {
-			// test where i'm at
-			echo "\n----failed singular & failed page/blog & no featured images either\n";
+		////// elseif after this is broken. on pages/posts w/ no feat or content imgs this displays nothing
+
+		// Didn't find anything else so if there's a fallback? use it.
+		if ( isset( $options['wpfbogp_fallback_img'] ) ) {
+			$wpfbogp_fallback_img = esc_attr( $options['wpfbogp_fallback_img'] );
+			echo '<meta property="og:image" content="' . esc_url( $options['wpfbogp_fallback_img'] ) . '" />' . "\n";
 		}
-		/*
-		elseif {
-			// No images were outputted because they have no fallback image (at the very least)
+		// No images were outputted because they have no fallback image (at the very least)
+		if ( ! isset( $options['wpfbogp_fallback_img'] ) ) {
 			echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
 		}
-		*/
-
-		// alert me if on a page that has the posts via settings
-		if ( is_home() && get_option( 'page_for_posts' ) ) { // THIS WORKS
-			echo "\n----this is a page that is the blog\n";
-		}
 
 
-
-
-
-		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
-		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '" />' . "\n";
-
-		/* wrap it all up and show some helper_codes for support
+		// wrap it all up and show some helper_codes for support
+		////// STILL NEED TO WORK ON THIS AFTER ^^ IMGS DONE - need one for content images too //////
 		echo "<!-- [";
 			if ($options['wpfbogp_force_fallback'] == 1) {
-				echo 'forceY-';
+				echo "forceY-";
 			} else {
-				echo 'forceN-';
+				echo "forceN-";
 			}
 			if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
-				echo 'fallbackY-';
+				echo "fallbackY-";
 			} else {
-				echo 'fallbackN-';
+				echo "fallbackN-";
 			}
-			if ( ! is_singular() && ! is_home() ) { // reminder to make this same loop as above
-				echo '';
-			} elseif ( function_exists( 'has_post_thumbnail' ) && (has_post_thumbnail() || has_post_thumbnail( get_option( 'page_for_posts' ) ) ) ) {
-				echo 'featY';
+			if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) && is_singular() ) {
+				echo "featY-";
 			} else {
-				echo 'featN';
+				echo "featN-";
+			}
+			if ( wpfbogp_find_images() !== false ) {
+				echo "imgsY";
+			} else {
+				echo "imgsN";
 			}
 		echo "] // end wpfbogp -->\n";
-		*/
 	}
 }
 
@@ -340,12 +372,6 @@ function wpfbogp_build_head() {
 * @return array of wordpress options "wpfbogp"
 */
 function wpfbogp_get_option() {
-	#if( is_multisite() == true ) {
-	#	$options = get_site_option('wpfbogp', false, true);
-	#}
-	#if( $options === false ) {
-	#	$options = get_option('wpfbogp');
-	#}
 	$options = get_site_option( 'wpfbogp', false, true );
 	return $options;
 }
@@ -368,8 +394,10 @@ function wpfbogp_delete_option() {
 }
 
 add_action( 'wp_head', 'wpfbogp_build_head', 50 );
-add_action( 'admin_init', 'wpfbogp_init' );
-add_action( 'admin_menu', 'wpfbogp_add_page' );
+if ( is_admin() ) {
+	add_action( 'admin_init', 'wpfbogp_init' );
+	add_action( 'admin_menu', 'wpfbogp_add_page' );
+}
 
 /**
 * Register settings and sanitization callback
@@ -389,7 +417,7 @@ function wpfbogp_init() {
 * @return void
 */
 function wpfbogp_add_page() {
-	$options = wpfbogp_get_option();
+	$options = wpfbogp_get_option(); // get all plugin options
 	if( $options && array_key_exists( 'wpfbogp_hide_page', $options ) && $options['wpfbogp_hide_page'] == true ) {
 		return;
 	} else {
@@ -411,8 +439,10 @@ function wpfbogp_buildpage() {
 		<div id="post-body" class="metabox-holder columns-2">
 			<div id="post-body-content" style="position: relative">
 				<form method="post" action="options.php">
-				<?php settings_fields( 'wpfbogp_options' ); ?>
-				<?php $options = wpfbogp_get_option(); ?>
+				<?php
+					settings_fields( 'wpfbogp_options' );
+					$options = wpfbogp_get_option(); // get all plugin options
+				?>
 
 				<table class="form-table">
 					<tr valign="top">
@@ -524,7 +554,7 @@ function wpfbogp_validate($input) {
 */
 function wpfbogp_admin_warnings() {
 	global $wpfbogp_admins;
-		$wpfbogp_data = wpfbogp_get_option();
+	$wpfbogp_data = wpfbogp_get_option(); // get all plugin options
 	if ((empty($wpfbogp_data['wpfbogp_admin_ids']) || $wpfbogp_data['wpfbogp_admin_ids'] == '') && (empty($wpfbogp_data['wpfbogp_app_id']) || $wpfbogp_data['wpfbogp_app_id'] == '')) {
 		function wpfbogp_warning() {
 			echo "<div id='wpfbogp-warning' class='updated fade'><p><strong>".WPFBOGP_TITLE.__(' is almost ready!')."</strong> ".sprintf(__('A <a href="%1$s">Facebook ID is needed</a> for it to start working.'), "options-general.php?page=wpfbogp")."</p></div>";
