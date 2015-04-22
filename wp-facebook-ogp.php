@@ -387,7 +387,7 @@ function wpfbogp_get_option() {
 * @return void
 */
 function wpfbogp_delete_option() {
-	if( is_multisite() == true ) {
+	if( is_multisite() === true ) {
 		delete_site_option( 'wpfbogp' );
 	}
 	delete_option( 'wpfbogp' );
@@ -418,7 +418,7 @@ function wpfbogp_init() {
 */
 function wpfbogp_add_page() {
 	$options = wpfbogp_get_option(); // get all plugin options
-	if( $options && array_key_exists( 'wpfbogp_hide_page', $options ) && $options['wpfbogp_hide_page'] == true ) {
+	if( $options && array_key_exists( 'wpfbogp_hide_page', $options ) && $options['wpfbogp_hide_page'] === true ) {
 		return;
 	} else {
 		add_options_page( 'Facebook Open Graph protocol plugin', 'Facebook OGP', 'manage_options', 'wpfbogp', 'wpfbogp_buildpage' );
