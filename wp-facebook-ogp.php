@@ -87,7 +87,7 @@ function wpfbogp_find_images() {
 	$wpfbogp_images = array();
 	foreach ( $matches[1] as $match ) {
 		// If the image path is relative, add the site url to the beginning
-		if ( ! preg_match('/^https?:\/\//', $match ) ) {
+		if ( ! preg_match( '/^https?:\/\//', $match ) ) {
 			// Remove any starting slash with ltrim() and add one to the end of site_url()
 			$match = site_url( '/' ) . ltrim( $match, '/' );
 		}
