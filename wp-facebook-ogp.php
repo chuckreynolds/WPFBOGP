@@ -225,7 +225,7 @@ function wpfbogp_build_head() {
 		if ( is_front_page() ) {
 			$wpfbogp_url = home_url();
 		} else {
-			$wpfbogp_url = 'http' . ( is_ssl() ? 's' : '' ) . "://".$_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+			$wpfbogp_url = 'http' . ( is_ssl() ? 's' : '' ) . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 		}
 		echo '<meta property="og:url" content="' . esc_url( trailingslashit( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) ) . '" />' . "\n";
 
