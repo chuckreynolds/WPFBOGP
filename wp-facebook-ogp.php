@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name:    WP Facebook Open Graph protocol
-Plugin URI:     https://wordpress.org/plugins/wp-facebook-open-graph-protocol/
-Description:    Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google+ and Linkedin too!
-Version: 		2.3.0-beta.2
-Author: 		Chuck Reynolds
-Author URI: 	https://chuckreynolds.us
-License:		GPLv2 or later
-License URI: 	http://www.gnu.org/licenses/gpl-2.0.html
+Plugin Name: WP Facebook Open Graph protocol
+Plugin URI:  https://wordpress.org/plugins/wp-facebook-open-graph-protocol/
+Description: Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google+ and Linkedin too!
+Version:     2.3.0-beta.2
+Author:      Chuck Reynolds
+Author URI:  https://chuckreynolds.us
+License:     GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Copyright 2014 Chuck Reynolds (email : chuck@rynoweb.com)
 
@@ -36,9 +36,9 @@ wpfbogp_admin_warnings();
 *
 * @return void
 */
-if (!function_exists('mb_substr')) {
-	function mb_substr($str , $start, $length = null, $encoding = 'UTF-8') {
-		return is_null($length) ? substr($str , $start) : substr($str , $start, $length);
+if ( ! function_exists( 'mb_substr' ) ) {
+	function mb_substr( $str , $start, $length = null, $encoding = 'UTF-8' ) {
+		return is_null( $length ) ? substr( $str , $start ) : substr( $str , $start, $length );
 	}
 }
 
@@ -59,7 +59,7 @@ function wpfbogp_filter_jetpackogp () {
 * @return string with opg.me schema added
 */
 function wpfbogp_namespace( $output ) {
-	return $output.' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"';
+	return $output . ' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"';
 }
 add_filter( 'language_attributes', 'wpfbogp_namespace' );
 
