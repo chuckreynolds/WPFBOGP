@@ -69,6 +69,9 @@ Do you have a feature request? Want to help with code? I could always use help -
 = 2.3.0 =
 Show featured image 1st to Facebook (full size now!), then content images, then fallback. And made our settings more pretty-er!
 
+= 2.0.12 =
+Quick Patch - Changes how trailing slashes are handled. Big update coming soon too!
+
 = 2.0.11 =
 Fixes an issue some had with thumbnail image paths & fixes php notice some were getting. Cheers.
 
@@ -121,29 +124,47 @@ Because we're getting more accurate titles you may see a change in how they're p
 * Branding: Updated the screenshot to reflect new admin settings page look
 * Branding: Brand new look for the plugin page banner and I added the square icon for plugin search. Added appropriate sizes for retina as well.
 
+
+= 2.0.12 =
+
+Release Date - 2015-06-19
+
+* Changed how og:url is called and handle trailing slashes better all around
+* Fixed issue when using the blog as a page had root url
+
 = 2.0.11 =
-*Release Date - 2014-07-31*
+
+Release Date - 2014-07-31
+
 * Check for relative URLs in post thumbnails images - props -> @jjeaton
 * Fixes problem w/ strings in image array
 * Flip image array. this will move your default image (if you have one) to the top of the array but Facebook pulls it the way they want anyways.
 
 = 2.0.10 =
-*Release Date - 2014-04-18*
+
+Release Date - 2014-04-18
+
 * Remove deprecated argument from `get_the_excerpt`. Fixes PHP Notice - props -> @jjeaton
 
 = 2.0.9 =
-*Release Date - 2014-04-17*
+
+Release Date - 2014-04-17
+
 * bump og:image size to large like beta/dev version. bigger is better. but size doesn't matter? well it's large now
 * tested to WP3.9
 
 = 2.0.8 =
-*Release Date - 2014-03-13*
+
+Release Date - 2014-03-13
+
 * update html namespace to prefix (ogp.me) from xmlns (facebook)
 * dont run buffer if in a feed
 * fixed media uploader link
 
 = 2.0.7 =
-*Release Date - 2012-10-25*
+
+Release Date - 2012-10-25
+
 * fixes bug with certain plugins not showing description tags properly
 * added back self-close on meta tags to preserve xhtml compatability, html5 is forgiving. core does this.
 
@@ -256,7 +277,9 @@ Because we're getting more accurate titles you may see a change in how they're p
 * more readme explanation/help
 
 = 0.0.1 =
-*Release Date - 2011-07-14*
+
+Release Date - 2011-07-14
+
 * Initial beta release
 
 == Other Notes ==
