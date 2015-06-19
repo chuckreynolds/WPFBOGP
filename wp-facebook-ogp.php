@@ -71,13 +71,13 @@ add_filter( 'language_attributes', 'wpfbogp_namespace' );
 function wpfbogp_find_images() {
 	global $post;
 
-	if( !is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
+	if( ! is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
 		return;
 	}
 
 	// Grab post content and match images
 	$content = $post->post_content;
-	$output = preg_match_all( '|<img.*?src=[\'"](.*?)[\'"].*?>|i', $content, $matches );
+	$output  = preg_match_all( '|<img.*?src=[\'"](.*?)[\'"].*?>|i', $content, $matches );
 
 	// Make sure there was at least one image found, otherwise return false
 	if ( $output === FALSE ) {
@@ -153,7 +153,7 @@ add_action( 'wp_footer', 'wpfbogp_flush_ob', 10000 ); // Fire after other plugin
 function wpfbogp_build_head() {
 	global $post;
 
-	if ( !is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
+	if ( ! is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
 		return;
 	}
 
@@ -248,7 +248,7 @@ function wpfbogp_build_head() {
 		if ( has_excerpt() ) {
 			$wpfbogp_description = get_the_excerpt();
 		} else {
-			$wpfbogp_description = preg_replace('/\s+/', ' ', mb_substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160, 'UTF-8' ) );
+			$wpfbogp_description = preg_replace( '/\s+/', ' ', mb_substr( strip_tags( strip_shortcodes( $post->post_content ) ), 0, 160, 'UTF-8' ) );
 		}
 	} else {
 		$wpfbogp_description = get_bloginfo( 'description' );
@@ -562,11 +562,11 @@ function wpfbogp_buildpage() {
 * @var $input array
 * @return returns a sanitized array
 */
-function wpfbogp_validate($input) {
-	$input['wpfbogp_admin_ids'] = sanitize_text_field($input['wpfbogp_admin_ids']);
-	$input['wpfbogp_app_id'] = sanitize_text_field($input['wpfbogp_app_id']);
-	$input['wpfbogp_fallback_img'] = sanitize_text_field($input['wpfbogp_fallback_img']);
-	$input['wpfbogp_force_fallback'] = (!empty($input['wpfbogp_force_fallback']) && ($input['wpfbogp_force_fallback'] == 1)  ? 1 : 0);
+function wpfbogp_validate( $input ) {
+	$input['wpfbogp_admin_ids']      = sanitize_text_field( $input['wpfbogp_admin_ids'] );
+	$input['wpfbogp_app_id']         = sanitize_text_field( $input['wpfbogp_app_id'] );
+	$input['wpfbogp_fallback_img']   = sanitize_text_field( $input['wpfbogp_fallback_img'] );
+	$input['wpfbogp_force_fallback'] = ( ! empty( $input['wpfbogp_force_fallback'] ) && ( $input['wpfbogp_force_fallback'] == 1 )  ? 1 : 0 );
 	return $input;
 }
 
@@ -578,11 +578,11 @@ function wpfbogp_validate($input) {
 function wpfbogp_admin_warnings() {
 	global $wpfbogp_admins;
 	$wpfbogp_data = wpfbogp_get_option(); // get all plugin options
-	if ((empty($wpfbogp_data['wpfbogp_admin_ids']) || $wpfbogp_data['wpfbogp_admin_ids'] == '') && (empty($wpfbogp_data['wpfbogp_app_id']) || $wpfbogp_data['wpfbogp_app_id'] == '')) {
+	if ( ( empty( $wpfbogp_data['wpfbogp_admin_ids'] ) || $wpfbogp_data['wpfbogp_admin_ids'] == '' ) && ( empty( $wpfbogp_data['wpfbogp_app_id'] ) || $wpfbogp_data['wpfbogp_app_id'] == '' ) ) {
 		function wpfbogp_warning() {
-			echo "<div id='wpfbogp-warning' class='updated fade'><p><strong>".WPFBOGP_TITLE.__(' is almost ready!')."</strong> ".sprintf(__('A <a href="%1$s">Facebook ID is needed</a> for it to start working.'), "options-general.php?page=wpfbogp")."</p></div>";
+			echo '<div id="wpfbogp-warning" class="updated fade"><p><strong>' . WPFBOGP_TITLE . __( ' is almost ready!' ) . '</strong> ' . sprintf( __( 'A <a href="%1$s">Facebook ID is needed</a> for it to start working.' ), 'options-general.php?page=wpfbogp' ) . '</p></div>';
 		}
-	add_action('admin_notices', 'wpfbogp_warning');
+	add_action( 'admin_notices', 'wpfbogp_warning' );
 	}
 }
 
@@ -591,10 +591,10 @@ function wpfbogp_admin_warnings() {
 *
 * @return void
 */
-add_action('after_setup_theme','wpfbogp_fix_excerpts_exist');
+add_action( 'after_setup_theme', 'wpfbogp_fix_excerpts_exist' );
 function wpfbogp_fix_excerpts_exist() {
-	remove_filter('get_the_excerpt','twentyten_custom_excerpt_more');
-	remove_filter('get_the_excerpt','twentyeleven_custom_excerpt_more');
+	remove_filter( 'get_the_excerpt', 'twentyten_custom_excerpt_more' );
+	remove_filter( 'get_the_excerpt', 'twentyeleven_custom_excerpt_more' );
 }
 
 /**
@@ -602,24 +602,24 @@ function wpfbogp_fix_excerpts_exist() {
 *
 * @return string with link to settings
 */
-function wpfbogp_add_settings_link($links, $file) {
+function wpfbogp_add_settings_link( $links, $file ) {
 	static $this_plugin;
-	if (!$this_plugin) $this_plugin = plugin_basename(__FILE__);
-	if ($file == $this_plugin){
-		$settings_link = '<a href="options-general.php?page=wpfbogp">'.__("Settings","wpfbogp").'</a>';
-		array_unshift($links, $settings_link);
+	if ( ! $this_plugin ) $this_plugin = plugin_basename( __FILE__ );
+	if ( $file == $this_plugin ){
+		$settings_link = '<a href="options-general.php?page=wpfbogp">'.__( 'Settings' ).'</a>';
+		array_unshift( $links, $settings_link );
 	}
 	return $links;
 }
-add_filter('plugin_action_links','wpfbogp_add_settings_link', 10, 2 );
+add_filter( 'plugin_action_links', 'wpfbogp_add_settings_link', 10, 2 );
 
 /**
 * Lets offer an actual clean uninstall and rem db row on uninstall
 *
 * @return void
 */
-if (function_exists('register_uninstall_hook')) {
-    register_uninstall_hook(__FILE__, 'wpfbogp_uninstall_hook');
+if ( function_exists( 'register_uninstall_hook' ) ) {
+    register_uninstall_hook( __FILE__, 'wpfbogp_uninstall_hook' );
 	function wpfbogp_uninstall_hook() {
 		wpfbogp_delete_option();
 	}
