@@ -346,6 +346,16 @@ function wpfbogp_build_head() {
 		echo '<meta property="og:image" content="' . esc_url( $options['wpfbogp_fallback_img'] ) . '" />' . "\n";
 	}
 
+	///
+	/// okay rethinking
+	/// put tests and end wrapper comment in new function.
+	///
+	/// add case switches:
+	/// 1: force fallback
+	/// 2: featured (with endwrap)
+	/// 3: content with fallback (with endwrap)
+	/// default: no imgs warning comment
+	///
 
 	WPOGPMETAENDER:
 	// wrap it all up and show some helper_codes for support
