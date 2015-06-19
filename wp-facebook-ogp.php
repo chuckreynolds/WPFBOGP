@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 Plugin Name:    WP Facebook Open Graph protocol
 Plugin URI:     http://wordpress.org/plugins/wp-facebook-open-graph-protocol/
@@ -45,12 +45,12 @@ function wpfbogp_find_images() {
 	// Grab content and match first image
 	$content = $post->post_content;
 	$output = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $content, $matches );
-	
+
 	// Make sure there was an image that was found, otherwise return false
 	if ( $output === FALSE ) {
 		return false;
 	}
-	
+
 	$wpfbogp_images = array();
 	foreach ( $matches[1] as $match ) {
 		// If the image path is relative, add the site url to the beginning
@@ -60,7 +60,7 @@ function wpfbogp_find_images() {
 		}
 		$wpfbogp_images[] = $match;
 	}
-	
+
 	return $wpfbogp_images;
 }
 
@@ -75,16 +75,16 @@ function wpfbogp_callback( $content ) {
 	// Grab the page title and meta description
 	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
 	$description = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
-	
+
 	// Take page title and meta description and place it in the ogp meta tags
 	if ( $title !== FALSE && count( $title_matches ) == 2 ) {
 		$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $title_matches[1] . '">', $content );
 	}
-	
+
 	if ( $description !== FALSE && count( $description_matches ) == 2 ) {
 		$content = preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . $description_matches[1] . '">', $content );
 	}
-	
+
 	return $content;
 }
 
@@ -111,7 +111,7 @@ function wpfbogp_build_head() {
 		echo "\n<!-- Facebook Open Graph protocol plugin NEEDS an admin or app ID to work, please visit the plugin settings page! -->\n";
 	} else {
 		echo "\n<!-- WordPress Facebook Open Graph protocol plugin (WPFBOGP v".WPFBOGP_VERSION.") http://rynoweb.com/wordpress-plugins/ -->\n";
-		
+
 		// do fb verification fields
 		if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
 			echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_admin_ids'] ) ) . '"/>' . "\n";
@@ -119,26 +119,26 @@ function wpfbogp_build_head() {
 		if ( isset( $options['wpfbogp_app_id'] ) && ! empty( $options['wpfbogp_app_id'] ) ) {
 			echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '"/>' . "\n";
 		}
-		
+
 		// do url stuff
-		if (is_home() || is_front_page() ) {
-			$wpfbogp_url = get_bloginfo( 'url' );
+		if ( is_front_page() ) {
+			$wpfbogp_url = home_url();
 		} else {
-			$wpfbogp_url = 'http' . (is_ssl() ? 's' : '') . "://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$wpfbogp_url = 'http' . ( is_ssl() ? 's' : '' ) . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 		}
-		echo '<meta property="og:url" content="' . esc_url( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) . '"/>' . "\n";
-		
+		echo '<meta property="og:url" content="' . esc_url( trailingslashit( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) ) . '"/>' . "\n";
+
 		// do title stuff
-		if (is_home() || is_front_page() ) {
+		if ( is_home() || is_front_page() ) {
 			$wpfbogp_title = get_bloginfo( 'name' );
 		} else {
 			$wpfbogp_title = get_the_title();
 		}
 		echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '"/>' . "\n";
-		
+
 		// do additional randoms
 		echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '"/>' . "\n";
-		
+
 		// do descriptions
 		if ( is_singular() ) {
 			if ( has_excerpt( $post->ID ) ) {
@@ -150,7 +150,7 @@ function wpfbogp_build_head() {
 			$wpfbogp_description = get_bloginfo( 'description' );
 		}
 		echo '<meta property="og:description" content="' . esc_attr( apply_filters( 'wpfbogp_description', $wpfbogp_description ) ) . '"/>' . "\n";
-		
+
 		// do ogp type
 		if ( is_single() ) {
 			$wpfbogp_type = 'article';
@@ -158,10 +158,10 @@ function wpfbogp_build_head() {
 			$wpfbogp_type = 'website';
 		}
 		echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '"/>' . "\n";
-		
+
 		// Find/output any images for use in the OGP tags
 		$wpfbogp_images = array();
-		
+
 		// Only find images if it isn't the homepage and the fallback isn't being forced
 		if ( ! is_home() && $options['wpfbogp_force_fallback'] != 1 ) {
 			// Find featured thumbnail of the current post/page
@@ -174,12 +174,12 @@ function wpfbogp_build_head() {
 				}
 				$wpfbogp_images[] = $link; // Add to images array
 			}
-			
+
 			if ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
 				$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() ); // Returns an array already, so merge into existing
 			}
 		}
-		
+
 		// Add the fallback image to the images array (which is empty if it's being forced)
 		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '') {
 			if ( is_array( $wpfbogp_images ) )
@@ -191,7 +191,7 @@ function wpfbogp_build_head() {
 				$wpfbogp_images = array( $options['wpfbogp_fallback_img'] ); // Create image array with default image as index 0
 			}
 		}
-		
+
 		// Make sure there were images passed as an array and loop through/output each
 		if ( ! empty( $wpfbogp_images ) && is_array( $wpfbogp_images ) ) {
 			foreach ( $wpfbogp_images as $image ) {
@@ -199,9 +199,9 @@ function wpfbogp_build_head() {
 			}
 		} else {
 			// No images were outputted because they have no default image (at the very least)
-			echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n"; 
+			echo "<!-- There is not an image here as you haven't set a default image in the plugin settings! -->\n";
 		}
-		
+
 		// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
 		echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '"/>' . "\n";
 		echo "<!-- // end wpfbogp -->\n";
@@ -247,7 +247,7 @@ function wpfbogp_buildpage() {
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="meta-box-sortables">
 				<div id="about" class="postbox">
 					<h3 class="hndle" id="about-sidebar"><?php _e('Relevant Information:') ?></h3>
@@ -295,7 +295,7 @@ function wpfbogp_buildpage() {
 				<td><input type="checkbox" name="wpfbogp[wpfbogp_force_fallback]" value="1" <?php if ($options['wpfbogp_force_fallback'] == 1) echo 'checked="checked"'; ?>) /> <?php _e('Use this if you want to use the Default Image for everything instead of looking for featured/content images.') ?></label></td>
 			</tr>
 		</table>
-		
+
 		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
 		</form>
 		<br class="clear" />
