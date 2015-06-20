@@ -323,7 +323,9 @@ function wpfbogp_delete_option() {
 
 }
 
-
+/**
+* Start the engines in wp-admin
+*/
 if ( is_admin() ) {
 	add_action( 'admin_init', 'wpfbogp_init' );
 	add_action( 'admin_menu', 'wpfbogp_add_page' );
