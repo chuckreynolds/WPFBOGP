@@ -1,5 +1,5 @@
 === WP Facebook Open Graph protocol ===
-Contributors: ryno267, andrewryno
+Contributors: ryno267
 Donate link: http://goo.gl/8lGv3
 Tags: social sharing optimization, sso, open graph, ogp, facebook open graph, facebook meta tags, google +1, google plus, linkedin share, facebook meta, open graph meta, facebook share, linkedin, social sharing, wpsso, meta tags, meta, plugin
 Requires at least: 3.0

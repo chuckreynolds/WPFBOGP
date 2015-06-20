@@ -1,29 +1,35 @@
 <?php
 /*
-Plugin Name: WP Facebook Open Graph protocol
-Plugin URI:  https://wordpress.org/plugins/wp-facebook-open-graph-protocol/
-Description: Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google+ and Linkedin too!
-Version:     2.3.0-beta.3
-Author:      Chuck Reynolds
-Author URI:  https://chuckreynolds.us
-License:     GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Copyright 2014 Chuck Reynolds (email : chuck@rynoweb.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License, version 2, as
-published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * Plugin Name: WP Facebook Open Graph protocol
+ * Plugin URI:  https://wordpress.org/plugins/wp-facebook-open-graph-protocol/
+ * Description: Adds proper Facebook Open Graph Meta tags and values to your site so when links are shared it looks awesome! Works on Google+ and Linkedin too!
+ * Version:     2.3.0-beta.3
+ * Author:      Chuck Reynolds
+ * Author URI:  https://chuckreynolds.us
+ * Text Domain: wp-facebook-open-graph-protocol
+ * License:     GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Copyright (C) 20010-2014, Chuck Reynolds - chuck@rynoweb.com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
 
 define( 'WPFBOGP_VERSION', '2.3.0-beta.3' );
 define( 'WPFBOGP_TITLE', 'Facebook Open Graph protocol plugin' );
