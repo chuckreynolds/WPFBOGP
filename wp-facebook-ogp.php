@@ -33,45 +33,46 @@ wpfbogp_admin_warnings();
 * Provide a fallback if server php doesn't have mb_substr enabled
 *
 * @link http://php.net/manual/en/mbstring.installation.php
-*
-* @return void
 */
 if ( ! function_exists( 'mb_substr' ) ) {
+
 	function mb_substr( $str , $start, $length = null, $encoding = 'UTF-8' ) {
+
 		return is_null( $length ) ? substr( $str , $start ) : substr( $str , $start, $length );
+
 	}
+
 }
 
 /**
 * Drop filter for when jetpack has their ogp stuff on
-*
-* @return void
 */
 function wpfbogp_filter_jetpackogp () {
+
 	add_filter( 'jetpack_enable_open_graph', '__return_false' );
+
 }
 
 /**
 * Add OGP namespace per ogp.me schema
 *
 * @param string $output The output namespace string
-*
-* @return string with opg.me schema added
 */
 function wpfbogp_namespace( $output ) {
+
 	return $output . ' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"';
+
 }
 add_filter( 'language_attributes', 'wpfbogp_namespace' );
 
 /**
 * Function to call first uploaded image in content
-*
-* @return array of images from the current post
 */
 function wpfbogp_find_images() {
+
 	global $post;
 
-	if( ! is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
+	if ( ! is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
 		return;
 	}
 
@@ -95,26 +96,25 @@ function wpfbogp_find_images() {
 	}
 
 	return $wpfbogp_images;
+
 }
 
 /**
-* Start the output buffer for 'wpfbogp_callback'
-*
-* @return void
+* Start the output buffer for 'wpfbogp_callback' before anything
 */
 function wpfbogp_start_ob() {
-	// Start the buffer before any output
+
 	if ( ! is_feed() ) {
 		ob_start( 'wpfbogp_callback' );
 	}
+
 }
 
 /**
 * Create the og:title and og:description tag with content from blog <title> and meta description
-*
-* @return string of og meta tags
 */
 function wpfbogp_callback( $content ) {
+
 	// Grab the page title and meta description
 	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
 	$description = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
@@ -129,17 +129,18 @@ function wpfbogp_callback( $content ) {
 	}
 
 	return $content;
+
 }
 
 /**
 * End the output buffer for 'wpfbogp_callback'
-*
-* @return void
 */
 function wpfbogp_flush_ob() {
+
 	if ( ! is_feed() ) {
 		ob_end_flush();
 	}
+
 }
 
 add_action( 'init', 'wpfbogp_start_ob', 0 );
@@ -147,10 +148,9 @@ add_action( 'wp_footer', 'wpfbogp_flush_ob', 10000 ); // Fire after other plugin
 
 /**
 * Build ogp meta
-*
-* @return string of meta tag content
 */
 function wpfbogp_build_head() {
+
 	global $post;
 
 	if ( ! is_object($post) || get_class($post) !== 'WP_Post' || is_feed() || is_404() ) {
@@ -158,43 +158,6 @@ function wpfbogp_build_head() {
 	}
 
 	$options = wpfbogp_get_option(); // get all plugin options
-
-	/*
-	 * Test cases - help with dev
-	 *
-	$show_on_front  = get_option( 'show_on_front'  ); // returns either 'posts' or 'page'
-	$page_for_posts = get_option( 'page_for_posts' ); // returns the ID of the static page assigned to the blog posts index (posts page)
-	$page_on_front  = get_option( 'page_on_front'  ); // returns the ID of the static page assigned to the front page
-
-	// Determine whether the current page is the homepage and shows posts.
-	function wpfbogp_is_home_posts_page() {
-		return ( is_home() && 'posts' == get_option( 'show_on_front' ) );
-	}
-
-	// Determine whether the current page is a static homepage.
-	function wpfbogp_is_static_front_page() {
-		return ( is_front_page() && 'page' == get_option( 'show_on_front' ) && is_page( get_option( 'page_on_front' ) ) );
-	}
-
-	// Determine whether this is the posts page, regardless of whether it's the frontpage or not.
-	function wpfbogp_is_posts_index_page() {
-		return ( is_home() && 'page' == get_option( 'show_on_front' ) );
-	}
-
-	if ( wpfbogp_is_home_posts_page() ) {
-		echo "\n-- Current is the homepage and shows posts\n";}
-
-	if ( wpfbogp_is_static_front_page() ) {
-		echo "\n-- Current is the homepage and static page\n";}
-
-	if ( wpfbogp_is_posts_index_page() ) {
-		echo "\n-- Current is the posts index via a page\n";}
-
-	if ( wpfbogp_is_posts_index_page() && has_post_thumbnail( $page_for_posts ) ) {
-		echo "\n-- Current is posts index shown via a page AND has a featured image\n";
-	}
-	*/
-
 
 	// check to see if you've filled out one of the required fields
 	// if not announce it and stop meta output
@@ -256,167 +219,105 @@ function wpfbogp_build_head() {
 	$wpfbogp_description_clean = sanitize_text_field( strip_shortcodes( $wpfbogp_description ) );
 	echo '<meta property="og:description" content="' . apply_filters( 'wpfbogp_description', $wpfbogp_description_clean ) . '" />' . "\n";
 
+	// Image time!
 
-/* time to hide old and start rebuild of the image handling.
-
-	// Find/output any images for use in the OGP tags
-	$wpfbogp_images = array();
-
-	// Only find images if it isn't the homepage and the fallback isn't being forced
-	if ( ! is_home() && $options['wpfbogp_force_fallback'] != 1 ) {
-		// Find featured thumbnail of the current post/page
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail() ) {
-			$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
-			$link = $thumbnail_src[0];
-				if ( ! preg_match( '/^https?:\/\//', $link ) ) {
-					// Remove any starting slash with ltrim() and add one to the end of site_url()
-				$link = site_url( '/' ) . ltrim( $link, '/' );
-			}
-			$wpfbogp_images[] = $link; // Add to images array
-		}
-
-		if ( wpfbogp_find_images() !== false && is_singular() ) { // Use our function to find post/page images
-			$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() ); // Returns an array already, so merge into existing
-		}
-	}
-
-	// Add the fallback image to the images array (which is empty if it's being forced)
-	if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
-		$wpfbogp_fallback_img = esc_attr( apply_filters( 'wpfbogp_fallback_img', $options['wpfbogp_fallback_img'] ) );
-
-		if ( is_array( $wpfbogp_images ) )
-		{
-			$wpfbogp_images[] = $wpfbogp_fallback_img; // Add fallback image to image array
-			$wpfbogp_images; // order now is: feat img, content imgs, fallback img unforced
-		}
-		else {
-			$wpfbogp_images = array( $wpfbogp_fallback_img ); // Replace image array with forced fallback image as index 0
-		}
-	}
-
-	// Make sure there were images passed as an array and loop through/output each
-	if ( ! empty( $wpfbogp_images ) && is_array( $wpfbogp_images ) ) {
-		foreach ( $wpfbogp_images as $image ) {
-			echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '" />' . "\n";
-		}
-	} else {
-		// No images were outputted because they have no fallback image (at the very least)
-		echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
-	}
-*/
-
-
-	// Find/output any images for use in the OGP tags
-	// If force fallback options setting is set - then only show that
-	if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_force_fallback'] === 1 ) {
+	// If force fallback option is set and there's a fallback image set - output fallback image
+	if ( $options['wpfbogp_force_fallback'] === 1 && isset( $options['wpfbogp_fallback_img'] ) ) {
 		echo '<meta property="og:image" content="' . esc_url( $options['wpfbogp_fallback_img'] ) . '" />' . "\n";
-		goto WPOGPMETAENDER;
+		wpfbogp_build_head_endwrap();
+		return;
 	}
 
-	// If no force fallback: and this is a page or post and has a featured image: pull the featured image
+	// If no force fallback and this is a page or post and has a featured image - output the featured image
 	if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) && is_singular() ) {
 		$wpfbogp_featured_img_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 		echo '<meta property="og:image" content="' . esc_url( $wpfbogp_featured_img_src[0] ) . '" />' . "\n";
-		goto WPOGPMETAENDER;
+		wpfbogp_build_head_endwrap();
+		return;
 	}
 
-	// Use our function to find post/page content images
-	if ( wpfbogp_find_images() !== false ) {
+	// Our function finds post/page content images, if found output the content images
+	// If no content images are found and we have a fallback image option set - output fallback image
+	// If no content images or fallback image set - output static warning message
+	if ( wpfbogp_find_images() != false ) {
 		$wpfbogp_images = array();
-		$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() ); // Returns an array already, so merge into existing
+		$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() );
 		foreach ( $wpfbogp_images as $image ) {
 			echo '<meta property="og:image" content="' . esc_url( apply_filters( 'wpfbogp_image', $image ) ) . '" />' . "\n";
 		}
-	}
-/*
-	// Didn't find anything else so if there's a fallback? use it.
-	if ( isset( $options['wpfbogp_fallback_img'] ) ) {
+	} elseif ( isset( $options['wpfbogp_fallback_img'] ) && ! empty( $options['wpfbogp_fallback_img'] ) ) {
 		echo '<meta property="og:image" content="' . esc_url( $options['wpfbogp_fallback_img'] ) . '" />' . "\n";
-	}
-	// No images were outputted because they have no fallback image (at the very least)
-	else {
+	} else {
 		echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
 	}
-*/
-	/////// still not right but close. would like to still show even if content imgs exist.
-	elseif ( ! isset( $options['wpfbogp_fallback_img'] ) || empty( $options['wpfbogp_fallback_img'] ) ) {
-		echo "<!-- No featured or content images were found and no fallback image is set in the plugin settings! -->\n";
-	}
-	else {
-		echo '<meta property="og:image" content="' . esc_url( $options['wpfbogp_fallback_img'] ) . '" />' . "\n";
-	}
-
-	///
-	/// okay rethinking
-	/// put tests and end wrapper comment in new function.
-	///
-	/// add case switches:
-	/// 1: force fallback
-	/// 2: featured (with endwrap)
-	/// 3: content with fallback (with endwrap)
-	/// default: no imgs warning comment
-	///
-
-	WPOGPMETAENDER:
-	// wrap it all up and show some helper_codes for support
-	////// STILL NEED TO WORK ON THIS AFTER ^^ IMGS DONE - need one for content images too //////
-	echo "<!-- [";
-		if ($options['wpfbogp_force_fallback'] == 1) {
-			echo "forceY-";
-		} else {
-			echo "forceN-";
-		}
-		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
-			echo "fallbackY-";
-		} else {
-			echo "fallbackN-";
-		}
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) && is_singular() ) {
-			echo "featY-";
-		} else {
-			echo "featN-";
-		}
-		if ( wpfbogp_find_images() !== false ) {
-			echo "imgsY";
-		} else {
-			echo "imgsN";
-		}
-	echo "] // end wpfbogp -->\n";
+	wpfbogp_build_head_endwrap();
+	return;
 
 }
+add_action( 'wp_head', 'wpfbogp_build_head', 50 );
 
 /**
 * Getter for the wpfbogp options-array
 *
 * Use this getter whenever you need to get the plugin options.
-* It checks for options on multi site level first.
-* Should there be none, it checks the blog options.
-*
-* @return array of wordpress options "wpfbogp"
+* It checks for multisite first then falls back to blog options.
 */
 function wpfbogp_get_option() {
+
 	$options = get_site_option( 'wpfbogp', false, true );
 	return $options;
+
 }
-// hhvm log was outputting this error. get_site_option will fallback to get_option if not multisite
-// Notice: Undefined variable: options in /var/www/public/wp-content/plugins/WPFBOGP/wp-facebook-ogp.php on line 253
-// Notice: Undefined variable: options in /var/www/public/wp-content/plugins/WPFBOGP/wp-facebook-ogp.php on line 256
+
+/**
+* Function to display debug helper meta text
+*/
+function wpfbogp_build_head_endwrap() {
+
+	global $post;
+
+	$options = wpfbogp_get_option(); // get all plugin options
+
+	echo '<!-- [';
+		if ( $options['wpfbogp_force_fallback'] === 1 ) {
+			echo 'forceY-';
+		} else {
+			echo 'forceN-';
+		}
+		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
+			echo 'fallbackY-';
+		} else {
+			echo 'fallbackN-';
+		}
+		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post->ID ) && is_singular() ) {
+			echo 'featY-';
+		} else {
+			echo 'featN-';
+		}
+		if ( wpfbogp_find_images() != false ) {
+			echo 'imgsY';
+		} else {
+			echo 'imgsN';
+		}
+	echo '] // end wpfbogp -->' . "\n";
+
+}
 
 /**
 * Deletes all wpfbogp from wordpress options table
 *
 * It deletes the blog options as well as multisite options.
-*
-* @return void
 */
 function wpfbogp_delete_option() {
+
 	if ( is_multisite() === true ) {
 		delete_site_option( 'wpfbogp' );
 	}
 	delete_option( 'wpfbogp' );
+
 }
 
-add_action( 'wp_head', 'wpfbogp_build_head', 50 );
+
 if ( is_admin() ) {
 	add_action( 'admin_init', 'wpfbogp_init' );
 	add_action( 'admin_menu', 'wpfbogp_add_page' );
@@ -424,11 +325,11 @@ if ( is_admin() ) {
 
 /**
 * Register settings and sanitization callback
-*
-* @return void
 */
 function wpfbogp_init() {
+
 	register_setting( 'wpfbogp_options', 'wpfbogp', 'wpfbogp_validate' );
+
 }
 
 /**
@@ -436,22 +337,20 @@ function wpfbogp_init() {
 *
 * You can hide the admin menu with the option 'wpfbogp_hide_page'
 * You need to set this option with a custom plugin.
-*
-* @return void
 */
 function wpfbogp_add_page() {
+
 	$options = wpfbogp_get_option(); // get all plugin options
 	if ( $options && array_key_exists( 'wpfbogp_hide_page', $options ) && $options['wpfbogp_hide_page'] === true ) {
 		return;
 	} else {
 		add_options_page( 'Facebook Open Graph protocol plugin', 'Facebook OGP', 'manage_options', 'wpfbogp', 'wpfbogp_buildpage' );
 	}
+
 }
 
 /**
 * Build the admin page
-*
-* @return returns (echo) the form html
 */
 function wpfbogp_buildpage() {
 ?>
@@ -558,69 +457,75 @@ function wpfbogp_buildpage() {
 
 /**
 * Sanitize inputs
-*
-* @var $input array
-* @return returns a sanitized array
 */
 function wpfbogp_validate( $input ) {
+
 	$input['wpfbogp_admin_ids']      = sanitize_text_field( $input['wpfbogp_admin_ids'] );
 	$input['wpfbogp_app_id']         = sanitize_text_field( $input['wpfbogp_app_id'] );
 	$input['wpfbogp_fallback_img']   = sanitize_text_field( $input['wpfbogp_fallback_img'] );
 	$input['wpfbogp_force_fallback'] = ( ! empty( $input['wpfbogp_force_fallback'] ) && ( $input['wpfbogp_force_fallback'] == 1 )  ? 1 : 0 );
 	return $input;
+
 }
 
 /**
 * Run admin notices on activation or if settings not set
-*
-* @return void
 */
 function wpfbogp_admin_warnings() {
+
 	global $wpfbogp_admins;
+
 	$wpfbogp_data = wpfbogp_get_option(); // get all plugin options
+
 	if ( ( empty( $wpfbogp_data['wpfbogp_admin_ids'] ) || $wpfbogp_data['wpfbogp_admin_ids'] == '' ) && ( empty( $wpfbogp_data['wpfbogp_app_id'] ) || $wpfbogp_data['wpfbogp_app_id'] == '' ) ) {
 		function wpfbogp_warning() {
 			echo '<div id="wpfbogp-warning" class="updated fade"><p><strong>' . WPFBOGP_TITLE . __( ' is almost ready!' ) . '</strong> ' . sprintf( __( 'A <a href="%1$s">Facebook ID is needed</a> for it to start working.' ), 'options-general.php?page=wpfbogp' ) . '</p></div>';
 		}
 	add_action( 'admin_notices', 'wpfbogp_warning' );
 	}
+
 }
 
 /**
 * twentyten and twentyeleven add crap to the excerpt so lets check for that and remove
-*
-* @return void
 */
-add_action( 'after_setup_theme', 'wpfbogp_fix_excerpts_exist' );
 function wpfbogp_fix_excerpts_exist() {
+
 	remove_filter( 'get_the_excerpt', 'twentyten_custom_excerpt_more' );
 	remove_filter( 'get_the_excerpt', 'twentyeleven_custom_excerpt_more' );
+
 }
+add_action( 'after_setup_theme', 'wpfbogp_fix_excerpts_exist' );
 
 /**
 * Add settings link to plugins list
-*
-* @return string with link to settings
 */
 function wpfbogp_add_settings_link( $links, $file ) {
+
 	static $this_plugin;
-	if ( ! $this_plugin ) $this_plugin = plugin_basename( __FILE__ );
-	if ( $file == $this_plugin ){
-		$settings_link = '<a href="options-general.php?page=wpfbogp">'.__( 'Settings' ).'</a>';
+
+	if ( ! $this_plugin ) {
+		$this_plugin = plugin_basename( __FILE__ );
+	}
+
+	if ( $file == $this_plugin ) {
+		$settings_link = '<a href="options-general.php?page=wpfbogp">' . __( 'Settings' ) . '</a>';
 		array_unshift( $links, $settings_link );
 	}
+
 	return $links;
+
 }
 add_filter( 'plugin_action_links', 'wpfbogp_add_settings_link', 10, 2 );
 
 /**
 * Lets offer an actual clean uninstall and rem db row on uninstall
-*
-* @return void
 */
 if ( function_exists( 'register_uninstall_hook' ) ) {
+
     register_uninstall_hook( __FILE__, 'wpfbogp_uninstall_hook' );
 	function wpfbogp_uninstall_hook() {
 		wpfbogp_delete_option();
 	}
+
 }
