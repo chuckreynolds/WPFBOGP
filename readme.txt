@@ -15,16 +15,13 @@ This plugin adds well executed and accurate Facebook Open Graph Meta tag informa
 Shortname: WPFBOGP
 
 = Image Handling =
-The plugin will first look for a featured image. If there isn't one or your theme doesn't support those, then it will pull the image(s) in the post/page content. If that isn't there either, then it will default to using the image url you put into the plugin settings in the admin panel. If THAT isn't there then you fail and you won't have an image and we'll put a comment in your source to remind you to add one as Facebook requires one.
-Order in Source: Featured Image > Content Images > Fallback Image
-
-There is a force fallback image checkbox - if that's checked, the plugin will only list that image on all pages/posts.
+The plugin will look first if you have decided to force an image for all pages - if that's set in settings then we'll display that and that's it. Then the plugin will look for a featured image on the current page/post/etc. If there isn't one or your theme doesn't support those then it will look for image(s) in the post/page content. If that isn't there either, then it will default to using the image url you put into the fallback image settings field. If THAT isn't there then you won't have an image to display and we'll put a comment in your source to remind you to add one. Facebook does require an image and sometimes it will find something on your site to use - I can't control that; just make sure you set a fallback image at least.
 
 = Title and Description =
-The plugin should use the title and meta description from any SEO plugin or theme, including Genesis and Thesis. Otherwise it uses your post/page title and the excerpt as the description. If you don't have an excerpt it'll pull content from the post/page body. Worst case it would use your site title and tagline from general settings. But if you're super concerned with what your Open Graph tags look like, then you should probably already be running some kind of SEO plugin anyway. AMIRITE?
+The plugin should use the title and meta description from any SEO plugin or theme, including popular theme frameworks. Otherwise it uses your post/page title and the excerpt as the description. If you don't have an excerpt it'll pull content from the post/page body. Worst case it would use your site title and tagline from general settings.
 
 = Testing & Debugging your Site =
-Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your site urls to see what info Facebook is scraping. Their tool is located here: [https://developers.facebook.com/tools/debug/](https://developers.facebook.com/tools/debug/). If you recently made changes or FB is showing an old date/information - then use their `Fetch New Scrape` button.
+Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your site urls to see what info Facebook is scraping. Their tool is located here: [https://developers.facebook.com/tools/debug/](https://developers.facebook.com/tools/debug/). If you recently made changes or FB is showing an old date/information - then use their `Fetch New Scrape` button to clear their cache.
 
 == Installation ==
 
@@ -53,7 +50,7 @@ Go to: [FB Graph API Explorer](https://developers.facebook.com/tools/explorer/?m
 Honestly it's not hard to add one once you have the proper meta content in the header. Look at [how to add a Like button](https://developers.facebook.com/docs/plugins/like-button) using fb:like. There are a lot of 'like' button plugins but this plugin only focuses on solid and accurate Open Graph meta data.
 
 = Facebook is acting weird and not showing the correct info? =
-Yeah they do that. They change stuff ALL THE TIME; as in daily. Try the debugger and hope for the best.
+Yeah they do that. They change stuff ALL THE TIME; as in daily. Make sure your images are large enough as mentioned in the plugin help and my [social media image size reference guide](https://github.com/chuckreynolds/social-profile-image-sizes). If your images are too small Facebook may not display any or pull another image from elsewhere on the page. Try their Debug Tool to clear their cache and hope for the best. Sometimes they don't do what the open graph tags tell them to - it happens.
 
 = How do I report a bug? =
 Try to be as specific as possible; write the steps to recreate; turn off all other plugins and test again; then use the wordpress support forum: [https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol](https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol). If you're a developer jump in and do the github thing. Info below.
@@ -110,7 +107,7 @@ Because we're getting more accurate titles you may see a change in how they're p
 
 == Changelog ==
 
-= 2.3.0-beta.3 =
+= 2.3.0 =
 
 Release Date - 2015-06-19
 
