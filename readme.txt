@@ -4,7 +4,7 @@ Donate link: http://goo.gl/8lGv3
 Tags: social sharing optimization, sso, open graph, ogp, facebook open graph, facebook meta tags, google +1, google plus, linkedin share, facebook meta, open graph meta, facebook share, linkedin, social sharing, wpsso, meta tags, meta, plugin
 Requires at least: 3.0
 Tested up to: 4.2
-Stable tag: 2.3.0-beta.2
+Stable tag: 2.3.0-beta.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,21 +109,27 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
-= 2.3.0 =
-*Release Date - 2015-04-04*
-* Adjust image array to use featured image first, then any content images, then the fallback image from settings. It WAS like this but Facebook changed in which order they prioritize the image they use first. So - I'm trying to keep up with them. I'm debating whether or not to display any fallback or content images if a featured image is available. Got an opinion on that? -> [https://github.com/chuckreynolds/WPFBOGP/issues/54](https://github.com/chuckreynolds/WPFBOGP/issues/54)
-* Use full size featured image now instead of large
-* Improved UTF-8 description extracting for non-english sites - props -> @garex
-* Fixed undefined index notice on checkbox setting
-* Fixed issue when using the blog as a page had root url
-* Some code cleanup / refactoring
-* Start dating releases in changelog and backdate some previous releases. I find this very useful at times in other plugins so I'm doing it too and so should everybody
-* Version bump. Not that it matters but had messy dev environments with many ppl so needed to go above that. And cause Jordan 23!
-* Also to note - trying to be better at Semantic Versioning - semver.org
-* Branding: Rewrote the settings page completely to use WP 4.1x css. And it looks better too!
-* Branding: Updated the screenshot to reflect new admin settings page look
-* Branding: Brand new look for the plugin page banner and I added the square icon for plugin search. Added appropriate sizes for retina as well.
 
+= 2.3.0-beta.3 =
+
+Release Date - 2015-06-19
+
+* Changed: Use full size featured image now instead of large. For more detailed info on what image sizes to use for Facebook and others I have this github repo for reference: [https://github.com/chuckreynolds/social-profile-image-sizes](https://github.com/chuckreynolds/social-profile-image-sizes)
+* Changed: Changed the way images are shown. We no longer output all possible images; this is how it works now.
+	* First look at settings if you want the fallback image forced. Done.
+	* Then if the post/page has a featured image. Done.
+	* Then any content images. Done.
+	* Then the fallback image from settings if there is one. Done.
+	* If you don't have any of that - then you get a warning message output in source like before.
+* Changed: Start dating releases in changelog and backdate some previous releases. I find this very useful at times in other plugins so I'm doing it too and so should everybody else.
+* Changed: Version bump. Not that it matters but had messy dev environments with many ppl so needed to go above that. And cause Jordan 23!
+* Changed: Also to note - trying to be better at Semantic Versioning - semver.org
+* Changed: Rewrote the settings page completely to use WP 4.2x css. And it looks better too!
+* Changed: Updated the screenshot to reflect new admin settings page look
+* Changed: Brand new look for the plugin page banner and I added the square icon for plugin search. Added appropriate sizes for retina as well
+* Fixed: Improved UTF-8 description extracting for non-english sites - props -> @garex
+* Fixed: Undefined index notice on checkbox setting
+* Fixed: Code cleanup / refactoring
 
 = 2.0.12 =
 
