@@ -201,6 +201,9 @@ function wpfbogp_build_head() {
 	}
 	echo '<meta property="og:url" content="' . esc_url( trailingslashit( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) ) . '" />' . "\n";
 
+	// do site title general
+	echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '" />' . "\n";
+
 	// do title stuff
 	if ( is_home() || is_front_page() ) {
 		$wpfbogp_title = get_bloginfo( 'name' );
@@ -208,9 +211,6 @@ function wpfbogp_build_head() {
 		$wpfbogp_title = get_the_title();
 	}
 	echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '" />' . "\n";
-
-	// do site title general
-	echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '" />' . "\n";
 
 	// do descriptions
 	if ( is_singular() || is_home() && get_option( 'page_for_posts' ) ) {
@@ -260,7 +260,7 @@ function wpfbogp_build_head() {
 	return;
 
 }
-add_action( 'wp_head', 'wpfbogp_build_head', 50 );
+add_action( 'wp_head', 'wpfbogp_build_head', 2 );
 
 /**
 * Getter for the wpfbogp options-array
