@@ -66,6 +66,9 @@ Do you have a feature request? Want to help with code? I could always use help -
 = 2.3.0 =
 Show featured image 1st to Facebook (full size now!), then content images, then fallback. And made our settings more pretty-er!
 
+= 2.0.13 =
+Small patch for sites use .html in their url permalink structure
+
 = 2.0.12 =
 Quick Patch - Changes how trailing slashes are handled. Big update coming soon too!
 
@@ -127,6 +130,12 @@ Release Date - 2015-06-19
 * Fixed: Improved UTF-8 description extracting for non-english sites - props -> @garex
 * Fixed: Undefined index notice on checkbox setting
 * Fixed: Code cleanup / refactoring
+
+= 2.0.13 =
+
+Release Date - 2015-07-06
+
+* Fixed trailing slash issue for sites that use .html in their article url permalink structure. Should play nice now.
 
 = 2.0.12 =
 
