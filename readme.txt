@@ -3,8 +3,8 @@ Contributors: ryno267, andrewryno
 Donate link: http://goo.gl/8lGv3
 Tags: open graph, ogp, facebook open graph, google +1, +1, google plus one, plus one, linkedin share, facebook meta, open graph meta, facebook share, facebook like, linkedin
 Requires at least: 3.0
-Tested up to: 4.2
-Stable tag: 2.0.12
+Tested up to: 4.2.2
+Stable tag: 2.0.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,9 @@ Honestly it's not hard to add one once you have the proper meta content in the h
 1. The Open Graph admin options panel has all options laid out in one easy place. The rest is all behind the scenes.
 
 == Upgrade Notice ==
+= 2.0.13 =
+Small patch for sites use .html in their url permalink structure
+
 = 2.0.12 =
 Quick Patch - Changes how trailing slashes are handled. Big update coming soon too!
 
@@ -88,6 +91,12 @@ Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/
 Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
+
+= 2.0.13 =
+
+Release Date - 2015-07-06
+
+* Fixed trailing slash issue for sites that use .html in their article url permalink structure. Should play nice now.
 
 = 2.0.12 =
 
