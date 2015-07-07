@@ -66,47 +66,6 @@ Do you have a feature request? Want to help with code? I could always use help -
 = 2.3.0 =
 Show featured image 1st to Facebook (full size now!), then content images, then fallback. And made our settings more pretty-er!
 
-= 2.0.13 =
-Small patch for sites use .html in their url permalink structure
-
-= 2.0.12 =
-Quick Patch - Changes how trailing slashes are handled. Big update coming soon too!
-
-= 2.0.11 =
-Fixes an issue some had with thumbnail image paths & fixes php notice some were getting. Cheers.
-
-= 2.0.9 =
-uses large size thumbnail instead of medium. bigger is better!
-
-= 2.0.8 =
-fixes feed problems some people are having. this is an interm upgrade before the massive rewrite coming soon
-
-= 2.0.7 =
-fixes bug with certain plugins not showing description tags properly
-
-= 2.0.6 =
-preg_replace causing LOTs of issues. rolled back to fix admin issues. more planning needed. big update coming.
-
-= 2.0.5 =
-Fixes issues with dollar signs and special characters in titles and descriptions
-
-= 2.0.3 =
-This update should fix the "Parser Mismatched Metadata" warnings Facebook started throwing.
-
-= 2.0.2 =
-Fixes bug that caused a PHP warning to display and also fixes bugs with plugins not functioning properly when using content filters.
-
-= 2.0.1 =
-Bug fixes for HTTPS/SSL pages, SEO plugins, force fallback images and more.
-
-= 2.0 =
-BIG Update - now works with ALL SEO plugins for titles and descriptions, adds multiple images and other fixes!
-
-= 1.6.1 =
-Bug fix with 1.6 initial release. Titles broke for some running 'naked sites' w/ no seo plugins. It worked on all testing sites but obviously I need to test a little more. Standby
-
-= 1.6 =
-Because we're getting more accurate titles you may see a change in how they're pulled. If you're using an SEO plugin it should now pull that title
 
 == Changelog ==
 
