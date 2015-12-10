@@ -3,8 +3,8 @@ Contributors: ryno267
 Donate link: http://goo.gl/8lGv3
 Tags: social sharing optimization, sso, open graph, ogp, facebook open graph, facebook meta tags, google +1, google plus, linkedin share, facebook meta, open graph meta, facebook share, linkedin, social sharing, wpsso, meta tags, meta, plugin
 Requires at least: 3.0
-Tested up to: 4.2
-Stable tag: 2.3.0-beta.3
+Tested up to: 4.4
+Stable tag: 2.3.0-beta.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,15 +64,20 @@ Do you have a feature request? Want to help with code? I could always use help -
 
 == Upgrade Notice ==
 = 2.3.0 =
-Show featured image 1st to Facebook (full size now!), then content images, then fallback. And made our settings more pretty-er!
+Smarter titles, featured image will show 1st to Facebook, then content images, then fallback. And the settings page is more pretty-er!
 
 
 == Changelog ==
 
 = 2.3.0 =
 
-Release Date - 2015-06-19
+Release Date - 201x-xx-xx
 
+* Fixed: Titles are a lot smarter now.
+* Fixed: Improved UTF-8 description extracting for non-english sites - props -> @garex
+* Fixed: Stopped any output from RSS feeds and 404. no need. just cleaning up.
+* Fixed: Undefined index notice on checkbox setting
+* Fixed: Code cleanup / refactoring
 * Changed: Use full size featured image now instead of large. For more detailed info on what image sizes to use for Facebook and other social sites I have this github repo for reference: [https://github.com/chuckreynolds/social-profile-image-sizes](https://github.com/chuckreynolds/social-profile-image-sizes)
 * Changed: Changed the way images are shown. We no longer output all possible images; this is how it works now.
 	* First look at settings if you want the fallback image forced. Done.
@@ -86,10 +91,6 @@ Release Date - 2015-06-19
 * Changed: Rewrote the settings page completely to use WP 4.2x css. And it looks better too!
 * Changed: Updated the screenshot to reflect new admin settings page look
 * Changed: Brand new look for the plugin page banner and I added the square icon for plugin search. Added appropriate sizes for retina as well
-* Fixed: Improved UTF-8 description extracting for non-english sites - props -> @garex
-* Fixed: Stopped any output from RSS feeds and 404. no need. just cleaning up.
-* Fixed: Undefined index notice on checkbox setting
-* Fixed: Code cleanup / refactoring
 
 = 2.0.13 =
 
