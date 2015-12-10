@@ -106,53 +106,6 @@ function wpfbogp_find_images() {
 }
 
 /**
-* Start the output buffer for 'wpfbogp_callback' before anything
-*/
-function wpfbogp_start_ob() {
-
-	if ( ! is_feed() ) {
-		ob_start( 'wpfbogp_callback' );
-	}
-
-}
-
-/**
-* Create the og:title and og:description tag with content from blog <title> and meta description
-*/
-function wpfbogp_callback( $content ) {
-
-	// Grab the page title and meta description
-	$title = preg_match( '/<title>(.*)<\/title>/', $content, $title_matches );
-	$description = preg_match( '/<meta name="description" content="(.*)"/', $content, $description_matches );
-
-	// Take page title and meta description and place it in the ogp meta tags
-	if ( $title !== FALSE && count( $title_matches ) == 2 ) {
-		$content = preg_replace( '/<meta property="og:title" content="(.*)">/', '<meta property="og:title" content="' . $title_matches[1] . '">', $content );
-	}
-
-	if ( $description !== FALSE && count( $description_matches ) == 2 ) {
-		$content = preg_replace( '/<meta property="og:description" content="(.*)">/', '<meta property="og:description" content="' . $description_matches[1] . '">', $content );
-	}
-
-	return $content;
-
-}
-
-/**
-* End the output buffer for 'wpfbogp_callback'
-*/
-function wpfbogp_flush_ob() {
-
-	if ( ! is_feed() ) {
-		ob_end_flush();
-	}
-
-}
-
-add_action( 'init', 'wpfbogp_start_ob', 0 );
-add_action( 'wp_footer', 'wpfbogp_flush_ob', 10000 ); // Fire after other plugins (which default to priority 10)
-
-/**
 * Build ogp meta
 */
 function wpfbogp_build_head() {
