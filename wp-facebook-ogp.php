@@ -51,7 +51,7 @@ if ( ! function_exists( 'mb_substr' ) ) {
 }
 
 /**
-* Drop filter for when jetpack has their ogp stuff on
+* If Jetpack has ogp stuff on -> nope
 */
 function wpfbogp_filter_jetpackogp () {
 
@@ -158,11 +158,14 @@ function wpfbogp_build_head() {
 	echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '" />' . "\n";
 
 	// do title stuff
-	if ( is_home() || is_front_page() ) {
+	$wpfbogp_title = wp_title( ' ', false, 'right' );
+
+	if ( is_front_page() && $wpfbogp_title == '' ) {
 		$wpfbogp_title = get_bloginfo( 'name' );
-	} else {
-		$wpfbogp_title = get_the_title();
 	}
+
+	// remove white space
+	$wpfbogp_title = trim( preg_replace('/\s+/', ' ', $wpfbogp_title ) );
 	echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '" />' . "\n";
 
 	// do descriptions
