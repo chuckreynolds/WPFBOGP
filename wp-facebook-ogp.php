@@ -127,13 +127,6 @@ function wpfbogp_build_head() {
 
 	$options = wpfbogp_get_option(); // get all plugin options
 
-	// check to see if you've filled out one of the required fields
-	// if not announce it and stop meta output
-	if ( ( ! isset( $options['wpfbogp_admin_ids'] ) || empty( $options['wpfbogp_admin_ids'] ) ) && ( ! isset( $options['wpfbogp_app_id'] ) || empty( $options['wpfbogp_app_id'] ) ) ) {
-		echo "\n<!-- " . WPFBOGP_TITLE . " requires a FB User ID or App ID to work, please visit the plugin settings page! -->\n";
-		return;
-	}
-
 	echo "\n<!-- " . WPFBOGP_TITLE . " (v" . WPFBOGP_VERSION . ") http://rynoweb.com/wordpress-plugins/ -->\n";
 
 	// do fb verification fields
@@ -438,24 +431,6 @@ function wpfbogp_validate( $input ) {
 	$input['wpfbogp_fallback_img']   = sanitize_text_field( $input['wpfbogp_fallback_img'] );
 	$input['wpfbogp_force_fallback'] = ( ! empty( $input['wpfbogp_force_fallback'] ) && ( $input['wpfbogp_force_fallback'] == 1 )  ? 1 : 0 );
 	return $input;
-
-}
-
-/**
-* Run admin notices on activation or if settings not set
-*/
-function wpfbogp_admin_warnings() {
-
-	global $wpfbogp_admins;
-
-	$wpfbogp_data = wpfbogp_get_option(); // get all plugin options
-
-	if ( ( empty( $wpfbogp_data['wpfbogp_admin_ids'] ) || $wpfbogp_data['wpfbogp_admin_ids'] == '' ) && ( empty( $wpfbogp_data['wpfbogp_app_id'] ) || $wpfbogp_data['wpfbogp_app_id'] == '' ) ) {
-		function wpfbogp_warning() {
-			echo '<div id="wpfbogp-warning" class="updated fade"><p><strong>' . WPFBOGP_TITLE . __( ' is almost ready!' ) . '</strong> ' . sprintf( __( 'A <a href="%1$s">Facebook ID is needed</a> for it to start working.' ), 'options-general.php?page=wpfbogp' ) . '</p></div>';
-		}
-	add_action( 'admin_notices', 'wpfbogp_warning' );
-	}
 
 }
 
