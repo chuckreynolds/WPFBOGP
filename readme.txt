@@ -18,10 +18,10 @@ Shortname: WPFBOGP
 The plugin will look first if you have decided to force an image for all pages - if that's set in settings then we'll display that and that's it. Then the plugin will look for a featured image on the current page/post/etc. If there isn't one or your theme doesn't support those then it will look for image(s) in the post/page content. If that isn't there either, then it will default to using the image url you put into the fallback image settings field. If THAT isn't there then you won't have an image to display and we'll put a comment in your source to remind you to add one. Facebook does require an image and sometimes it will find something on your site to use - I can't control that; just make sure you set a fallback image at least.
 
 = Title and Description =
-The plugin should use the title and meta description from any SEO plugin or theme, including popular theme frameworks. Otherwise it uses your post/page title and the excerpt as the description. If you don't have an excerpt it'll pull content from the post/page body. Worst case it would use your site title and tagline from general settings.
+The plugin should use the title from any SEO plugin or theme, including popular theme frameworks. Otherwise it uses your post/page title and the excerpt as the description. If you don't have an excerpt it'll pull content from the post/page body. Worst case it would use your site title and tagline from general settings.
 
 = Testing & Debugging your Site =
-Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your site urls to see what info Facebook is scraping. Their tool is located here: [https://developers.facebook.com/tools/debug/](https://developers.facebook.com/tools/debug/). If you recently made changes or FB is showing an old date/information - then use their `Fetch New Scrape` button to clear their cache.
+Once you've enabled the plugin head over to Facebook's testing tool and paste in one of your site urls to see what info Facebook is scraping. Their tool is located here: [https://developers.facebook.com/tools/debug/](https://developers.facebook.com/tools/debug/). If you recently made changes or FB is showing an old date/information - then use their `Fetch new scrape information` button to clear their cache and rescrape your url.
 
 == Installation ==
 
@@ -30,21 +30,26 @@ Once you've enabled the plugin head over to Facebook's testing tool and paste in
 2. Search for `WPFBOGP`
 3. Click `Install Now` Button & Hit `OK`
 4. Click `Activate Plugin` or activate WP Facebook OGP plugin from the Plugins screen
-5. Visit `Settings > Facebook OGP` and enter your an ID number
+5. That's all that's required of you!
+6. (Optional) Visit `Settings > Facebook OGP` and enter your User ID number or App ID for Facebook Insights
 
 = From WordPress.org =
 1. Download WP Facebook OGP Protocol plugin
 2. Upload the `wp-facebook-ogp` folder to the `/wp-content/plugins/` directory
 3. Activate the WP Facebook OGP plugin from the `Plugins` screen
-4. Visit `Settings > Facebook OGP` and enter your an ID number
+5. That's all that's required of you!
+6. (Optional) Visit `Settings > Facebook OGP` and enter your User ID number or App ID for Facebook Insights
 
 == Frequently Asked Questions ==
 
 = Do I need to create a Facebook Application to use this plugin? =
-Nope. FB does require you to use either a personal Facebook User ID (most common) or an Application ID but you can use both if you'd like. Read up on [Facebook Domain and App insights here](https://developers.facebook.com/docs/platforminsights).
+Nope. Facebook no longer requires a personal User ID or Application ID. That said, if you'd like Domain Insights (Analytics) on your domain you need to enter one of those. Read up on [Facebook Domain and App Insights here](https://developers.facebook.com/docs/platforminsights/domains).
 
-= How do I find my personal Facebook User ID? =
+= (optional) How do I find my personal Facebook User ID? =
 Go to: [FB Graph API Explorer](https://developers.facebook.com/tools/explorer/?method=GET&path=me), click "Get Access Token" then click "Submit", then copy the `number` next to `id:`.
+
+= (optional) How do I find my App ID? =
+If you even have an app, go to your Apps page here: [Facebook Apps](https://developers.facebook.com/apps/). The App ID is listed right there.
 
 = Why doesn't this plugin have a Like/Send button? =
 Honestly it's not hard to add one once you have the proper meta content in the header. Look at [how to add a Like button](https://developers.facebook.com/docs/plugins/like-button) using fb:like. There are a lot of 'like' button plugins but this plugin only focuses on solid and accurate Open Graph meta data.
@@ -56,7 +61,7 @@ Yeah they do that. They change stuff ALL THE TIME; as in daily. Make sure your i
 Try to be as specific as possible; write the steps to recreate; turn off all other plugins and test again; then use the wordpress support forum: [https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol](https://wordpress.org/support/plugin/wp-facebook-open-graph-protocol). If you're a developer jump in and do the github thing. Info below.
 
 = Feature Requests / Help with Code =
-Do you have a feature request? Want to help with code? I could always use help - Feel free to jump into Github: [https://github.com/chuckreynolds/WPFBOGP](https://github.com/chuckreynolds/WPFBOGP).
+Do you have a feature request? Want to help with code? I could always use help - Feel free to jump into Github: [https://github.com/chuckreynolds/WPFBOGP/tree/develop](https://github.com/chuckreynolds/WPFBOGP/tree/develop).
 
 == Screenshots ==
 
@@ -64,20 +69,21 @@ Do you have a feature request? Want to help with code? I could always use help -
 
 == Upgrade Notice ==
 = 2.3.0 =
-Smarter titles, featured image will show 1st to Facebook, then content images, then fallback. And the settings page is more pretty-er!
+Smarter titles. Featured image priority. Newly designed settings page. No more Admins or App ID required!
 
 
 == Changelog ==
 
 = 2.3.0 =
 
-Release Date - 201x-xx-xx
+Release Date - 2015-xx-xx
 
 * Fixed: Titles are a lot smarter now.
 * Fixed: Improved UTF-8 description extracting for non-english sites - props -> @garex
 * Fixed: Stopped any output from RSS feeds and 404. no need. just cleaning up.
 * Fixed: Undefined index notice on checkbox setting
 * Fixed: Code cleanup / refactoring
+* Changed: Facebook no longer requires fb:admins or fb:app_id so I removed those nags but the fields are there if you'd like to verify your site for Domain Insights.
 * Changed: Use full size featured image now instead of large. For more detailed info on what image sizes to use for Facebook and other social sites I have this github repo for reference: [https://github.com/chuckreynolds/social-profile-image-sizes](https://github.com/chuckreynolds/social-profile-image-sizes)
 * Changed: Changed the way images are shown. We no longer output all possible images; this is how it works now.
 	* First look at settings if you want the fallback image forced. Done.
@@ -88,7 +94,7 @@ Release Date - 201x-xx-xx
 * Changed: Start dating releases in changelog and backdate some previous releases. I find this very useful at times in other plugins so I'm doing it too and so should everybody else.
 * Changed: Version bump. Not that it matters but had messy dev environments with many ppl so needed to go above that. And cause Jordan 23!
 * Changed: Also to note - trying to be better at Semantic Versioning - semver.org
-* Changed: Rewrote the settings page completely to use WP 4.2x css. And it looks better too!
+* Changed: Rewrote the settings page completely to use WP 4.2+ css. And it looks better too!
 * Changed: Updated the screenshot to reflect new admin settings page look
 * Changed: Brand new look for the plugin page banner and I added the square icon for plugin search. Added appropriate sizes for retina as well
 
