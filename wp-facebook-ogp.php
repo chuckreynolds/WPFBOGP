@@ -33,7 +33,6 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'WPFBOGP_VERSION', '2.3.0-beta.4' );
 define( 'WPFBOGP_TITLE', 'Facebook Open Graph protocol plugin' );
-wpfbogp_admin_warnings();
 
 /**
 * Provide a fallback if server php doesn't have mb_substr enabled
