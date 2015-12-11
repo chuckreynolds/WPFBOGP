@@ -70,6 +70,10 @@ add_action( 'init', 'wpfbogp_play_nice_you_guys' );
 /**
 * Add OGP namespace per ogp.me schema
 *
+* TODO: move this to the <head> tag...
+* prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#""
+* prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#"
+*
 * @param string $output The output namespace string
 */
 function wpfbogp_namespace( $output ) {
