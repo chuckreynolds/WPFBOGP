@@ -4,7 +4,7 @@ Donate link: http://goo.gl/8lGv3
 Tags: social sharing optimization, sso, open graph, ogp, facebook open graph, facebook meta tags, google +1, google plus, linkedin share, facebook meta, open graph meta, facebook share, linkedin, social sharing, wpsso, meta tags, meta, plugin
 Requires at least: 3.0
 Tested up to: 4.4
-Stable tag: 2.3.0-beta.4
+Stable tag: 2.3.0-beta.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
