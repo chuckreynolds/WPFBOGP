@@ -129,7 +129,8 @@ function wpfbogp_build_head() {
 
 	echo "\n<!-- " . WPFBOGP_TITLE . " (v" . WPFBOGP_VERSION . ") http://rynoweb.com/wordpress-plugins/ -->\n";
 
-	// do fb verification fields
+	// do fb:admins or fb:app_id for facebook insights verification fields (now optional)
+	// @see https://developers.facebook.com/docs/platforminsights/domains
 	if ( isset( $options['wpfbogp_admin_ids'] ) && ! empty( $options['wpfbogp_admin_ids'] ) ) {
 		echo '<meta property="fb:admins" content="' . esc_attr( apply_filters( 'wpfbogp_admin_ids', $options['wpfbogp_admin_ids'] ) ) . '" />' . "\n";
 	}
@@ -137,10 +138,10 @@ function wpfbogp_build_head() {
 		echo '<meta property="fb:app_id" content="' . esc_attr( apply_filters( 'wpfbogp_app_id', $options['wpfbogp_app_id'] ) ) . '" />' . "\n";
 	}
 
-	// do locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
+	// do og:locale // make lower case cause facebook freaks out and shits parser mismatched metadata warning
 	echo '<meta property="og:locale" content="' . strtolower( esc_attr( get_locale() ) ) . '" />' . "\n";
 
-	// do ogp type
+	// do og:type
 	if ( is_single() ) {
 		$wpfbogp_type = 'article';
 	} else {
@@ -148,7 +149,7 @@ function wpfbogp_build_head() {
 	}
 	echo '<meta property="og:type" content="' . esc_attr( apply_filters( 'wpfbpogp_type', $wpfbogp_type ) ) . '" />' . "\n";
 
-	// do url stuff based on rel_canonical in wp
+	// do og:url based on rel_canonical in wp
 	if ( is_front_page() ) {
 		$wpfbogp_url = home_url();
 	} else {
@@ -156,21 +157,19 @@ function wpfbogp_build_head() {
 	}
 	echo '<meta property="og:url" content="' . esc_url( user_trailingslashit( trailingslashit( apply_filters( 'wpfbogp_url', $wpfbogp_url ) ) ) ) . '" />' . "\n";
 
-	// do site title general
+	// do og:site_name
 	echo '<meta property="og:site_name" content="' . get_bloginfo( 'name' ) . '" />' . "\n";
 
-	// do title stuff
+	// do og:title
 	$wpfbogp_title = wp_title( ' ', false, 'right' );
-
 	if ( is_front_page() && $wpfbogp_title == '' ) {
 		$wpfbogp_title = get_bloginfo( 'name' );
 	}
-
-	// remove white space
+	// remove title white space
 	$wpfbogp_title = trim( preg_replace('/\s+/', ' ', $wpfbogp_title ) );
 	echo '<meta property="og:title" content="' . esc_attr( apply_filters( 'wpfbogp_title', $wpfbogp_title ) ) . '" />' . "\n";
 
-	// do descriptions
+	// do og:description
 	if ( is_singular() || is_home() && get_option( 'page_for_posts' ) ) {
 		if ( has_excerpt() ) {
 			$wpfbogp_description = get_the_excerpt();
@@ -183,7 +182,7 @@ function wpfbogp_build_head() {
 	$wpfbogp_description_clean = sanitize_text_field( strip_shortcodes( $wpfbogp_description ) );
 	echo '<meta property="og:description" content="' . apply_filters( 'wpfbogp_description', $wpfbogp_description_clean ) . '" />' . "\n";
 
-	// Image time!
+	// do og:image(s)
 
 	// If force fallback option is set and there's a fallback image set - output fallback image
 	if ( $options['wpfbogp_force_fallback'] === 1 && isset( $options['wpfbogp_fallback_img'] ) ) {
