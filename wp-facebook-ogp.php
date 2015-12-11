@@ -320,7 +320,7 @@ function wpfbogp_buildpage() {
 ?>
 
 <div class="wrap">
-	<h2><?php echo WPFBOGP_TITLE . ' <em>v' . WPFBOGP_VERSION; ?></em></h2>
+	<h1><?php echo WPFBOGP_TITLE . ' <em>v' . WPFBOGP_VERSION; ?></em></h1>
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-2">
 			<div id="post-body-content" style="position: relative">
