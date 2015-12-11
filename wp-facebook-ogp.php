@@ -51,13 +51,22 @@ if ( ! function_exists( 'mb_substr' ) ) {
 }
 
 /**
-* If Jetpack has ogp stuff on -> nope
+* Cleaner function of sorts to stahp plugins that don't play so nice in the sandbox
 */
-function wpfbogp_filter_jetpackogp () {
+function wpfbogp_play_nice_you_guys() {
 
+	// If Jetpack has ogp stuff on -> play nice
 	add_filter( 'jetpack_enable_open_graph', '__return_false' );
 
+	// If Nextgen-Facebook ogp stuff is on -> play nice
+	if ( class_exists( 'Ngfb' ) ) {
+		if ( ! defined( 'NGFB_META_TAGS_DISABLE' ) ) {
+			define( 'NGFB_META_TAGS_DISABLE', true );
+		}
+	}
+
 }
+add_action( 'init', 'wpfbogp_play_nice_you_guys' );
 
 /**
 * Add OGP namespace per ogp.me schema
