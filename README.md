@@ -3,8 +3,6 @@ WP Facebook Open Graph protocol
 
 [![WordPress Version](https://img.shields.io/wordpress/plugin/v/wp-facebook-open-graph-protocol.svg?style=flat)](https://wordpress.org/plugins/wp-facebook-open-graph-protocol/)
 [![WordPress Downloads](https://img.shields.io/wordpress/plugin/dt/wp-facebook-open-graph-protocol.svg?style=flat)](https://wordpress.org/plugins/wp-facebook-open-graph-protocol/)
-[![Stable Github Build](https://img.shields.io/github/release/chuckreynolds/WPFBOGP.svg?style=flat)](https://github.com/chuckreynolds/WPFBOGP/releases)
-[![Development Version](https://img.shields.io/github/tag/chuckreynolds/WPFBOGP.svg?style=flat)](https://github.com/chuckreynolds/WPFBOGP/releases)
 
 
 Welcome to the GitHub repository
