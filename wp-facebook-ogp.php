@@ -205,7 +205,7 @@ function wpfbogp_build_head() {
 	// Our function finds post/page content images, if found output the content images
 	// If no content images are found and we have a fallback image option set - output fallback image
 	// If no content images or fallback image set - output static warning message
-	if ( wpfbogp_find_images() != false ) {
+	if ( wpfbogp_find_images() !== false ) {
 		$wpfbogp_images = array();
 		$wpfbogp_images = array_merge( $wpfbogp_images, wpfbogp_find_images() );
 		foreach ( $wpfbogp_images as $image ) {
@@ -250,7 +250,7 @@ function wpfbogp_build_head_endwrap() {
 		} else {
 			echo 'forceN-';
 		}
-		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] != '' ) {
+		if ( isset( $options['wpfbogp_fallback_img'] ) && $options['wpfbogp_fallback_img'] !== '' ) {
 			echo 'fallbackY-';
 		} else {
 			echo 'fallbackN-';
@@ -260,7 +260,7 @@ function wpfbogp_build_head_endwrap() {
 		} else {
 			echo 'featN-';
 		}
-		if ( wpfbogp_find_images() != false ) {
+		if ( wpfbogp_find_images() !== false ) {
 			echo 'imgsY';
 		} else {
 			echo 'imgsN';
